@@ -1,0 +1,398 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Google Fonts imported in layout.tsx ===== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #faf5e4;
+    color: #2d2d2d;
+    font-family: var(--font-body), cursive;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Hide default cursor on desktop devices to show custom pencil */
+  @media (pointer: fine) {
+    body, a, button, input, textarea, .card, .sticky-note {
+      cursor: none !important;
+    }
+  }
+
+  ::selection {
+    background: #fff176;
+    color: #2d2d2d;
+  }
+}
+
+@layer components {
+  /* ===== Section Container ===== */
+  .section-container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5rem 1rem;
+    position: relative;
+  }
+  @media (min-width: 640px) { .section-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+  @media (min-width: 1024px) { .section-container { padding-left: 2rem; padding-right: 2rem; } }
+
+  /* ===== Section Title - Scribble Style ===== */
+  .section-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-family: var(--font-heading), cursive;
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    text-align: center;
+    color: #2d2d2d;
+    position: relative;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .section-title:hover {
+    transform: rotate(-1deg) scale(1.02);
+  }
+  @media (min-width: 640px) { .section-title { font-size: 3rem; } }
+  @media (min-width: 768px) { .section-title { font-size: 3.5rem; } }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 4px;
+    margin: 8px auto 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8'%3E%3Cpath d='M0,4 Q25,0 50,4 T100,4 T150,4 T200,4' stroke='%234a90d9' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 100% 100%;
+    transition: width 0.4s ease;
+  }
+  .section-title:hover::after {
+    width: 80%;
+  }
+
+  /* ===== Sketchy Card — Skribbl-Inspired ===== */
+  .card {
+    background-color: #f0e6c8;
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.3s;
+    border: 3px solid #2d2d2d;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+  }
+
+  .card:hover {
+    transform: rotate(-0.5deg) translateY(-4px);
+    box-shadow: 8px 10px 0 rgba(0,0,0,0.18);
+  }
+
+  /* ===== Buttons — Skribbl-Inspired Chunky ===== */
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    font-family: var(--font-heading), cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d2d2d;
+    position: relative;
+    display: inline-block;
+    transition: all 0.15s;
+    background: #fff176;
+    border: 3px solid #2d2d2d;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 4px 4px 0 #2d2d2d;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 #2d2d2d;
+  }
+
+  .btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #2d2d2d;
+  }
+
+  .btn-secondary {
+    padding: 0.85rem 2rem;
+    font-family: var(--font-heading), cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d2d2d;
+    position: relative;
+    display: inline-block;
+    transition: all 0.15s;
+    background: #fff;
+    border: 3px dashed #2d2d2d;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    background: #f0e6c8;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+  }
+
+  /* ===== Marker Highlight — Interactive ===== */
+  .marker-highlight {
+    background: linear-gradient(180deg, transparent 60%, #fff176 60%);
+    padding: 0 4px;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+  .marker-highlight:hover {
+    background: linear-gradient(180deg, transparent 45%, #fff176 45%);
+    padding: 0 6px;
+  }
+
+  .marker-highlight-pink {
+    background: linear-gradient(180deg, transparent 60%, #f48fb1 60%);
+    padding: 0 4px;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+  .marker-highlight-pink:hover {
+    background: linear-gradient(180deg, transparent 45%, #f48fb1 45%);
+    padding: 0 6px;
+  }
+
+  .marker-highlight-green {
+    background: linear-gradient(180deg, transparent 60%, #81c784 60%);
+    padding: 0 4px;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+  .marker-highlight-green:hover {
+    background: linear-gradient(180deg, transparent 45%, #81c784 45%);
+    padding: 0 6px;
+  }
+
+  .marker-highlight-blue {
+    background: linear-gradient(180deg, transparent 60%, rgba(74,144,217,0.3) 60%);
+    padding: 0 4px;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+  .marker-highlight-blue:hover {
+    background: linear-gradient(180deg, transparent 45%, rgba(74,144,217,0.45) 45%);
+    padding: 0 6px;
+  }
+
+  /* ===== Sticky Note — Skribbl-Inspired ===== */
+  .sticky-note {
+    padding: 1.25rem;
+    font-family: var(--font-accent), cursive;
+    position: relative;
+    background: #fff176;
+    border: 2.5px solid rgba(0,0,0,0.08);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    transform: rotate(-1deg);
+  }
+
+  .sticky-note-pink {
+    padding: 1.25rem;
+    font-family: var(--font-accent), cursive;
+    position: relative;
+    background: #f48fb1;
+    border: 2.5px solid rgba(0,0,0,0.08);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    transform: rotate(1.5deg);
+  }
+
+  .sticky-note-blue {
+    padding: 1.25rem;
+    font-family: var(--font-accent), cursive;
+    position: relative;
+    background: #bbdefb;
+    border: 2.5px solid rgba(0,0,0,0.08);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    transform: rotate(-0.5deg);
+  }
+
+  .sticky-note-green {
+    padding: 1.25rem;
+    font-family: var(--font-accent), cursive;
+    position: relative;
+    background: #c8e6c9;
+    border: 2.5px solid rgba(0,0,0,0.08);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    transform: rotate(0.8deg);
+  }
+
+  /* ===== Tag / Chip — Skribbl-Inspired ===== */
+  .doodle-tag {
+    padding: 0.3rem 0.85rem;
+    font-family: var(--font-accent), cursive;
+    font-size: 0.875rem;
+    display: inline-block;
+    border: 2px solid #2d2d2d;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+    transition: all 0.15s;
+  }
+
+  .doodle-tag:hover {
+    background: #fff176;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Notebook Holes ===== */
+  .notebook-holes {
+    position: relative;
+  }
+
+  .notebook-holes::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 28px,
+      #e74c3c 28px,
+      #e74c3c 30px
+    );
+    border-left: 2px solid #e74c3c;
+    opacity: 0.3;
+  }
+
+  /* ===== SVG draw animation ===== */
+  .svg-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+
+  .svg-draw.animate {
+    animation: draw 1.5s ease-in-out forwards;
+  }
+
+  /* ===== Torn paper edge ===== */
+  .torn-edge-bottom {
+    position: relative;
+  }
+
+  .torn-edge-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 8'%3E%3Cpath d='M0,0 L0,4 Q30,8 60,4 T120,4 T180,4 T240,4 T300,4 T360,4 T420,4 T480,4 T540,4 T600,4 T660,4 T720,4 T780,4 T840,4 T900,4 T960,4 T1020,4 T1080,4 T1140,4 T1200,4 L1200,0 Z' fill='%23faf5e4'/%3E%3C/svg%3E") repeat-x;
+    background-size: 200px 8px;
+  }
+
+  /* ===== Doodle separator ===== */
+  .doodle-separator {
+    width: 100%;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20'%3E%3Cpath d='M0,10 Q50,2 100,10 T200,10 T300,10 T400,10' stroke='%23ccc' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 400px 20px;
+    margin: 40px auto;
+  }
+}
+
+/* ===== Custom Scrollbar — Pencil Style ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0e6c8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  border: 2px solid #f0e6c8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a90d9;
+}
+
+/* ===== Keyframe for draw ===== */
+@keyframes draw {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* ===== Typewriter cursor blink ===== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #2d2d2d;
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+/* ===== Scribble circle around element ===== */
+.scribble-circle {
+  position: relative;
+}
+
+.scribble-circle::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 2.5px solid #4a90d9;
+  border-radius: 50% 45% 55% 48% / 45% 55% 48% 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scribble-circle:hover::after,
+.scribble-circle.active::after {
+  opacity: 1;
+}
+
+/* ===== Paper fold corner ===== */
+.paper-fold {
+  position: relative;
+  overflow: hidden;
+}
+
+.paper-fold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 28px 28px 0;
+  border-color: transparent #f0e6c8 transparent transparent;
+  transition: border-width 0.3s ease;
+}
+
+.paper-fold:hover::before {
+  border-width: 0 36px 36px 0;
+}
+
+body.drawing-mode .custom-cursor {
+  display: none !important;
+}
