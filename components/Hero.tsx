@@ -8,7 +8,7 @@ import BouncyText from './BouncyText';
 const heroSocials = [
   { href: 'https://github.com/Charan291005', label: '{ }', title: 'GitHub', color: '#24292e' },
   { href: 'https://linkedin.com/in/shree-charan-n', label: 'in', title: 'LinkedIn', color: '#0077b5' },
-  { href: 'https://www.reddit.com/user/shreecharan', label: 'r/', title: 'Reddit', color: '#ff4500' },
+  { href: 'https://www.reddit.com/user/Psychological_Hat29/', label: 'r/', title: 'Reddit', color: '#ff4500' },
   { href: 'https://medium.com/@shreecharan', label: 'M', title: 'Medium', color: '#000' },
   { href: 'mailto:shreecharan5277443@gmail.com', label: '✉', title: 'Email', color: '#e74c3c' },
 ];
@@ -99,9 +99,9 @@ export default function Hero() {
               <BouncyText text={displayText} hoverScale={1.15} baseRotate={8} revealAnimation={revealStyle} />
               {showCursor && <span className="typewriter-cursor" />}
             </h1>
-            
+
             {/* Sparkle decoration */}
-            <motion.svg 
+            <motion.svg
               className="absolute -top-6 -right-12 w-16 h-16 text-pencil-blue opacity-50"
               viewBox="0 0 100 100"
               initial={{ opacity: 0, scale: 0, rotate: -45 }}
@@ -140,16 +140,16 @@ export default function Hero() {
           >
             <span className="relative inline-block px-2">
               <span className="relative z-10 text-ink font-bold">Cybersecurity Engineer</span>
-              <motion.svg 
-                className="absolute inset-0 w-full h-full -z-10" 
+              <motion.svg
+                className="absolute inset-0 w-full h-full -z-10"
                 style={{ scale: 1.2, top: '-10%', left: '-5%', width: '110%', height: '120%' }}
-                viewBox="0 0 100 40" 
+                viewBox="0 0 100 40"
                 preserveAspectRatio="none"
               >
-                <motion.path 
-                  d="M10,20 Q10,5 50,5 T90,20 T50,35 T10,20 Z" 
-                  fill="none" 
-                  stroke="#fff176" 
+                <motion.path
+                  d="M10,20 Q10,5 50,5 T90,20 T50,35 T10,20 Z"
+                  fill="none"
+                  stroke="#fff176"
                   strokeWidth="4"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
@@ -221,7 +221,7 @@ export default function Hero() {
                 ✏️ View My Work
               </motion.a>
             </MagneticWrapper>
-            
+
             <MagneticWrapper strength={30}>
               <motion.a
                 href="#contact"

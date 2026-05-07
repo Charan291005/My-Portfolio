@@ -35,14 +35,14 @@ const experiences = [
 
 const leadership = [
   {
-    title: 'General Secretary',
+    title: 'President',
     organization: 'Android Club, VIT Bhopal',
     description: 'Organized events and conducted workshops on Android development',
     emoji: '📱',
     noteStyle: 'sticky-note-green',
   },
   {
-    title: 'Co-Lead PR and Outreach',
+    title: 'Lead PR and Outreach',
     organization: 'The Fusion Club',
     description: 'Led outreach initiatives and managed event coordination',
     emoji: '🎯',
