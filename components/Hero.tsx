@@ -22,58 +22,17 @@ const roles = [
 ];
 
 export default function Hero() {
-  const fullName = 'Shree Charan N';
-  const [displayText, setDisplayText] = useState('');
-  const [showCursor, setShowCursor] = useState(true);
-  const [revealStyle, setRevealStyle] = useState<'none' | 'drop' | 'pop'>('none');
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [roleVisible, setRoleVisible] = useState(true);
-  const [heroReady, setHeroReady] = useState(false);
-
-  // Typewriter for name
-  useEffect(() => {
-    const effects: ('typewriter' | 'drop' | 'pop')[] = ['typewriter', 'drop', 'pop'];
-    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
-
-    if (randomEffect === 'typewriter') {
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i < fullName.length) {
-          setDisplayText(fullName.slice(0, i + 1));
-          i++;
-        } else {
-          clearInterval(timer);
-          setTimeout(() => {
-            setShowCursor(false);
-            setHeroReady(true);
-          }, 2000);
-        }
-      }, 120);
-      return () => clearInterval(timer);
-    } else {
-      setDisplayText(fullName);
-      setRevealStyle(randomEffect);
-      setTimeout(() => {
-        setShowCursor(false);
-        setHeroReady(true);
-      }, 2000);
-    }
-  }, []);
-
-  // Role rotator
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRoleVisible(false);
-      setTimeout(() => {
-        setRoleIndex((prev) => (prev + 1) % roles.length);
-        setRoleVisible(true);
-      }, 400);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundColor: '#faf6ec',
+        backgroundImage: 'radial-gradient(rgba(26,26,26,0.08) 1.5px, transparent 1.5px)',
+        backgroundSize: '30px 30px',
+      }}
+    >
       <DoodleDecorations count={18} seed={42} />
 
       {/* Decorative large scribble doodles */}
@@ -145,94 +104,49 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
         >
 
-          {/* Name with typewriter */}
-          <div className="relative inline-block mb-4 max-w-[100vw] px-4">
-            <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-heading font-bold text-ink relative z-10 flex flex-wrap items-center justify-center">
-              <BouncyText text={displayText} hoverScale={1.15} baseRotate={8} revealAnimation={revealStyle} />
-              {showCursor && <span className="typewriter-cursor" />}
+          {/* Bold Hatched Headline & Subline */}
+          <div className="relative inline-block mb-12 max-w-[100vw] px-4 py-8">
+            <h1 className="font-display font-bold text-ink leading-tight mb-2 tracking-wide" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}>
+              <span className="hatched-text">Your Vision, our code</span>
             </h1>
+            <p className="font-heading text-ink-light" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
+              from daydream to download
+            </p>
 
-            {/* Sparkle decoration */}
+            {/* Doodles positioned around text */}
             <motion.svg
-              className="absolute -top-6 -right-12 w-16 h-16 text-pencil-blue opacity-50"
+              className="absolute -top-4 -left-8 w-12 h-12 text-ink opacity-40 pointer-events-none"
               viewBox="0 0 100 100"
               initial={{ opacity: 0, scale: 0, rotate: -45 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 2.2, type: 'spring' }}
+              animate={{ opacity: 0.4, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.4, type: 'spring' }}
             >
+              {/* Star-burst / sparkle */}
               <path d="M50,10 L50,30 M50,70 L50,90 M10,50 L30,50 M70,50 L90,50 M25,25 L40,40 M60,60 L75,75 M25,75 L40,60 M60,40 L75,25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
             </motion.svg>
+
+            <motion.svg
+              className="absolute top-2 -right-4 w-10 h-10 text-pencil-blue opacity-50 pointer-events-none"
+              viewBox="0 0 100 100"
+              initial={{ opacity: 0, scale: 0, rotate: 45 }}
+              animate={{ opacity: 0.5, scale: 1, rotate: 10 }}
+              transition={{ delay: 0.6, type: 'spring' }}
+            >
+              {/* 5-point star */}
+              <path d="M50,10 L61,35 L90,35 L67,52 L76,80 L50,63 L24,80 L33,52 L10,35 L39,35 Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </motion.svg>
+
+            <motion.svg
+              className="absolute -bottom-6 -left-2 w-14 h-14 text-marker-red opacity-40 pointer-events-none"
+              viewBox="0 0 100 100"
+              initial={{ opacity: 0, scale: 0, rotate: -20 }}
+              animate={{ opacity: 0.4, scale: 1, rotate: -5 }}
+              transition={{ delay: 0.8, type: 'spring' }}
+            >
+              {/* Squiggly line / pencil */}
+              <path d="M10,80 Q25,60 40,80 T70,60 T90,80" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+            </motion.svg>
           </div>
-
-          {/* Scribble underline */}
-          <motion.svg
-            className="mx-auto mb-6"
-            viewBox="0 0 300 15"
-            style={{ width: '280px', height: '15px' }}
-            preserveAspectRatio="none"
-          >
-            <motion.path
-              d="M 5,8 Q 40,2 80,8 T 150,8 T 220,8 T 295,8"
-              fill="none"
-              stroke="#4a90d9"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ delay: 1.8, duration: 0.8, ease: 'easeOut' }}
-            />
-          </motion.svg>
-
-          {/* Animated Role Rotator */}
-          <motion.div
-            className="text-xl sm:text-2xl md:text-3xl font-body text-ink-light mb-3 max-w-3xl mx-auto px-4 h-12 flex items-center justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2, duration: 0.6 }}
-          >
-            <span className="relative inline-flex items-center gap-2">
-              <span className="text-ink-faint font-accent text-lg hidden sm:inline">I am a</span>
-              <AnimatePresence mode="wait">
-                {roleVisible && (
-                  <motion.span
-                    key={roleIndex}
-                    className="relative inline-block px-3 py-0.5"
-                    initial={{ opacity: 0, y: 20, rotate: -3 }}
-                    animate={{ opacity: 1, y: 0, rotate: 0 }}
-                    exit={{ opacity: 0, y: -20, rotate: 3 }}
-                    transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  >
-                    <span className="relative z-10 text-ink font-bold">{roles[roleIndex]}</span>
-                    <motion.svg
-                      className="absolute inset-0 w-full h-full -z-10"
-                      style={{ scale: 1.1, top: '-10%', left: '-3%', width: '106%', height: '120%' }}
-                      viewBox="0 0 100 40"
-                      preserveAspectRatio="none"
-                    >
-                      <motion.path
-                        d="M10,20 Q10,5 50,5 T90,20 T50,35 T10,20 Z"
-                        fill="none"
-                        stroke={['#fff176', '#f48fb1', '#bbdefb', '#c8e6c9', '#ffb74d'][roleIndex % 5]}
-                        strokeWidth="4"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.5, ease: 'easeInOut' }}
-                      />
-                    </motion.svg>
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </span>
-          </motion.div>
-
-          <motion.p
-            className="text-lg md:text-xl font-accent text-ink-faint mb-10 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.3, duration: 0.6 }}
-          >
-            Building Secure Digital Solutions with Cryptography & Forensics ✨
-          </motion.p>
 
           {/* Social Links */}
           <motion.div
