@@ -106,14 +106,52 @@ export default function Hero() {
 
           {/* Bold Hatched Headline & Subline */}
           <div className="relative inline-block mb-12 max-w-[100vw] px-4 py-8">
-            <h1 className="font-display font-bold text-ink leading-tight mb-2 tracking-wide" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}>
-              <span className="hatched-text">
-                <BouncyText text="Shree Charan N" revealAnimation="drop" />
-              </span>
-            </h1>
-            <p className="font-heading text-ink-light" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
-              from daydream to download
-            </p>
+            <motion.h1 
+              className="font-display font-bold text-ink leading-tight mb-3 tracking-wide flex flex-wrap justify-center gap-x-3 gap-y-2" 
+              style={{ fontSize: 'clamp(3.5rem, 9vw, 7.5rem)' }}
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+                }
+              }}
+            >
+              {['Shree', 'Charan', 'N'].map((word, i) => (
+                <motion.span
+                  key={word}
+                  className="hatched-text inline-block"
+                  variants={{
+                    hidden: { opacity: 0, y: 40, rotate: -4 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0, 
+                      rotate: 0,
+                      transition: { type: 'spring', damping: 14, stiffness: 150 }
+                    }
+                  }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    rotate: i % 2 === 0 ? 3 : -3, 
+                    transition: { type: 'spring', stiffness: 300 } 
+                  }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </motion.h1>
+            
+            <motion.p 
+              className="font-heading text-ink-light" 
+              style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+            >
+              Cybersecurity Engineer <span className="text-pencil-red opacity-80 mx-1">&</span> Python Developer
+            </motion.p>
 
             {/* Doodles positioned around text */}
             <motion.svg
