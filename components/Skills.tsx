@@ -9,7 +9,7 @@ const skillCategories = [
   {
     title: 'Programming Languages',
     icon: '⌨️',
-    skills: ['Python', 'Java', 'C++', 'SQL', 'JavaScript', 'HTML/CSS'],
+    skills: ['Python', 'SQL', 'JavaScript', 'HTML/CSS'],
     noteStyle: 'sticky-note',
     rotation: '-1.5deg',
   },
@@ -30,7 +30,7 @@ const skillCategories = [
   {
     title: 'Libraries & Frameworks',
     icon: '📚',
-    skills: ['OpenCV', 'Tkinter', 'NumPy', 'Pandas', 'Scikit-learn', 'JDBC'],
+    skills: ['OpenCV', 'Tkinter', 'NumPy', 'Pandas', 'Scikit-learn'],
     noteStyle: 'sticky-note-green',
     rotation: '2deg',
   },
@@ -51,12 +51,36 @@ const skillCategories = [
 ];
 
 const coreSkills = [
-  { name: 'Cryptography & Security', level: 95, color: '#4a90d9' },
-  { name: 'Python Development', level: 90, color: '#66bb6a' },
-  { name: 'Java & C++', level: 85, color: '#9c6ade' },
-  { name: 'Digital Forensics', level: 88, color: '#e74c3c' },
-  { name: 'Web Development', level: 80, color: '#ffb74d' },
-  { name: 'Machine Learning', level: 75, color: '#f48fb1' },
+  { 
+    name: 'Cryptography & Secure Systems', 
+    color: '#4a90d9',
+    tech: 'AES-256, RSA Encryption, PBKDF2, Steganography, DRM Security Systems'
+  },
+  { 
+    name: 'Python Development', 
+    color: '#66bb6a',
+    tech: 'Python, Tkinter, OpenCV, Scapy, Jupyter Notebook'
+  },
+  { 
+    name: 'Digital Forensics', 
+    color: '#e74c3c',
+    tech: 'Digital evidence handling, forensic investigation concepts, cyber awareness, and security analysis'
+  },
+  { 
+    name: 'Network Security', 
+    color: '#ffb74d',
+    tech: 'Network security fundamentals, packet analysis, cyber threats, phishing prevention, and digital privacy'
+  },
+  { 
+    name: 'Secure File Protection', 
+    color: '#9c6ade',
+    tech: 'Encryption, password protection, watermarking, device authentication, protected document viewing, and expiry-based access control'
+  },
+  { 
+    name: 'Applied Machine Learning', 
+    color: '#f48fb1',
+    tech: 'Foundational machine learning concepts and practical experimentation through academic and personal projects'
+  },
 ];
 
 const learningNow = ['Web3 Security', 'Rust', 'Blockchain', 'Malware Analysis', 'CTF Competitions'];
@@ -64,19 +88,17 @@ const learningNow = ['Web3 Security', 'Rust', 'Blockchain', 'Malware Analysis', 
 function RadialSkill({ skill, index, trigger }: { skill: typeof coreSkills[0]; index: number; trigger: boolean }) {
   const r = 38;
   const circumference = 2 * Math.PI * r;
-  const dash = (skill.level / 100) * circumference;
 
   return (
     <motion.div
-      className="flex flex-col items-center gap-3"
+      className="flex flex-col items-center gap-3 relative group"
       initial={{ opacity: 0, scale: 0.6 }}
       animate={trigger ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay: 0.4 + index * 0.12, duration: 0.5, type: 'spring', stiffness: 200 }}
       whileHover={{ y: -8, scale: 1.08 }}
     >
-      <div className="relative w-24 h-24">
+      <div className="relative w-24 h-24 cursor-help">
         <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-          {/* Background track */}
           <circle
             cx="50" cy="50" r={r}
             fill="none"
@@ -84,7 +106,6 @@ function RadialSkill({ skill, index, trigger }: { skill: typeof coreSkills[0]; i
             strokeWidth="10"
             strokeLinecap="round"
           />
-          {/* Progress arc */}
           <motion.circle
             cx="50" cy="50" r={r}
             fill="none"
@@ -93,26 +114,31 @@ function RadialSkill({ skill, index, trigger }: { skill: typeof coreSkills[0]; i
             strokeLinecap="round"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
-            animate={trigger ? { strokeDashoffset: circumference - dash } : {}}
+            animate={trigger ? { strokeDashoffset: 0 } : {}}
             transition={{ delay: 0.6 + index * 0.12, duration: 1.2, ease: 'easeOut' }}
             style={{ filter: `drop-shadow(0 0 4px ${skill.color}60)` }}
           />
         </svg>
-        {/* Center text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.span
-            className="font-heading font-bold text-xl text-ink"
+            className="text-2xl"
             initial={{ opacity: 0 }}
             animate={trigger ? { opacity: 1 } : {}}
             transition={{ delay: 1 + index * 0.12 }}
           >
-            {skill.level}%
+            ⚡
           </motion.span>
         </div>
       </div>
-      <span className="font-heading font-bold text-sm text-center text-ink leading-tight max-w-[90px]">
+      <span className="font-heading font-bold text-sm text-center text-ink leading-tight max-w-[120px]">
         {skill.name}
       </span>
+      
+      {/* Tooltip */}
+      <div className="absolute top-[80%] left-1/2 -translate-x-1/2 mt-4 w-48 p-3 bg-[#2d2d2d] text-white text-xs font-accent rounded-md shadow-[4px_4px_0_rgba(0,0,0,0.15)] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 text-center border-2 border-white">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-b-[#2d2d2d]"></div>
+        {skill.tech}
+      </div>
     </motion.div>
   );
 }
@@ -209,11 +235,14 @@ export default function Skills() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
-          <h3 className="text-4xl font-heading font-bold text-center mb-10 text-ink">
+          <h3 className="text-4xl font-heading font-bold text-center mb-4 text-ink">
             Core Competencies ⚡
           </h3>
+          <p className="text-center text-ink-light font-accent text-md mb-10 max-w-3xl mx-auto">
+            Hands-on experience in Python-based security projects, cryptography, secure file protection, digital forensics, and practical cybersecurity awareness.
+          </p>
 
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 justify-items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 justify-items-center">
             {coreSkills.map((skill, index) => (
               <RadialSkill key={skill.name} skill={skill} index={index} trigger={isInView} />
             ))}

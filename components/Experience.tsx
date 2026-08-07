@@ -6,38 +6,56 @@ import BouncyText from './BouncyText';
 
 const experiences = [
   {
-    title: 'IT Intern — Cybersecurity',
-    company: 'Hindustan Aeronautics Limited (HAL)',
-    location: 'Bengaluru, Karnataka',
-    period: 'May 2025 – June 2025',
-    type: 'Internship',
-    typeColor: '#fff176',
+    title: 'AI Fluency Intern',
+    company: 'FlyRank',
+    location: '',
+    period: 'July 2026 – September 2026',
+    type: 'Current',
+    typeColor: '#66bb6a',
     description: [
-      'Developed DRM-based encryption system using AES-256 and RSA for securing digital assets',
-      'Integrated expiry controls, watermarking, and device-based protections',
-      'Built secure document management solution for sensitive aerospace operations',
+      'Evaluating AI-generated software modules against security, scalability, and compliance requirements.',
+      'Reviewing AI-generated codebases to identify technical and quality issues.',
+      'Assessing AI workflow reliability across production-oriented pipelines.',
+      'Contributing to structured technical reviews and improving understanding of AI-assisted software development.',
     ],
-    techStack: ['Python', 'AES-256', 'RSA', 'DRM', 'Tkinter', 'Cryptography'],
-    doodleIcon: '🔐',
+    techStack: ['AI Workflows', 'Code Review', 'Compliance', 'Security Evaluation'],
+    doodleIcon: '🤖',
     accentColor: '#4a90d9',
     side: 'left',
   },
   {
-    title: 'Student Intern',
+    title: 'Cybersecurity Intern',
     company: 'Madhya Pradesh Police',
-    location: 'Bhopal, Madhya Pradesh',
-    period: 'Aug 2024 – Present',
-    type: 'Research',
-    typeColor: '#f48fb1',
+    location: '',
+    period: 'August 2024 – August 2025',
+    type: 'Completed',
+    typeColor: '#e0e0e0',
     description: [
-      'Conducted comprehensive cyber awareness sessions for law enforcement personnel',
-      'Educated officers on digital security threats and best practices',
-      'Contributed to enhancing cybersecurity awareness in government sector',
+      'Conducted cybersecurity awareness sessions covering phishing prevention, digital privacy, and cyber fraud protection.',
+      'Assisted with educational initiatives promoting safe internet practices and cybercrime awareness.',
+      'Supported public-facing cybersecurity awareness activities and helped explain basic cyber hygiene to non-technical audiences.',
     ],
-    techStack: ['Cybersecurity', 'Digital Forensics', 'Training', 'OSINT'],
-    doodleIcon: '🔍',
+    techStack: ['Cyber Awareness', 'Digital Privacy', 'Public Speaking'],
+    doodleIcon: '🛡️',
     accentColor: '#e74c3c',
     side: 'right',
+  },
+  {
+    title: 'Cybersecurity Intern',
+    company: 'Hindustan Aeronautics Limited (HAL)',
+    location: 'Helicopter Division, Bengaluru',
+    period: 'May 2025 – June 2025',
+    type: 'Completed',
+    typeColor: '#e0e0e0',
+    description: [
+      'Developed a Digital Rights Management encryption system using AES-256 and RSA to secure sensitive defense documents.',
+      'Implemented device authentication, watermarking, password protection, and expiry-based file access.',
+      'Designed a protected document viewer for controlled access to encrypted digital assets.',
+    ],
+    techStack: ['Python', 'AES-256', 'RSA', 'DRM', 'Cryptography'],
+    doodleIcon: '🔐',
+    accentColor: '#ffb74d',
+    side: 'left',
   },
 ];
 
@@ -154,7 +172,7 @@ export default function Experience() {
                       {/* Meta */}
                       <div className="flex flex-wrap gap-3 text-xs text-ink-faint mb-3 font-accent">
                         <span>📅 {exp.period}</span>
-                        <span>📍 {exp.location}</span>
+                        {exp.location && <span>📍 {exp.location}</span>}
                       </div>
 
                       {/* Description */}
