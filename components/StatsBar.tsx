@@ -81,7 +81,13 @@ export default function StatsBar() {
               initial={{ opacity: 0, y: 30, rotate: index % 2 === 0 ? -2 : 2 }}
               animate={isInView ? { opacity: 1, y: 0, rotate: index % 2 === 0 ? -1 : 1 } : {}}
               transition={{ delay: index * 0.1, duration: 0.5, type: 'spring', stiffness: 200 }}
-              whileHover={{ scale: 1.1, rotate: 0, y: -8, zIndex: 10 }}
+              whileHover={{ 
+                scale: 1.15, 
+                rotate: [0, 5, -5, 3, -2, 0], 
+                y: -5, 
+                zIndex: 10,
+                transition: { duration: 0.8, ease: "easeInOut" }
+              }}
             >
               {/* Sticky note card */}
               <div

@@ -78,6 +78,28 @@ const doodleShapes = [
 
   // Speed lines (motion marks)
   (color: string) => <svg viewBox="0 0 40 20" className="w-full h-full"><path d="M2,4 L20,4 M6,10 L30,10 M2,16 L24,16" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" opacity="0.8"/></svg>,
+
+  // ===== NEW TECH DOODLES =====
+  
+  // Coffee Cup
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M8,12 L32,12 L28,30 Q26,36 20,36 Q14,36 12,30 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M32,16 Q38,16 38,20 Q38,26 30,26" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M14,8 Q16,4 18,8 T22,4" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/><path d="M22,8 Q24,4 26,8 T30,4" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+
+  // Floppy Disk
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M8,4 L28,4 L36,12 L36,36 L8,36 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><rect x="14" y="4" width="12" height="10" fill="none" stroke={color} strokeWidth="1.5"/><rect x="12" y="22" width="16" height="14" fill="none" stroke={color} strokeWidth="1.5"/><line x1="16" y1="26" x2="24" y2="26" stroke={color} strokeWidth="1.5" strokeLinecap="round"/><line x1="16" y1="30" x2="24" y2="30" stroke={color} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+
+  // Bug / Beetle
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="20" cy="22" r="10" fill="none" stroke={color} strokeWidth="2"/><path d="M20,12 L20,32" stroke={color} strokeWidth="2"/><circle cx="20" cy="8" r="4" fill="none" stroke={color} strokeWidth="2"/><path d="M16,6 Q12,2 8,6 M24,6 Q28,2 32,6" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/><path d="M10,22 L4,22 M30,22 L36,22 M12,16 L6,12 M28,16 L34,12 M12,28 L6,32 M28,28 L34,32" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+
+  // ===== HACKER / CYBERSECURITY DOODLES =====
+  
+  // Terminal Prompt (>_)
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M6,10 L16,20 L6,30" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M20,30 L34,30" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round"/></svg>,
+
+  // Eye (Privacy/Surveillance)
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M4,20 Q20,6 36,20 Q20,34 4,20 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="20" cy="20" r="6" fill="none" stroke={color} strokeWidth="2"/><circle cx="20" cy="20" r="2" fill={color}/></svg>,
+
+  // Key (Encryption/Crypto)
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="12" cy="20" r="6" fill="none" stroke={color} strokeWidth="2"/><path d="M18,20 L34,20 L34,26 L30,26 L30,20 L26,20 L26,26 L22,26 L22,20" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
 ];
 
 const doodleColors = ['#4a90d9', '#e74c3c', '#66bb6a', '#9c6ade', '#f48fb1', '#ffb74d'];
@@ -109,18 +131,18 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
       }}
       initial={{ rotate: doodle.rotation, opacity: 0 }}
       animate={{ 
-        rotate: isHovered ? doodle.rotation + 45 : [doodle.rotation, doodle.rotation + 15, doodle.rotation - 10, doodle.rotation],
-        scale: isHovered ? 1.4 : 1,
-        opacity: isHovered ? 0.3 : 0.15,
-        x: isHovered ? 0 : [0, 10, -10, 0],
-        y: isHovered ? -10 : [0, -10, 10, 0]
+        rotate: isHovered ? doodle.rotation + 180 : [doodle.rotation, doodle.rotation + 15, doodle.rotation - 10, doodle.rotation],
+        scale: isHovered ? 1.6 : 1,
+        opacity: isHovered ? 0.6 : 0.15,
+        x: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, 10, -10, 0],
+        y: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, -10, 10, 0]
       }}
       transition={{
-        rotate: isHovered ? { type: "spring", stiffness: 300, damping: 10 } : { duration: doodle.duration * 1.5, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
-        x: { duration: doodle.duration * 1.2, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
-        y: { duration: doodle.duration * 1.3, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
-        scale: { type: "spring", stiffness: 300, damping: 15 },
-        opacity: { duration: 0.3 }
+        rotate: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.5, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
+        x: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.2, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
+        y: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.3, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
+        scale: { type: "spring", stiffness: 300, damping: 12 },
+        opacity: { duration: 0.2 }
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -130,7 +152,7 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
   );
 }
 
-export default function DoodleDecorations({ count = 8, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
+export default function DoodleDecorations({ count = 24, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
   const rand = seededRandom(seed);
   
   const doodles = Array.from({ length: count }, (_, i) => {
