@@ -107,7 +107,9 @@ export default function Hero() {
           {/* Bold Hatched Headline & Subline */}
           <div className="relative inline-block mb-12 max-w-[100vw] px-4 py-8">
             <h1 className="font-display font-bold text-ink leading-tight mb-2 tracking-wide" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}>
-              <span className="hatched-text">Your Vision, our code</span>
+              <span className="hatched-text">
+                <BouncyText text="Shree Charan N" revealAnimation="drop" />
+              </span>
             </h1>
             <p className="font-heading text-ink-light" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
               from daydream to download
