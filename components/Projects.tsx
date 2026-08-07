@@ -71,6 +71,24 @@ const projects = [
 
 const categories = ['All', 'Security', 'Forensics', 'AI'];
 
+// Per-card scatter offsets — makes cards look dropped on a desk
+const cardOffsets = [
+  { x: -8,  y: 4  },
+  { x: 10,  y: -6 },
+  { x: -4,  y: 8  },
+  { x: 6,   y: -4 },
+  { x: -10, y: 2  },
+];
+
+// Washi tape color pairs [stripe1, stripe2] per card
+const washiColors = [
+  ['rgba(255,241,118,0.75)', 'rgba(255,255,255,0.6)'],
+  ['rgba(244,143,177,0.75)', 'rgba(255,255,255,0.6)'],
+  ['rgba(187,222,251,0.75)', 'rgba(255,255,255,0.6)'],
+  ['rgba(200,230,201,0.75)', 'rgba(255,255,255,0.6)'],
+  ['rgba(209,196,233,0.75)', 'rgba(255,255,255,0.6)'],
+];
+
 export default function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -148,13 +166,18 @@ export default function Projects() {
         {/* Projects Grid */}
         <motion.div layout className="flex flex-wrap justify-center gap-8 mt-8">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, index) => (
+            {filtered.map((project, index) => {
+              const offset = cardOffsets[index % cardOffsets.length];
+              const washi = washiColors[index % washiColors.length];
+              const washibRot = [-2, 3, -1, 2, -3][index % 5];
+              const washiRotR = [3, -2, 2, -3, 1][index % 5];
+              return (
               <motion.div
                 key={project.title}
                 layout
                 className="w-full sm:w-[380px] shrink-0"
-                initial={{ opacity: 0, y: 40, rotate: project.rotation }}
-                animate={{ opacity: 1, y: 0, rotate: project.rotation }}
+                initial={{ opacity: 0, y: 40, x: offset.x, rotate: project.rotation }}
+                animate={{ opacity: 1, y: offset.y, x: offset.x, rotate: project.rotation }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
@@ -163,6 +186,42 @@ export default function Projects() {
                   style={{ rotate: project.rotation } as React.CSSProperties}
                   tiltStrength={12}
                 >
+                  {/* Washi tape corners */}
+                  <div
+                    className="absolute -top-[9px] left-4 z-10 pointer-events-none"
+                    style={{ transform: `rotate(${washibRot}deg)` }}
+                  >
+                    <svg width="52" height="20" viewBox="0 0 52 20">
+                      <rect x="0" y="0" width="52" height="20" rx="2"
+                        fill={`url(#wl${index})`}
+                        stroke="rgba(0,0,0,0.08)" strokeWidth="1"
+                      />
+                      <defs>
+                        <pattern id={`wl${index}`} x="0" y="0" width="12" height="20" patternUnits="userSpaceOnUse">
+                          <rect x="0" width="6" height="20" fill={washi[0]}/>
+                          <rect x="6" width="6" height="20" fill={washi[1]}/>
+                        </pattern>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div
+                    className="absolute -top-[9px] right-4 z-10 pointer-events-none"
+                    style={{ transform: `rotate(${washiRotR}deg)` }}
+                  >
+                    <svg width="52" height="20" viewBox="0 0 52 20">
+                      <rect x="0" y="0" width="52" height="20" rx="2"
+                        fill={`url(#wr${index})`}
+                        stroke="rgba(0,0,0,0.08)" strokeWidth="1"
+                      />
+                      <defs>
+                        <pattern id={`wr${index}`} x="0" y="0" width="12" height="20" patternUnits="userSpaceOnUse">
+                          <rect x="0" width="6" height="20" fill={washiColors[(index+1) % washiColors.length][0]}/>
+                          <rect x="6" width="6" height="20" fill={washi[1]}/>
+                        </pattern>
+                      </defs>
+                    </svg>
+                  </div>
+
                   {/* Accent color strip */}
                   <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-[4px]" style={{ background: project.accentColor }} />
 
@@ -248,7 +307,8 @@ export default function Projects() {
                   </div>
                 </TiltCard>
               </motion.div>
-            ))}
+              );
+            })}
           </AnimatePresence>
         </motion.div>
 
@@ -264,7 +324,7 @@ export default function Projects() {
             href="https://github.com/Charan291005"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary inline-flex items-center gap-2"
+            className="btn-cta inline-flex items-center gap-2"
             whileHover={{ rotate: -1, scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >

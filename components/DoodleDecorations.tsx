@@ -21,6 +21,20 @@ const doodleShapes = [
   // Wavy line
   (color: string) => <svg viewBox="0 0 50 20" className="w-full h-full"><path d="M2,10 Q8,2 14,10 T26,10 T38,10 T48,10" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>,
 
+  // ===== SECURITY DOODLES =====
+
+  // Padlock
+  (color: string) => <svg viewBox="0 0 32 40" className="w-full h-full"><rect x="4" y="18" width="24" height="18" rx="3" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M10,18 L10,12 Q10,4 16,4 Q22,4 22,12 L22,18" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><circle cx="16" cy="27" r="2.5" fill="none" stroke={color} strokeWidth="1.8"/><path d="M16,29.5 L16,33" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>,
+
+  // Magnifying glass
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="16" cy="16" r="11" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M24,24 L36,36" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round"/><path d="M12,12 Q16,10 20,12" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/></svg>,
+
+  // Compass rose (navigation / cybersecurity)
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="20" cy="20" r="16" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/><path d="M20,4 L20,36 M4,20 L36,20" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.4"/><path d="M20,4 L23,18 L20,22 L17,18 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M20,36 L23,22 L20,18 L17,22 Z" fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/><circle cx="20" cy="20" r="2.5" fill="none" stroke={color} strokeWidth="1.5"/></svg>,
+
+  // Binary stream 101
+  (color: string) => <svg viewBox="0 0 48 30" className="w-full h-full"><text x="2" y="12" fontFamily="monospace" fontSize="10" fill="none" stroke={color} strokeWidth="0.8">101</text><text x="12" y="24" fontFamily="monospace" fontSize="10" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6">010</text><text x="28" y="16" fontFamily="monospace" fontSize="10" fill="none" stroke={color} strokeWidth="0.8" opacity="0.8">11</text></svg>,
+
   // ===== NEW COOL DOODLES =====
 
   // F1 Racing Car (side view sketch)
