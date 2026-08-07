@@ -18,10 +18,12 @@ export default function DrawCanvas() {
     if (!isDrawingMode || !canvasRef.current) return;
     
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 2;
-    canvas.height = window.innerHeight * 2;
-    canvas.style.width = `${window.innerWidth}px`;
-    canvas.style.height = `${window.innerHeight}px`;
+    const docWidth = document.documentElement.scrollWidth;
+    const docHeight = document.documentElement.scrollHeight;
+    canvas.width = docWidth * 2;
+    canvas.height = docHeight * 2;
+    canvas.style.width = `${docWidth}px`;
+    canvas.style.height = `${docHeight}px`;
 
     const context = canvas.getContext('2d');
     if (context) {
@@ -58,17 +60,17 @@ export default function DrawCanvas() {
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     if (!contextRef.current) return;
     
-    let clientX, clientY;
+    let drawX, drawY;
     if ('touches' in e) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
+      drawX = e.touches[0].pageX;
+      drawY = e.touches[0].pageY;
     } else {
-      clientX = (e as React.MouseEvent).clientX;
-      clientY = (e as React.MouseEvent).clientY;
+      drawX = (e as React.MouseEvent).pageX;
+      drawY = (e as React.MouseEvent).pageY;
     }
 
     contextRef.current.beginPath();
-    contextRef.current.moveTo(clientX, clientY);
+    contextRef.current.moveTo(drawX, drawY);
     setIsDrawing(true);
     setHasDrawn(true);
   };
@@ -77,16 +79,16 @@ export default function DrawCanvas() {
     if (!isDrawing || !contextRef.current) return;
     e.preventDefault(); // Prevent scrolling while drawing on touch devices
 
-    let clientX, clientY;
+    let drawX, drawY;
     if ('touches' in e) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
+      drawX = e.touches[0].pageX;
+      drawY = e.touches[0].pageY;
     } else {
-      clientX = (e as React.MouseEvent).clientX;
-      clientY = (e as React.MouseEvent).clientY;
+      drawX = (e as React.MouseEvent).pageX;
+      drawY = (e as React.MouseEvent).pageY;
     }
 
-    contextRef.current.lineTo(clientX, clientY);
+    contextRef.current.lineTo(drawX, drawY);
     contextRef.current.stroke();
   };
 
@@ -129,8 +131,9 @@ export default function DrawCanvas() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[105]"
+            className="absolute top-0 left-0 w-full z-[105]"
             style={{ 
+              height: typeof document !== 'undefined' ? `${document.documentElement.scrollHeight}px` : '100vh',
               cursor: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%232d2d2d"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>') 0 24, crosshair`
             }}
           >
@@ -149,7 +152,7 @@ export default function DrawCanvas() {
 
             {/* Toolbar */}
             <motion.div 
-              className="absolute bottom-24 left-1/2 -translate-x-1/2 sm:bottom-8 sm:left-28 sm:translate-x-0 bg-white p-3 rounded-full flex gap-2 sm:gap-3 items-center shadow-lg"
+              className="fixed bottom-24 left-1/2 -translate-x-1/2 sm:bottom-8 sm:left-28 sm:translate-x-0 bg-white p-3 rounded-full flex gap-2 sm:gap-3 items-center shadow-lg"
               style={{ border: '3px solid #2d2d2d', boxShadow: '4px 4px 0 #2d2d2d' }}
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
