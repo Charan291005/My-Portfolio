@@ -161,6 +161,43 @@ export default function Skills() {
         <h2 className="section-title">
           <BouncyText text="Technical Skills 🎯" hoverScale={1.1} />
         </h2>
+        <motion.p
+          className="text-center font-accent text-ink-light text-lg mb-10 -mt-8 max-w-xl mx-auto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          Tools of the trade. (No, I won't hack your ex's Instagram.)
+        </motion.p>
+
+        {/* Animated Security Doodles */}
+        <motion.svg
+          className="absolute top-0 left-[10%] w-20 h-20 opacity-80 hidden md:block"
+          viewBox="0 0 100 100"
+          initial={{ rotate: 0 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        >
+          {/* Compass Rose */}
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#4a90d9" strokeWidth="2" strokeDasharray="4 4"/>
+          <path d="M50,10 L58,42 L90,50 L58,58 L50,90 L42,58 L10,50 L42,42 Z" fill="none" stroke="#4a90d9" strokeWidth="3" strokeLinejoin="round"/>
+        </motion.svg>
+
+        <motion.svg
+          className="absolute top-32 right-[5%] w-16 h-16 text-marker-red opacity-80 hidden md:block"
+          viewBox="0 0 100 100"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          {/* Blinking Padlock */}
+          <rect x="25" y="45" width="50" height="40" rx="8" fill="none" stroke="currentColor" strokeWidth="4" />
+          <path d="M35,45 L35,30 Q35,15 50,15 Q65,15 65,30 L65,45" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+          <motion.circle 
+            cx="50" cy="65" r="5" fill="currentColor" 
+            animate={{ opacity: [1, 0, 1] }} 
+            transition={{ duration: 2, repeat: Infinity, ease: "steps(2, end)" }} 
+          />
+        </motion.svg>
 
         {/* Skills Grid — Expandable Sticky Notes */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
