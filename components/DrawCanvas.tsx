@@ -2,108 +2,86 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Point { x: number; y: number }
-
 export default function DrawCanvas() {
   const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [currentColor, setCurrentColor] = useState('#2d2d2d');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
+
+  const svgRef = useRef<SVGSVGElement>(null);
+  const currentPathRef = useRef<SVGPathElement | null>(null);
+  const [strokes, setStrokes] = useState<{ path: string; color: string }[]>([]);
+  const [docHeight, setDocHeight] = useState('100vh');
 
   const colors = ['#2d2d2d', '#e74c3c', '#4a90d9', '#66bb6a', '#fff176'];
 
+  // Keep drawing mode styling in sync
   useEffect(() => {
-    if (!isDrawingMode || !canvasRef.current) return;
-    
-    const canvas = canvasRef.current;
-    const docWidth = document.documentElement.scrollWidth;
-    const docHeight = document.documentElement.scrollHeight;
-    canvas.width = docWidth * 2;
-    canvas.height = docHeight * 2;
-    canvas.style.width = `${docWidth}px`;
-    canvas.style.height = `${docHeight}px`;
-
-    const context = canvas.getContext('2d');
-    if (context) {
-      context.scale(2, 2);
-      context.lineCap = 'round';
-      context.lineJoin = 'round';
-      context.strokeStyle = currentColor;
-      context.lineWidth = 4;
-      contextRef.current = context;
-    }
-
-    const handleResize = () => {
-      // Just disable drawing mode on resize to avoid complex canvas rescaling for now
-      setIsDrawingMode(false);
-    };
-
-    // Toggle global CSS class to hide custom cursor
-    document.body.classList.add('drawing-mode');
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      document.body.classList.remove('drawing-mode');
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isDrawingMode]); // Re-init when toggled
-
-  // Update color
-  useEffect(() => {
-    if (contextRef.current) {
-      contextRef.current.strokeStyle = currentColor;
-    }
-  }, [currentColor]);
-
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!contextRef.current) return;
-    
-    let drawX, drawY;
-    if ('touches' in e) {
-      drawX = e.touches[0].pageX;
-      drawY = e.touches[0].pageY;
+    if (isDrawingMode) {
+      document.body.classList.add('drawing-mode');
+      // Update height dynamically when toggled to ensure it covers the whole document
+      setDocHeight(`${document.documentElement.scrollHeight}px`);
     } else {
-      drawX = (e as React.MouseEvent).pageX;
-      drawY = (e as React.MouseEvent).pageY;
+      document.body.classList.remove('drawing-mode');
     }
+    return () => document.body.classList.remove('drawing-mode');
+  }, [isDrawingMode]);
 
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(drawX, drawY);
-    setIsDrawing(true);
+  const getCoords = (e: React.PointerEvent<SVGSVGElement>) => {
+    return { x: e.pageX, y: e.pageY };
+  };
+
+  const startDrawing = (e: React.PointerEvent<SVGSVGElement>) => {
+    // Release pointer capture so we don't accidentally drag elements
+    if (e.target instanceof Element) {
+      e.target.releasePointerCapture(e.pointerId);
+    }
+    
+    const { x, y } = getCoords(e);
+    
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("stroke", currentColor);
+    path.setAttribute("stroke-width", "5");
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    path.setAttribute("d", `M ${x} ${y}`);
+    
+    if (svgRef.current) {
+      svgRef.current.appendChild(path);
+      currentPathRef.current = path;
+    }
     setHasDrawn(true);
   };
 
-  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !contextRef.current) return;
-    e.preventDefault(); // Prevent scrolling while drawing on touch devices
-
-    let drawX, drawY;
-    if ('touches' in e) {
-      drawX = e.touches[0].pageX;
-      drawY = e.touches[0].pageY;
-    } else {
-      drawX = (e as React.MouseEvent).pageX;
-      drawY = (e as React.MouseEvent).pageY;
-    }
-
-    contextRef.current.lineTo(drawX, drawY);
-    contextRef.current.stroke();
+  const draw = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!currentPathRef.current) return;
+    // The browser prevents default on touch-none elements, avoiding scroll.
+    
+    const { x, y } = getCoords(e);
+    const d = currentPathRef.current.getAttribute("d");
+    currentPathRef.current.setAttribute("d", `${d} L ${x} ${y}`);
   };
 
   const stopDrawing = () => {
-    if (!contextRef.current) return;
-    contextRef.current.closePath();
-    setIsDrawing(false);
+    if (currentPathRef.current) {
+      const pathData = currentPathRef.current.getAttribute("d") || "";
+      
+      if (svgRef.current && currentPathRef.current.parentNode === svgRef.current) {
+        svgRef.current.removeChild(currentPathRef.current);
+      }
+      
+      setStrokes(prev => [...prev, { path: pathData, color: currentColor }]);
+      currentPathRef.current = null;
+    }
   };
 
   const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    const context = contextRef.current;
-    if (canvas && context) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      setHasDrawn(false);
+    setStrokes([]);
+    setHasDrawn(false);
+    // Cleanup any lingering manual paths
+    if (svgRef.current) {
+      const paths = svgRef.current.querySelectorAll('path:not([data-react])');
+      paths.forEach(p => p.remove());
     }
   };
 
@@ -124,7 +102,7 @@ export default function DrawCanvas() {
         <span className="text-2xl">{isDrawingMode ? '❌' : '🖍️'}</span>
       </motion.button>
 
-      {/* The Canvas Overlay */}
+      {/* The SVG Canvas Overlay */}
       <AnimatePresence>
         {isDrawingMode && (
           <motion.div
@@ -133,22 +111,33 @@ export default function DrawCanvas() {
             exit={{ opacity: 0 }}
             className="absolute top-0 left-0 w-full z-[105]"
             style={{ 
-              height: typeof document !== 'undefined' ? `${document.documentElement.scrollHeight}px` : '100vh',
+              height: docHeight,
               cursor: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%232d2d2d"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>') 0 24, crosshair`
             }}
           >
-            {/* Draw surface */}
-            <canvas
-              ref={canvasRef}
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseLeave={stopDrawing}
-              onTouchStart={startDrawing}
-              onTouchMove={draw}
-              onTouchEnd={stopDrawing}
+            {/* Draw surface: Using SVG instead of Canvas fixes mobile memory limit lag! */}
+            <svg
+              ref={svgRef}
               className="absolute inset-0 w-full h-full touch-none"
-            />
+              onPointerDown={startDrawing}
+              onPointerMove={draw}
+              onPointerUp={stopDrawing}
+              onPointerCancel={stopDrawing}
+              onPointerLeave={stopDrawing}
+            >
+              {strokes.map((stroke, i) => (
+                <path
+                  key={i}
+                  data-react="true"
+                  d={stroke.path}
+                  stroke={stroke.color}
+                  strokeWidth="5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              ))}
+            </svg>
 
             {/* Toolbar */}
             <motion.div 
