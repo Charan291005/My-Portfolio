@@ -140,7 +140,7 @@ export default function BugBounty() {
                   rotate: { repeat: Infinity, duration: 1.5, ease: "linear" }
                 }}
                 className="absolute w-12 h-12 cursor-pointer pointer-events-auto"
-                style={{ left: \`\${bug.x}%\`, top: \`\${bug.y}%\` }}
+                style={{ left: `${bug.x}%`, top: `${bug.y}%` }}
                 onMouseDown={() => squashBug(bug.id)}
                 onTouchStart={(e) => { e.preventDefault(); squashBug(bug.id); }}
               >
