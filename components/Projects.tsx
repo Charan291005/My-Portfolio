@@ -4,7 +4,6 @@ import { useRef, useState } from 'react';
 import DoodleDecorations from './DoodleDecorations';
 import TiltCard from './TiltCard';
 import BouncyText from './BouncyText';
-import CipherGame from './CipherGame';
 
 const projects = [
   {
@@ -112,8 +111,6 @@ export default function Projects() {
         <h2 className="section-title">
           <BouncyText text="Featured Projects 📝" hoverScale={1.1} />
         </h2>
-
-        <CipherGame />
 
         {/* Category Filter Tabs */}
         <motion.div
