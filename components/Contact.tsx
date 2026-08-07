@@ -102,7 +102,6 @@ export default function Contact() {
                 scale: 1.08,
                 rotate: '0deg',
                 y: -10,
-                boxShadow: '8px 12px 15px rgba(0,0,0,0.2)',
                 zIndex: 10,
                 transition: { type: 'spring', stiffness: 300, damping: 12 }
               }}

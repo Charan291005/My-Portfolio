@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== CSS Custom Properties ===== */
+:root {
+  --paper: #faf5e4;
+  --paper-dark: #f0e6c8;
+  --ink: #2d2d2d;
+  --ink-light: #6b6b6b;
+  --ink-faint: #999999;
+  --pencil-blue: #4a90d9;
+  --pencil-red: #e74c3c;
+  --shadow: rgba(0,0,0,0.15);
+}
+
+html.dark {
+  --paper: #12121f;
+  --paper-dark: #1a1a2e;
+  --ink: #e8e0d0;
+  --ink-light: #a89f8c;
+  --ink-faint: #6b6460;
+  --pencil-blue: #60aeff;
+  --pencil-red: #ff6b5b;
+  --shadow: rgba(0,0,0,0.4);
+}
+
 /* ===== Google Fonts imported in layout.tsx ===== */
 
 @layer base {
@@ -10,13 +33,20 @@
   }
 
   body {
-    background-color: #faf5e4;
-    color: #2d2d2d;
+    background-color: var(--paper);
+    color: var(--ink);
     font-family: var(--font-body), cursive;
     background-image:
       linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
     background-size: 28px 28px;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  html.dark body {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
   }
 
   /* Hide default cursor on desktop devices to show custom pencil */
@@ -29,6 +59,11 @@
   ::selection {
     background: #fff176;
     color: #2d2d2d;
+  }
+
+  html.dark ::selection {
+    background: #4a90d9;
+    color: #fff;
   }
 }
 
@@ -44,7 +79,7 @@
   @media (min-width: 640px) { .section-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
   @media (min-width: 1024px) { .section-container { padding-left: 2rem; padding-right: 2rem; } }
 
-  /* ===== Section Title - Scribble Style ===== */
+  /* ===== Section Title ===== */
   .section-title {
     font-size: 2.5rem;
     line-height: 1.1;
@@ -52,10 +87,10 @@
     font-weight: 700;
     margin-bottom: 3.5rem;
     text-align: center;
-    color: #2d2d2d;
+    color: var(--ink);
     position: relative;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.35s ease;
   }
   .section-title:hover {
     transform: rotate(-1deg) scale(1.02);
@@ -77,23 +112,23 @@
     width: 80%;
   }
 
-  /* ===== Sketchy Card — Skribbl-Inspired ===== */
+  /* ===== Sketchy Card ===== */
   .card {
-    background-color: #f0e6c8;
+    background-color: var(--paper-dark);
     padding: 1.5rem;
     position: relative;
     transition: all 0.3s;
-    border: 3px solid #2d2d2d;
+    border: 3px solid var(--ink);
     border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+    box-shadow: 5px 5px 0 var(--shadow);
   }
 
   .card:hover {
     transform: rotate(-0.5deg) translateY(-4px);
-    box-shadow: 8px 10px 0 rgba(0,0,0,0.18);
+    box-shadow: 8px 10px 0 var(--shadow);
   }
 
-  /* ===== Buttons — Skribbl-Inspired Chunky ===== */
+  /* ===== Buttons ===== */
   .btn-primary {
     padding: 0.85rem 2rem;
     font-family: var(--font-heading), cursive;
@@ -126,25 +161,25 @@
     font-family: var(--font-heading), cursive;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #2d2d2d;
+    color: var(--ink);
     position: relative;
     display: inline-block;
     transition: all 0.15s;
-    background: #fff;
-    border: 3px dashed #2d2d2d;
+    background: var(--paper);
+    border: 3px dashed var(--ink);
     border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    box-shadow: 3px 3px 0 var(--shadow);
     cursor: pointer;
     text-decoration: none;
   }
 
   .btn-secondary:hover {
-    background: #f0e6c8;
+    background: var(--paper-dark);
     transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+    box-shadow: 5px 5px 0 var(--shadow);
   }
 
-  /* ===== Marker Highlight — Interactive ===== */
+  /* ===== Marker Highlights ===== */
   .marker-highlight {
     background: linear-gradient(180deg, transparent 60%, #fff176 60%);
     padding: 0 4px;
@@ -189,7 +224,7 @@
     padding: 0 6px;
   }
 
-  /* ===== Sticky Note — Skribbl-Inspired ===== */
+  /* ===== Sticky Notes ===== */
   .sticky-note {
     padding: 1.25rem;
     font-family: var(--font-accent), cursive;
@@ -230,23 +265,29 @@
     transform: rotate(0.8deg);
   }
 
-  /* ===== Tag / Chip — Skribbl-Inspired ===== */
+  /* ===== Tag / Chip ===== */
   .doodle-tag {
     padding: 0.3rem 0.85rem;
     font-family: var(--font-accent), cursive;
     font-size: 0.875rem;
     display: inline-block;
-    border: 2px solid #2d2d2d;
+    border: 2px solid var(--ink);
     border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
     background: rgba(255,255,255,0.6);
     box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
     transition: all 0.15s;
+    color: var(--ink);
+  }
+
+  html.dark .doodle-tag {
+    background: rgba(255,255,255,0.08);
   }
 
   .doodle-tag:hover {
     background: #fff176;
     box-shadow: 3px 3px 0 rgba(0,0,0,0.12);
     transform: translateY(-2px);
+    color: #2d2d2d;
   }
 
   /* ===== Notebook Holes ===== */
@@ -270,6 +311,22 @@
     );
     border-left: 2px solid #e74c3c;
     opacity: 0.3;
+  }
+
+  /* ===== Nav scrolled state ===== */
+  .nav-scrolled {
+    background-color: var(--paper) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* ===== Doodle separator ===== */
+  .doodle-separator {
+    width: 100%;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20'%3E%3Cpath d='M0,10 Q50,2 100,10 T200,10 T300,10 T400,10' stroke='%23ccc' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 400px 20px;
+    margin: 40px auto;
   }
 
   /* ===== SVG draw animation ===== */
@@ -298,101 +355,141 @@
     background-size: 200px 8px;
   }
 
-  /* ===== Doodle separator ===== */
-  .doodle-separator {
-    width: 100%;
-    height: 20px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20'%3E%3Cpath d='M0,10 Q50,2 100,10 T200,10 T300,10 T400,10' stroke='%23ccc' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 400px 20px;
-    margin: 40px auto;
+  /* ===== Paper fold corner ===== */
+  .paper-fold {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .paper-fold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 28px 28px 0;
+    border-color: transparent var(--paper) transparent transparent;
+    transition: border-width 0.3s ease;
+    z-index: 5;
+  }
+
+  .paper-fold:hover::before {
+    border-width: 0 36px 36px 0;
+  }
+
+  /* ===== Scribble circle ===== */
+  .scribble-circle {
+    position: relative;
+  }
+
+  .scribble-circle::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 2.5px solid #4a90d9;
+    border-radius: 50% 45% 55% 48% / 45% 55% 48% 50%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scribble-circle:hover::after,
+  .scribble-circle.active::after {
+    opacity: 1;
   }
 }
 
-/* ===== Custom Scrollbar — Pencil Style ===== */
+/* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0e6c8;
+  background: var(--paper-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2d2d2d;
+  background: var(--ink);
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  border: 2px solid #f0e6c8;
+  border: 2px solid var(--paper-dark);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #4a90d9;
 }
 
-/* ===== Keyframe for draw ===== */
+/* ===== Keyframes ===== */
 @keyframes draw {
   0% { stroke-dashoffset: 1000; }
   100% { stroke-dashoffset: 0; }
 }
 
-/* ===== Typewriter cursor blink ===== */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes ink-drip {
+  0% { transform: scaleY(0); opacity: 1; transform-origin: top; }
+  80% { transform: scaleY(1); opacity: 1; transform-origin: top; }
+  100% { transform: scaleY(1) translateY(8px); opacity: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }
 
 .typewriter-cursor {
   display: inline-block;
   width: 3px;
   height: 1em;
-  background: #2d2d2d;
+  background: var(--ink);
   margin-left: 4px;
   animation: blink 1s step-end infinite;
   vertical-align: text-bottom;
 }
 
-/* ===== Scribble circle around element ===== */
-.scribble-circle {
-  position: relative;
+/* ===== Dark mode text overrides for static colors ===== */
+html.dark .text-ink { color: var(--ink) !important; }
+html.dark .text-ink-light { color: var(--ink-light) !important; }
+html.dark .text-ink-faint { color: var(--ink-faint) !important; }
+html.dark .bg-paper { background-color: var(--paper) !important; }
+html.dark .bg-paper-dark { background-color: var(--paper-dark) !important; }
+html.dark .border-ink { border-color: var(--ink) !important; }
+
+/* Dark mode card */
+html.dark .card {
+  background-color: var(--paper-dark);
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.4);
 }
 
-.scribble-circle::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border: 2.5px solid #4a90d9;
-  border-radius: 50% 45% 55% 48% / 45% 55% 48% 50%;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+html.dark .card:hover {
+  box-shadow: 8px 10px 0 rgba(0,0,0,0.5);
 }
 
-.scribble-circle:hover::after,
-.scribble-circle.active::after {
-  opacity: 1;
-}
-
-/* ===== Paper fold corner ===== */
-.paper-fold {
-  position: relative;
-  overflow: hidden;
-}
-
-.paper-fold::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 28px 28px 0;
-  border-color: transparent #f0e6c8 transparent transparent;
-  transition: border-width 0.3s ease;
-}
-
-.paper-fold:hover::before {
-  border-width: 0 36px 36px 0;
+html.dark body.drawing-mode .custom-cursor {
+  display: none !important;
 }
 
 body.drawing-mode .custom-cursor {
   display: none !important;
 }
+
+/* ===== Utility for ink color text ===== */
+.text-ink { color: var(--ink); }
+.text-ink-light { color: var(--ink-light); }
+.text-ink-faint { color: var(--ink-faint); }
+.text-pencil-blue { color: var(--pencil-blue); }
+.text-pencil-red { color: var(--pencil-red); }
+.border-ink { border-color: var(--ink); }
+.bg-paper { background-color: var(--paper); }
+.bg-paper-dark { background-color: var(--paper-dark); }

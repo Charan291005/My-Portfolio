@@ -8,6 +8,7 @@ const navItems = [
   { name: 'Experience', href: '#experience' },
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
+  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -15,13 +16,14 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = navItems.map(item => item.href.slice(1));
-      const current = sections.find(section => {
+      const sections = navItems.map((item) => item.href.slice(1));
+      const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -37,26 +39,30 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Apply dark mode to document
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-paper/90 backdrop-blur-sm'
-          : 'bg-transparent'
+        isScrolled ? 'nav-scrolled' : 'bg-transparent'
       }`}
       style={{
-        borderBottom: isScrolled ? '2.5px solid #2d2d2d' : 'none',
-        borderImage: isScrolled
-          ? "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 4'%3E%3Cpath d='M0,2 Q50,0 100,2 T200,2 T300,2 T400,2' stroke='%232d2d2d' stroke-width='2' fill='none'/%3E%3C/svg%3E\") 0 0 30 0 / 0 0 3px 0 stretch"
-          : 'none',
+        borderBottom: isScrolled ? '2.5px solid var(--ink)' : 'none',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo — hand-written style */}
+          {/* Logo */}
           <motion.a
             href="#home"
             className="font-heading text-3xl font-bold text-ink relative"
@@ -68,16 +74,14 @@ export default function Navigation() {
             </svg>
           </motion.a>
 
-          {/* Desktop Navigation — notebook tab style */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 className={`relative px-4 py-2 font-heading text-lg transition-all duration-200 ${
-                  activeSection === item.href.slice(1)
-                    ? 'text-ink font-bold'
-                    : 'text-ink-light hover:text-ink'
+                  activeSection === item.href.slice(1) ? 'text-ink font-bold' : 'text-ink-light hover:text-ink'
                 }`}
               >
                 {item.name}
@@ -103,10 +107,51 @@ export default function Navigation() {
                 )}
               </a>
             ))}
+
+            {/* Dark mode toggle */}
+            <motion.button
+              onClick={() => setDarkMode(!darkMode)}
+              className="ml-3 w-12 h-12 flex items-center justify-center relative font-heading text-xl"
+              style={{
+                border: '2.5px solid var(--ink)',
+                borderRadius: '50% 45% 55% 48% / 45% 55% 48% 50%',
+                background: darkMode ? '#1a1a2e' : '#fff',
+                color: darkMode ? '#f0e6c8' : '#2d2d2d',
+                boxShadow: '3px 3px 0 var(--ink)',
+                cursor: 'pointer',
+              }}
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.9, rotate: -15 }}
+              aria-label="Toggle dark mode"
+              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              <motion.span
+                key={darkMode ? 'moon' : 'sun'}
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                {darkMode ? '🌙' : '☀️'}
+              </motion.span>
+            </motion.button>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile buttons */}
+          <div className="md:hidden flex items-center gap-2">
+            <motion.button
+              onClick={() => setDarkMode(!darkMode)}
+              className="w-10 h-10 flex items-center justify-center text-xl"
+              style={{
+                border: '2.5px solid var(--ink)',
+                borderRadius: '50%',
+                background: darkMode ? '#1a1a2e' : '#fff',
+                cursor: 'pointer',
+              }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {darkMode ? '🌙' : '☀️'}
+            </motion.button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 font-heading text-2xl text-ink"
@@ -118,15 +163,16 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile menu — notebook page dropdown */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0, rotate: -1 }}
             animate={{ opacity: 1, height: 'auto', rotate: 0 }}
             exit={{ opacity: 0, height: 0, rotate: 1 }}
-            className="md:hidden bg-paper-dark border-b-2 border-ink"
+            className="md:hidden border-b-2 border-ink"
             style={{
+              background: 'var(--paper)',
               borderRadius: '0 0 15px 15px',
               boxShadow: '3px 5px 0 rgba(0,0,0,0.1)',
             }}
@@ -141,9 +187,7 @@ export default function Navigation() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                   className={`block py-3 font-heading text-2xl transition-colors border-b border-dashed border-eraser last:border-b-0 ${
-                    activeSection === item.href.slice(1)
-                      ? 'text-pencil-blue font-bold'
-                      : 'text-ink-light'
+                    activeSection === item.href.slice(1) ? 'text-pencil-blue font-bold' : 'text-ink-light'
                   }`}
                 >
                   {activeSection === item.href.slice(1) && '→ '}

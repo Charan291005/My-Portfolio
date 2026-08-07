@@ -1,6 +1,6 @@
 'use client';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import DoodleDecorations from './DoodleDecorations';
 import MagneticWrapper from './MagneticWrapper';
 import BouncyText from './BouncyText';
@@ -51,22 +51,81 @@ const skillCategories = [
 ];
 
 const coreSkills = [
-  { name: 'Cryptography & Security', level: 95 },
-  { name: 'Python Development', level: 90 },
-  { name: 'Java & C++', level: 85 },
-  { name: 'Digital Forensics', level: 88 },
-  { name: 'Web Development', level: 80 },
-  { name: 'Machine Learning', level: 75 },
+  { name: 'Cryptography & Security', level: 95, color: '#4a90d9' },
+  { name: 'Python Development', level: 90, color: '#66bb6a' },
+  { name: 'Java & C++', level: 85, color: '#9c6ade' },
+  { name: 'Digital Forensics', level: 88, color: '#e74c3c' },
+  { name: 'Web Development', level: 80, color: '#ffb74d' },
+  { name: 'Machine Learning', level: 75, color: '#f48fb1' },
 ];
+
+const learningNow = ['Web3 Security', 'Rust', 'Blockchain', 'Malware Analysis', 'CTF Competitions'];
+
+function RadialSkill({ skill, index, trigger }: { skill: typeof coreSkills[0]; index: number; trigger: boolean }) {
+  const r = 38;
+  const circumference = 2 * Math.PI * r;
+  const dash = (skill.level / 100) * circumference;
+
+  return (
+    <motion.div
+      className="flex flex-col items-center gap-3"
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={trigger ? { opacity: 1, scale: 1 } : {}}
+      transition={{ delay: 0.4 + index * 0.12, duration: 0.5, type: 'spring', stiffness: 200 }}
+      whileHover={{ y: -8, scale: 1.08 }}
+    >
+      <div className="relative w-24 h-24">
+        <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+          {/* Background track */}
+          <circle
+            cx="50" cy="50" r={r}
+            fill="none"
+            stroke="#e0e0e0"
+            strokeWidth="10"
+            strokeLinecap="round"
+          />
+          {/* Progress arc */}
+          <motion.circle
+            cx="50" cy="50" r={r}
+            fill="none"
+            stroke={skill.color}
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            animate={trigger ? { strokeDashoffset: circumference - dash } : {}}
+            transition={{ delay: 0.6 + index * 0.12, duration: 1.2, ease: 'easeOut' }}
+            style={{ filter: `drop-shadow(0 0 4px ${skill.color}60)` }}
+          />
+        </svg>
+        {/* Center text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.span
+            className="font-heading font-bold text-xl text-ink"
+            initial={{ opacity: 0 }}
+            animate={trigger ? { opacity: 1 } : {}}
+            transition={{ delay: 1 + index * 0.12 }}
+          >
+            {skill.level}%
+          </motion.span>
+        </div>
+      </div>
+      <span className="font-heading font-bold text-sm text-center text-ink leading-tight max-w-[90px]">
+        {skill.name}
+      </span>
+    </motion.div>
+  );
+}
 
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [expandedNote, setExpandedNote] = useState<string | null>(null);
 
   return (
     <section id="skills" className="section-container relative" ref={ref}>
       <DoodleDecorations count={12} seed={400} />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -77,55 +136,75 @@ export default function Skills() {
           <BouncyText text="Technical Skills 🎯" hoverScale={1.1} />
         </h2>
 
-        {/* Skills Grid — Sticky Notes */}
+        {/* Skills Grid — Expandable Sticky Notes */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {skillCategories.map((category, index) => (
-            <motion.div
-              key={category.title}
-              className={category.noteStyle}
-              style={{ rotate: category.rotation }}
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
-              whileHover={{ 
-                rotate: '0deg', 
-                scale: 1.1, 
-                y: -12, 
-                zIndex: 10,
-                boxShadow: '8px 12px 15px rgba(0,0,0,0.2)',
-                transition: { type: 'spring', stiffness: 300, damping: 12 }
-              }}
-            >
-              {/* Icon & Title */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">{category.icon}</span>
-                <h3 className="text-lg font-heading font-bold text-ink">
-                  {category.title}
-                </h3>
-              </div>
-
-              {/* Skills List */}
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill, i) => (
+          {skillCategories.map((category, index) => {
+            const isExpanded = expandedNote === category.title;
+            return (
+              <motion.div
+                key={category.title}
+                className={`${category.noteStyle} cursor-pointer`}
+                style={{ rotate: isExpanded ? '0deg' : category.rotation }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
+                whileHover={{
+                  rotate: '0deg',
+                  scale: isExpanded ? 1 : 1.05,
+                  y: -8,
+                  zIndex: 10,
+                  transition: { type: 'spring', stiffness: 300, damping: 12 },
+                }}
+                onClick={() => setExpandedNote(isExpanded ? null : category.title)}
+                layout
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{category.icon}</span>
+                    <h3 className="text-lg font-heading font-bold text-ink">{category.title}</h3>
+                  </div>
                   <motion.span
-                    key={skill}
-                    className="doodle-tag text-sm"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.4 + index * 0.1 + i * 0.05, duration: 0.3 }}
-                    whileHover={{ rotate: Math.random() > 0.5 ? 4 : -4, scale: 1.1 }}
+                    className="font-heading text-xl font-bold text-ink-light"
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
                   >
-                    {skill}
+                    ↓
                   </motion.span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill, i) => (
+                    <motion.span
+                      key={skill}
+                      className="doodle-tag text-sm"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ delay: 0.4 + index * 0.1 + i * 0.05, duration: 0.3 }}
+                      whileHover={{ rotate: i % 2 === 0 ? 4 : -4, scale: 1.1 }}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+
+                {isExpanded && (
+                  <motion.p
+                    className="mt-3 text-sm text-ink-light font-accent border-t border-dashed border-ink-faint pt-3"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                  >
+                    {index % 2 === 0
+                      ? 'Applied extensively in academic projects and professional internships. Continuously improving through practical implementation.'
+                      : 'Core part of my toolkit used in real-world deployments for HAL and MP Police cybersecurity work.'}
+                  </motion.p>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Core Competencies — Hand-drawn Progress Bars */}
+        {/* Core Competencies — Radial Meters */}
         <motion.div
-          className="max-w-4xl mx-auto relative z-10"
+          className="max-w-5xl mx-auto relative z-10 mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8, duration: 0.6 }}
@@ -134,45 +213,54 @@ export default function Skills() {
             Core Competencies ⚡
           </h3>
 
-          <div className="space-y-7">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 justify-items-center">
             {coreSkills.map((skill, index) => (
-              <div key={skill.name}>
-                <div className="flex justify-between mb-2">
-                  <span className="font-heading text-xl font-bold text-ink">{skill.name}</span>
-                  <span className="font-accent text-pencil-blue font-bold">{skill.level}%</span>
-                </div>
-                <div
-                  className="h-6 relative"
-                  style={{
-                    border: '2.5px solid #2d2d2d',
-                    borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
-                    background: '#fff',
-                  }}
-                >
-                  <motion.div
-                    className="h-full relative"
-                    style={{
-                      borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
-                      background: `repeating-linear-gradient(
-                        -45deg,
-                        transparent,
-                        transparent 4px,
-                        rgba(74,144,217,0.15) 4px,
-                        rgba(74,144,217,0.15) 8px
-                      )`,
-                      backgroundColor: index % 2 === 0 ? '#fff176' : '#bbdefb',
-                    }}
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: `${skill.level}%` } : {}}
-                    transition={{ delay: 1 + index * 0.12, duration: 1, ease: 'easeOut' }}
-                  />
-                  {/* Hand-drawn hatching overlay */}
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 200 20" preserveAspectRatio="none">
-                    <path d="M0,20 L10,0 M10,20 L20,0 M20,20 L30,0 M30,20 L40,0 M40,20 L50,0 M50,20 L60,0 M60,20 L70,0 M70,20 L80,0 M80,20 L90,0 M90,20 L100,0 M100,20 L110,0 M110,20 L120,0 M120,20 L130,0 M130,20 L140,0 M140,20 L150,0 M150,20 L160,0 M160,20 L170,0 M170,20 L180,0 M180,20 L190,0 M190,20 L200,0" stroke="#2d2d2d" strokeWidth="0.5" />
-                  </svg>
-                </div>
-              </div>
+              <RadialSkill key={skill.name} skill={skill} index={index} trigger={isInView} />
             ))}
+          </div>
+        </motion.div>
+
+        {/* Currently Learning Banner */}
+        <motion.div
+          className="relative z-10 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.2, duration: 0.6 }}
+        >
+          <div
+            className="px-6 py-5 text-center"
+            style={{
+              background: '#f0e6c8',
+              border: '3px solid #2d2d2d',
+              borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
+              boxShadow: '5px 5px 0 #2d2d2d',
+            }}
+          >
+            <p className="font-heading text-xl font-bold text-ink mb-3">
+              🌱 Currently Learning & Exploring
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {learningNow.map((item, i) => (
+                <MagneticWrapper key={item} strength={15}>
+                  <motion.span
+                    className="px-4 py-1.5 font-accent text-sm font-bold"
+                    style={{
+                      background: ['#fff176', '#f48fb1', '#bbdefb', '#c8e6c9', '#ffb74d'][i % 5],
+                      border: '2.5px solid #2d2d2d',
+                      borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
+                      boxShadow: '3px 3px 0 rgba(0,0,0,0.12)',
+                      display: 'inline-block',
+                    }}
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ delay: 1.3 + i * 0.1, type: 'spring', stiffness: 300 }}
+                    whileHover={{ scale: 1.1, rotate: i % 2 === 0 ? 4 : -4, y: -4 }}
+                  >
+                    {item}
+                  </motion.span>
+                </MagneticWrapper>
+              ))}
+            </div>
           </div>
         </motion.div>
       </motion.div>

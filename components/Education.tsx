@@ -32,14 +32,6 @@ const education = [
   },
 ];
 
-const certifications = [
-  { title: 'Full Stack Developer Bootcamp', issuer: 'GeeksforGeeks', date: 'Dec 2025', emoji: '🏆' },
-  { title: 'Java Programming', issuer: 'GeeksforGeeks', date: 'Dec 2025', emoji: '☕' },
-  { title: 'Advanced SQL for Technical Interviews', issuer: 'Online Platform', date: 'Feb 2025', emoji: '📊' },
-  { title: 'Industrial IoT Markets and Security', issuer: 'Online Platform', date: 'Dec 2024', emoji: '🔌' },
-  { title: 'Fundamentals of AI and ML', issuer: 'Vityarthi', date: 'Dec 2023', emoji: '🤖' },
-];
-
 export default function Education() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -55,7 +47,7 @@ export default function Education() {
         className="relative z-10"
       >
         <h2 className="section-title">
-          <BouncyText text="Education & Certs 📚" hoverScale={1.1} />
+          <BouncyText text="Education 🎓" hoverScale={1.1} />
         </h2>
 
         <div className="max-w-4xl mx-auto mb-16">
@@ -93,28 +85,16 @@ export default function Education() {
           </div>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.6, duration: 0.6 }}>
-          <h3 className="text-4xl font-heading font-bold text-center mb-10 text-ink">Certifications 🏅</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {certifications.map((cert, index) => (
-              <motion.div key={cert.title} className="card" initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }} whileHover={{ rotate: 0, y: -4, scale: 1.02 }}>
-                <div className="flex items-start gap-4">
-                  <span className="text-3xl flex-shrink-0">{cert.emoji}</span>
-                  <div>
-                    <h4 className="font-heading text-lg font-bold text-ink mb-1 leading-tight">{cert.title}</h4>
-                    <p className="text-sm text-ink-light mb-1">{cert.issuer}</p>
-                    <p className="text-xs text-pencil-blue font-accent font-bold">📅 {cert.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div className="text-center mt-14" initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.2, duration: 0.6 }}>
-          <motion.a href="/SHREE_CHARAN_N_RESUME.pdf" download className="btn-primary inline-flex items-center gap-2" whileHover={{ rotate: -1 }} whileTap={{ scale: 0.97 }}>
+        <motion.div className="text-center mt-14" initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.8, duration: 0.6 }}>
+          <a
+            href="/Shree_Charan_Resume.pdf"
+            download="Shree_Charan_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary inline-flex items-center gap-2 transition-transform hover:scale-105 hover:-translate-y-1"
+          >
             📄 Download Full Resume
-          </motion.a>
+          </a>
         </motion.div>
       </motion.div>
       <div className="doodle-separator" />

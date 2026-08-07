@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import DoodleDecorations from './DoodleDecorations';
 import MagneticWrapper from './MagneticWrapper';
@@ -13,14 +13,25 @@ const heroSocials = [
   { href: 'mailto:shreecharan5277443@gmail.com', label: '✉', title: 'Email', color: '#e74c3c' },
 ];
 
+const roles = [
+  'Cybersecurity Engineer',
+  'Python Developer',
+  'Digital Forensics Expert',
+  'CTF Enthusiast',
+  'Cryptography Nerd',
+];
+
 export default function Hero() {
   const fullName = 'Shree Charan N';
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [revealStyle, setRevealStyle] = useState<'none' | 'drop' | 'pop'>('none');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [roleVisible, setRoleVisible] = useState(true);
+  const [heroReady, setHeroReady] = useState(false);
 
+  // Typewriter for name
   useEffect(() => {
-    // Pick a random effect on client mount
     const effects: ('typewriter' | 'drop' | 'pop')[] = ['typewriter', 'drop', 'pop'];
     const randomEffect = effects[Math.floor(Math.random() * effects.length)];
 
@@ -32,16 +43,33 @@ export default function Hero() {
           i++;
         } else {
           clearInterval(timer);
-          setTimeout(() => setShowCursor(false), 2000);
+          setTimeout(() => {
+            setShowCursor(false);
+            setHeroReady(true);
+          }, 2000);
         }
       }, 120);
       return () => clearInterval(timer);
     } else {
-      // Set full text immediately for framer-motion variant animation
       setDisplayText(fullName);
       setRevealStyle(randomEffect);
-      setTimeout(() => setShowCursor(false), 2000);
+      setTimeout(() => {
+        setShowCursor(false);
+        setHeroReady(true);
+      }, 2000);
     }
+  }, []);
+
+  // Role rotator
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRoleVisible(false);
+      setTimeout(() => {
+        setRoleIndex((prev) => (prev + 1) % roles.length);
+        setRoleVisible(true);
+      }, 400);
+    }, 2800);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -87,12 +115,36 @@ export default function Hero() {
         <path d="M35,50 L50,35 L65,50 L50,65 Z" fill="none" stroke="#66bb6a" strokeWidth="2" strokeLinecap="round" />
       </motion.svg>
 
+      {/* Floating ink blobs */}
+      {[
+        { cx: '15%', cy: '20%', r: 180, color: '#4a90d9', delay: 0 },
+        { cx: '85%', cy: '70%', r: 220, color: '#e74c3c', delay: 2 },
+        { cx: '70%', cy: '15%', r: 150, color: '#66bb6a', delay: 4 },
+      ].map((blob, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full pointer-events-none hidden md:block"
+          style={{
+            left: blob.cx,
+            top: blob.cy,
+            width: blob.r,
+            height: blob.r,
+            background: `radial-gradient(circle, ${blob.color}08 0%, transparent 70%)`,
+            filter: 'blur(40px)',
+            transform: 'translate(-50%, -50%)',
+          }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 6 + i * 2, repeat: Infinity, ease: 'easeInOut', delay: blob.delay }}
+        />
+      ))}
+
       <div className="relative z-10 section-container text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
+
           {/* Name with typewriter */}
           <div className="relative inline-block mb-4 max-w-[100vw] px-4">
             <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-heading font-bold text-ink relative z-10 flex flex-wrap items-center justify-center">
@@ -106,7 +158,7 @@ export default function Hero() {
               viewBox="0 0 100 100"
               initial={{ opacity: 0, scale: 0, rotate: -45 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 2.2, type: "spring" }}
+              transition={{ delay: 2.2, type: 'spring' }}
             >
               <path d="M50,10 L50,30 M50,70 L50,90 M10,50 L30,50 M70,50 L90,50 M25,25 L40,40 M60,60 L75,75 M25,75 L40,60 M60,40 L75,25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
             </motion.svg>
@@ -114,7 +166,7 @@ export default function Hero() {
 
           {/* Scribble underline */}
           <motion.svg
-            className="mx-auto mb-8"
+            className="mx-auto mb-6"
             viewBox="0 0 300 15"
             style={{ width: '280px', height: '15px' }}
             preserveAspectRatio="none"
@@ -131,33 +183,46 @@ export default function Hero() {
             />
           </motion.svg>
 
-          {/* Subtitle */}
+          {/* Animated Role Rotator */}
           <motion.div
-            className="text-xl sm:text-2xl md:text-3xl font-body text-ink-light mb-3 max-w-3xl mx-auto px-4 relative inline-block"
+            className="text-xl sm:text-2xl md:text-3xl font-body text-ink-light mb-3 max-w-3xl mx-auto px-4 h-12 flex items-center justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.6 }}
           >
-            <span className="relative inline-block px-2">
-              <span className="relative z-10 text-ink font-bold">Cybersecurity Engineer</span>
-              <motion.svg
-                className="absolute inset-0 w-full h-full -z-10"
-                style={{ scale: 1.2, top: '-10%', left: '-5%', width: '110%', height: '120%' }}
-                viewBox="0 0 100 40"
-                preserveAspectRatio="none"
-              >
-                <motion.path
-                  d="M10,20 Q10,5 50,5 T90,20 T50,35 T10,20 Z"
-                  fill="none"
-                  stroke="#fff176"
-                  strokeWidth="4"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 2.5, duration: 1, ease: "easeInOut" }}
-                />
-              </motion.svg>
+            <span className="relative inline-flex items-center gap-2">
+              <span className="text-ink-faint font-accent text-lg hidden sm:inline">I am a</span>
+              <AnimatePresence mode="wait">
+                {roleVisible && (
+                  <motion.span
+                    key={roleIndex}
+                    className="relative inline-block px-3 py-0.5"
+                    initial={{ opacity: 0, y: 20, rotate: -3 }}
+                    animate={{ opacity: 1, y: 0, rotate: 0 }}
+                    exit={{ opacity: 0, y: -20, rotate: 3 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  >
+                    <span className="relative z-10 text-ink font-bold">{roles[roleIndex]}</span>
+                    <motion.svg
+                      className="absolute inset-0 w-full h-full -z-10"
+                      style={{ scale: 1.1, top: '-10%', left: '-3%', width: '106%', height: '120%' }}
+                      viewBox="0 0 100 40"
+                      preserveAspectRatio="none"
+                    >
+                      <motion.path
+                        d="M10,20 Q10,5 50,5 T90,20 T50,35 T10,20 Z"
+                        fill="none"
+                        stroke={['#fff176', '#f48fb1', '#bbdefb', '#c8e6c9', '#ffb74d'][roleIndex % 5]}
+                        strokeWidth="4"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                      />
+                    </motion.svg>
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </span>
-            {' '}& Developer
           </motion.div>
 
           <motion.p
@@ -169,9 +234,9 @@ export default function Hero() {
             Building Secure Digital Solutions with Cryptography & Forensics ✨
           </motion.p>
 
-          {/* Social Links — colorful skribbl-inspired circles */}
+          {/* Social Links */}
           <motion.div
-            className="flex items-center justify-center flex-wrap gap-4 mb-12"
+            className="flex items-center justify-center flex-wrap gap-4 mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.6, duration: 0.6 }}
@@ -206,7 +271,7 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-5 relative"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 relative"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.9, duration: 0.6 }}
@@ -232,6 +297,41 @@ export default function Hero() {
                 📮 Get In Touch
               </motion.a>
             </MagneticWrapper>
+
+            {/* Resume Download Button — plain <a> tag to guarantee download */}
+            <a
+              href="/Shree_Charan_Resume.pdf"
+              download="Shree_Charan_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-flex items-center gap-2 px-7 py-[0.85rem] font-heading text-[1.3rem] font-bold text-white transition-transform hover:scale-105 hover:-translate-y-1 active:scale-95"
+              style={{
+                background: 'linear-gradient(135deg, #4a90d9, #6a5acd)',
+                border: '3px solid #2d2d2d',
+                borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
+                boxShadow: '4px 4px 0 #2d2d2d',
+                textDecoration: 'none',
+              }}
+            >
+              📄 Download Resume
+            </a>
+          </motion.div>
+
+          {/* Availability status — clean, centered, subtle */}
+          <motion.div
+            className="flex items-center justify-center gap-2 mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3.3, duration: 0.6 }}
+          >
+            <motion.span
+              className="w-2 h-2 rounded-full bg-green-500 inline-block"
+              animate={{ opacity: [1, 0.4, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <span className="font-accent text-sm text-ink-faint">
+              Available for internships, full-time & freelance roles
+            </span>
           </motion.div>
         </motion.div>
 
@@ -239,7 +339,7 @@ export default function Hero() {
         <motion.div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
           animate={{ y: [0, 15, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
         >
           <MagneticWrapper strength={15}>
             <a href="#about" className="font-heading text-2xl text-ink-light hover:text-ink transition-colors block p-4">
