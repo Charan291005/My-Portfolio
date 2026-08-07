@@ -146,12 +146,13 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-7 mt-6">
+        <motion.div layout className="flex flex-wrap justify-center gap-8 mt-8">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => (
               <motion.div
                 key={project.title}
                 layout
+                className="w-full sm:w-[380px] shrink-0"
                 initial={{ opacity: 0, y: 40, rotate: project.rotation }}
                 animate={{ opacity: 1, y: 0, rotate: project.rotation }}
                 exit={{ opacity: 0, scale: 0.8 }}
