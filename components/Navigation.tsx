@@ -66,13 +66,15 @@ export default function Navigation() {
           {/* Logo */}
           <motion.a
             href="#home"
-            className="font-heading text-3xl font-bold text-ink relative"
-            whileHover={{ rotate: -3, scale: 1.05 }}
+            className="group relative flex items-center justify-center w-12 h-12 ml-2 mt-1"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
           >
-            SC
-            <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 50 8" preserveAspectRatio="none">
-              <path d="M0,4 Q12,0 25,4 T50,4" stroke="#4a90d9" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            {/* Marker background */}
+            <svg className="absolute inset-0 w-full h-full text-marker-yellow -z-10 scale-[1.3] -rotate-6 group-hover:rotate-6 transition-transform duration-300" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path d="M10,20 Q40,5 90,15 Q95,50 85,85 Q50,95 15,85 Q5,50 10,20 Z" fill="currentColor" />
             </svg>
+            <span className="font-heading text-4xl font-bold text-ink">SC</span>
           </motion.a>
 
           {/* Desktop Nav */}
