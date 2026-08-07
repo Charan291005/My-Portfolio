@@ -34,32 +34,9 @@ export default function InteractiveZone() {
         {/* Games Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start justify-items-center">
           
-          {/* Terminal Hacker Wrapper */}
-          <div className="flex flex-col items-center w-full">
-            <div className="mb-4 text-center">
-              <h3 className="font-heading font-bold text-3xl text-ink">Hack the Site</h3>
-              <p className="font-body text-ink-light">Mash the keyboard to bypass security</p>
-            </div>
-            <TerminalHacker />
-          </div>
-
-          {/* Bug Bounty Wrapper */}
-          <div className="flex flex-col items-center w-full">
-            <div className="mb-4 text-center">
-              <h3 className="font-heading font-bold text-3xl text-ink">Bug Bounty</h3>
-              <p className="font-body text-ink-light">Patch 10 vulnerabilities before time runs out</p>
-            </div>
-            <BugBounty />
-          </div>
-
-          {/* Cipher Game Wrapper */}
-          <div className="flex flex-col items-center w-full">
-            <div className="mb-4 text-center">
-              <h3 className="font-heading font-bold text-3xl text-ink">Cipher Crack</h3>
-              <p className="font-body text-ink-light">Decrypt the secret message</p>
-            </div>
-            <CipherGame />
-          </div>
+          <TerminalHacker />
+          <BugBounty />
+          <CipherGame />
 
         </div>
       </div>

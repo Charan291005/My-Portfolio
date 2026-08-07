@@ -78,13 +78,13 @@ export default function TerminalHacker() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto h-[400px] border-4 border-ink rounded-lg bg-[#1a1a1a] p-4 relative overflow-hidden font-mono text-sm shadow-[8px_8px_0_rgba(0,0,0,1)] hover:scale-[1.02] transition-transform duration-300">
+    <div className="w-full h-[420px] border-4 border-ink rounded-lg bg-[#1a1a1a] p-4 relative overflow-hidden font-mono text-sm shadow-[8px_8px_0_rgba(0,0,0,1)] hover:scale-[1.02] transition-transform duration-300">
       
       {/* Window Controls (Sketchy style) */}
       <div className="absolute top-0 left-0 right-0 h-8 border-b-2 border-ink bg-[#2a2a2a] flex items-center px-3 gap-2 z-20">
         <div className="w-3 h-3 rounded-full bg-pencil-red border border-ink"></div>
-        <div className="w-3 h-3 rounded-full bg-pencil-yellow border border-ink"></div>
-        <div className="w-3 h-3 rounded-full bg-pencil-green border border-ink"></div>
+        <div className="w-3 h-3 rounded-full bg-marker-yellow border border-ink"></div>
+        <div className="w-3 h-3 rounded-full bg-crayon-green border border-ink"></div>
         <div className="mx-auto text-xs text-ink-light font-heading font-bold text-gray-400">root@shree-sec: ~</div>
       </div>
 
@@ -94,7 +94,7 @@ export default function TerminalHacker() {
           <p className="text-gray-300 mb-6 font-heading text-xl">Mash your keyboard to hack the mainframe!</p>
           <button 
             onClick={() => setIsActive(true)}
-            className="px-6 py-2 bg-pencil-green text-ink font-bold font-heading text-2xl rounded-md border-2 border-ink shadow-[4px_4px_0_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+            className="px-6 py-2 bg-crayon-green text-ink font-bold font-heading text-2xl rounded-md border-2 border-ink shadow-[4px_4px_0_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
           >
             Start Hacking
           </button>
@@ -115,7 +115,7 @@ export default function TerminalHacker() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mt-6 text-center text-pencil-green font-bold"
+            className="mt-6 text-center text-crayon-green font-bold"
           >
             <div className="text-2xl md:text-4xl mb-2">ACCESS GRANTED</div>
             <div className="text-sm md:text-base text-green-300">Security bypass successful. Welcome, Admin.</div>

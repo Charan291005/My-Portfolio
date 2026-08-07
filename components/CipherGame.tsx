@@ -52,9 +52,9 @@ export default function CipherGame() {
   };
 
   return (
-    <div className="flex justify-center my-16">
+    <div className="flex justify-center w-full">
       <motion.div
-        className="sticky-note-pink p-8 max-w-md w-full"
+        className="sticky-note-pink p-8 w-full h-[420px] flex flex-col justify-center"
         style={{ rotate: '2deg' }}
         whileHover={{ rotate: '0deg', scale: 1.02 }}
         animate={errorShake ? { x: [-10, 10, -10, 10, 0] } : {}}
@@ -62,8 +62,8 @@ export default function CipherGame() {
       >
         <div className="absolute top-2 left-1/2 -translate-x-1/2 text-2xl">📌</div>
         
-        <h3 className="text-2xl font-heading font-bold text-ink mb-4 text-center mt-2">
-          Hack The Site! 🕵️‍♂️
+        <h3 className="text-3xl font-heading font-bold text-ink mb-4 text-center mt-2">
+          Cipher Crack 🕵️‍♂️
         </h3>
         
         {!isSolved ? (

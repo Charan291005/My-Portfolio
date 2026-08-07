@@ -66,7 +66,7 @@ export default function BugBounty() {
   return (
     <div 
       ref={containerRef}
-      className="w-full max-w-2xl mx-auto h-[400px] border-[3px] border-ink border-dashed rounded-xl bg-[#faf6ec] relative overflow-hidden flex flex-col hover:scale-[1.01] transition-transform duration-300 shadow-sm hover:shadow-md cursor-crosshair"
+      className="w-full h-[420px] border-[3px] border-ink border-dashed rounded-xl bg-[#faf6ec] relative overflow-hidden flex flex-col hover:scale-[1.01] transition-transform duration-300 shadow-sm hover:shadow-md cursor-crosshair"
     >
       {/* Header UI */}
       <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20 pointer-events-none">
@@ -96,7 +96,7 @@ export default function BugBounty() {
             
             {gameState === 'won' && (
               <>
-                <h3 className="font-display text-5xl text-pencil-green mb-2">System Secured!</h3>
+                <h3 className="font-display text-5xl text-crayon-green mb-2">System Secured!</h3>
                 <p className="font-heading text-xl text-ink mb-6">You patched all {TOTAL_BUGS} bugs in time.</p>
               </>
             )}
@@ -110,7 +110,7 @@ export default function BugBounty() {
 
             <button 
               onClick={startGame}
-              className="px-8 py-3 bg-pencil-yellow text-ink font-bold font-heading text-2xl rounded-lg border-[3px] border-ink shadow-[4px_4px_0_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+              className="px-8 py-3 bg-marker-yellow text-ink font-bold font-heading text-2xl rounded-lg border-[3px] border-ink shadow-[4px_4px_0_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
             >
               {gameState === 'idle' ? 'Start Patching' : 'Try Again'}
             </button>
