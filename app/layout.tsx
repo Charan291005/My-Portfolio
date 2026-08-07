@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Permanent_Marker, Inter, Indie_Flower } from "next/font/google";
+import { Caveat, Patrick_Hand, Indie_Flower } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import DrawCanvas from "@/components/DrawCanvas";
 
-const permanentMarker = Permanent_Marker({ subsets: ["latin"], variable: '--font-heading', weight: '400' });
-const inter = Inter({ subsets: ["latin"], variable: '--font-body' });
+const caveat = Caveat({ subsets: ["latin"], variable: '--font-heading', weight: ['400', '500', '600', '700'] });
+const patrickHand = Patrick_Hand({ subsets: ["latin"], variable: '--font-body', weight: '400' });
 const indieFlower = Indie_Flower({ subsets: ["latin"], variable: '--font-accent', weight: '400' });
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${permanentMarker.variable} ${inter.variable} ${indieFlower.variable} font-body antialiased`} suppressHydrationWarning>
+      <body className={`${caveat.variable} ${patrickHand.variable} ${indieFlower.variable} font-body antialiased`} suppressHydrationWarning>
         <CustomCursor />
         <ScrollProgress />
         <DrawCanvas />
