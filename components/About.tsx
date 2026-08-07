@@ -16,14 +16,14 @@ const highlights = [
   {
     icon: '💻',
     title: 'Full-Stack Developer',
-    description: 'Proficient in Python, Java, C++, and modern web technologies',
+    description: 'Proficient in Python and modern web technologies',
     noteColor: 'sticky-note-pink',
     rotation: '1.5deg',
   },
   {
     icon: '🎓',
     title: 'Academic Excellence',
-    description: 'CGPA 8.7 at VIT Bhopal, focused on Cyber Security & Digital Forensics',
+    description: 'CGPA 8.51 at VIT Bhopal, focused on Cyber Security & Digital Forensics',
     noteColor: 'sticky-note-blue',
     rotation: '-1deg',
   },
