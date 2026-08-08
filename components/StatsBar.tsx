@@ -1,6 +1,6 @@
 'use client';
 import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 
 const stats = [
   { value: 5, suffix: '+', label: 'Projects Built', icon: '🚀', color: '#fff176' },
@@ -10,7 +10,7 @@ const stats = [
   { value: 500, suffix: '+', label: 'Hours of Code', icon: '⌨️', color: '#ffb74d' },
 ];
 
-function Counter({
+const Counter = memo(function Counter({
   value,
   suffix,
   isFloat,
@@ -47,7 +47,7 @@ function Counter({
       {isFloat ? (0).toFixed(1) : '0'}
     </span>
   );
-}
+});
 
 export default function StatsBar() {
   const ref = useRef(null);
