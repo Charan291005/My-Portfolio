@@ -1,6 +1,8 @@
-import TerminalHacker from './games/TerminalHacker';
-import BugBounty from './games/BugBounty';
-import CipherGame from './CipherGame';
+import dynamic from 'next/dynamic';
+
+const TerminalHacker = dynamic(() => import('./games/TerminalHacker'), { ssr: false });
+const BugBounty = dynamic(() => import('./games/BugBounty'), { ssr: false });
+const CipherGame = dynamic(() => import('./CipherGame'), { ssr: false });
 
 export default function InteractiveZone() {
   return (
