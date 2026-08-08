@@ -666,3 +666,48 @@ body.drawing-mode .custom-cursor {
 .bg-paper-dark { background-color: var(--paper-dark); }
 .text-highlight-yellow { color: var(--highlight-yellow); }
 .text-marker-red { color: var(--marker-red); }
+
+/* ===== Easter Eggs ===== */
+.matrix-mode {
+  --paper: #000 !important;
+  --paper-dark: #111 !important;
+  --ink: #0f0 !important;
+  --ink-light: #0a0 !important;
+  --ink-faint: #060 !important;
+  --pencil-blue: #0f0 !important;
+  --pencil-red: #0f0 !important;
+  --highlight-yellow: #0f0 !important;
+  --marker-red: #0f0 !important;
+  --shadow: rgba(0, 255, 0, 0.2) !important;
+}
+
+.matrix-mode body {
+  background-image: none !important;
+  background-color: #000 !important;
+}
+
+.matrix-mode h1, .matrix-mode h2, .matrix-mode h3, .matrix-mode h4, .matrix-mode h5, .matrix-mode h6,
+.matrix-mode .font-heading, .matrix-mode .font-body, .matrix-mode .font-display, .matrix-mode .font-accent,
+.matrix-mode p, .matrix-mode span, .matrix-mode a, .matrix-mode button {
+  font-family: monospace !important;
+  text-shadow: 0 0 5px #0f0;
+}
+
+/* For doodle elements that are SVGs, stroke color */
+.matrix-mode svg, .matrix-mode svg path {
+  stroke: #0f0 !important;
+}
+.matrix-mode svg circle {
+  fill: #0f0 !important;
+}
+/* except custom easter egg modals if any override needed */
+
+@keyframes barrelRoll {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.barrel-roll {
+  animation: barrelRoll 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  overflow-x: hidden;
+}

@@ -1,4 +1,22 @@
 {
+  "components\\InteractiveZone.tsx -> ./CipherGame": {
+    "id": 6040,
+    "files": [
+      "static/chunks/40.58173444d4a7e960.js"
+    ]
+  },
+  "components\\InteractiveZone.tsx -> ./games/BugBounty": {
+    "id": 3277,
+    "files": [
+      "static/chunks/277.80c7a0394da8f352.js"
+    ]
+  },
+  "components\\InteractiveZone.tsx -> ./games/TerminalHacker": {
+    "id": 564,
+    "files": [
+      "static/chunks/564.6bac8e2130349013.js"
+    ]
+  },
   "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
     "id": 5139,
     "files": [
