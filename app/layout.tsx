@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import DrawCanvas from "@/components/DrawCanvas";
 import EasterEggs from "@/components/EasterEggs";
+import MouseTrail from "@/components/MouseTrail";
 
 const caveat = Caveat({ subsets: ["latin"], variable: '--font-heading', weight: ['400', '500', '600', '700'] });
 const patrickHand = Patrick_Hand({ subsets: ["latin"], variable: '--font-body', weight: '400' });
@@ -36,6 +37,7 @@ export default function RootLayout({
         <ScrollProgress />
         <DrawCanvas />
         <EasterEggs />
+        <MouseTrail />
         <Navigation />
         {children}
       </body>

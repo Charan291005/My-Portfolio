@@ -1,6 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import HackerTerminal from './HackerTerminal';
 
 const KONAMI_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
@@ -22,6 +23,9 @@ export default function EasterEggs() {
         keyBuffer = [];
       } else if (keyString.endsWith('sudo')) {
         setActiveEgg('sudo');
+        keyBuffer = [];
+      } else if (keyString.endsWith('terminal')) {
+        setActiveEgg('terminal');
         keyBuffer = [];
       } else if (keyString.endsWith('matrix')) {
         document.body.classList.toggle('matrix-mode');
@@ -137,6 +141,8 @@ export default function EasterEggs() {
           </motion.div>
         </motion.div>
       )}
+      
+      <HackerTerminal isOpen={activeEgg === 'terminal'} onClose={() => setActiveEgg(null)} />
     </AnimatePresence>
   );
 }

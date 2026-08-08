@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 const TerminalHacker = dynamic(() => import('./games/TerminalHacker'), { ssr: false });
 const BugBounty = dynamic(() => import('./games/BugBounty'), { ssr: false });
 const CipherGame = dynamic(() => import('./CipherGame'), { ssr: false });
+import PhysicsPlayground from './PhysicsPlayground';
 
 export default function InteractiveZone() {
   return (
@@ -33,6 +34,8 @@ export default function InteractiveZone() {
             Take a break from scrolling. Hack the mainframe or squash some bugs in these hand-drawn mini-games!
           </p>
         </div>
+
+        <PhysicsPlayground />
 
         {/* Games Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start justify-items-center">

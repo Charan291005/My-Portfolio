@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import DoodleDecorations from './DoodleDecorations';
 import TiltCard from './TiltCard';
 import BouncyText from './BouncyText';
+import PeelAndReveal from './PeelAndReveal';
 
 const highlights = [
   {
@@ -250,6 +251,19 @@ export default function About() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Secret Reveal Section */}
+        <div className="mt-16 max-w-lg mx-auto h-64">
+          <PeelAndReveal 
+            title="The Real Reason I Code"
+            secretContent={
+              <>
+                "I just really like making computers do cool things." <br/>
+                <span className="text-sm font-normal text-ink-light mt-2 block">(And maybe also to automate the boring stuff.)</span>
+              </>
+            }
+          />
         </div>
       </motion.div>
 
