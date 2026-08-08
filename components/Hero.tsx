@@ -1,6 +1,5 @@
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import DoodleDecorations from './DoodleDecorations';
 import MagneticWrapper from './MagneticWrapper';
 import BouncyText from './BouncyText';
