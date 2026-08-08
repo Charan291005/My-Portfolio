@@ -1,3 +1,4 @@
+'use client';
 import dynamic from 'next/dynamic';
 
 const TerminalHacker = dynamic(() => import('./games/TerminalHacker'), { ssr: false });
