@@ -1,8 +1,9 @@
 {
   "components\\InteractiveZone.tsx -> ./CipherGame": {
-    "id": 6040,
+    "id": 5173,
     "files": [
-      "static/chunks/40.345bd33ad1335819.js"
+      "static/chunks/708.1fc7a6d1d5b4aee7.js",
+      "static/chunks/173.e9e5280e4f2bf998.js"
     ]
   },
   "components\\InteractiveZone.tsx -> ./games/BugBounty": {
@@ -11,10 +12,24 @@
       "static/chunks/277.fb0766a96c1ae03f.js"
     ]
   },
+  "components\\InteractiveZone.tsx -> ./games/MemoryCardGame": {
+    "id": 6777,
+    "files": [
+      "static/chunks/708.1fc7a6d1d5b4aee7.js",
+      "static/chunks/777.3480a7a0bfe4b847.js"
+    ]
+  },
   "components\\InteractiveZone.tsx -> ./games/TerminalHacker": {
     "id": 564,
     "files": [
       "static/chunks/564.9fa9591ca75e4b89.js"
+    ]
+  },
+  "components\\InteractiveZone.tsx -> ./games/TicTacToe": {
+    "id": 7406,
+    "files": [
+      "static/chunks/708.1fc7a6d1d5b4aee7.js",
+      "static/chunks/25.d9990fa7d4725bbc.js"
     ]
   },
   "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {

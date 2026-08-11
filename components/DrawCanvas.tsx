@@ -11,6 +11,14 @@ export default function DrawCanvas() {
   const currentPathRef = useRef<SVGPathElement | null>(null);
   const [strokes, setStrokes] = useState<{ path: string; color: string }[]>([]);
   const [docHeight, setDocHeight] = useState('100vh');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const colors = ['#2d2d2d', '#e74c3c', '#4a90d9', '#66bb6a', '#fff176'];
 
@@ -84,6 +92,8 @@ export default function DrawCanvas() {
       paths.forEach(p => p.remove());
     }
   };
+
+  if (isMobile) return null;
 
   return (
     <>

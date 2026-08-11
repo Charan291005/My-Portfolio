@@ -1,16 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Certifications', href: '#certifications' },
-  { name: 'Playground', href: '#games' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '#home', isExternal: false },
+  { name: 'About', href: '#about', isExternal: false },
+  { name: 'Experience', href: '#experience', isExternal: false },
+  { name: 'Projects', href: '#projects', isExternal: false },
+  { name: 'Skills', href: '#skills', isExternal: false },
+  { name: 'Playground', href: '#games', isExternal: false },
+  { name: 'Contact', href: '#contact', isExternal: false },
+  { name: 'Resume', href: '/resume', isExternal: true },
 ];
 
 export default function Navigation() {
@@ -23,7 +24,7 @@ export default function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = navItems.map((item) => item.href.slice(1));
+      const sections = navItems.filter(item => !item.isExternal).map((item) => item.href.slice(1));
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -80,15 +81,15 @@ export default function Navigation() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className={`relative px-4 py-2 font-heading text-lg transition-all duration-200 ${
-                  activeSection === item.href.slice(1) ? 'text-ink font-bold' : 'text-ink-light hover:text-ink'
+                  activeSection === (item.isExternal ? item.name : item.href.slice(1)) ? 'text-ink font-bold' : 'text-ink-light hover:text-ink'
                 }`}
               >
                 {item.name}
-                {activeSection === item.href.slice(1) && (
+                {activeSection === (item.isExternal ? item.name : item.href.slice(1)) && (
                   <motion.svg
                     layoutId="navCircle"
                     className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none"
@@ -108,7 +109,7 @@ export default function Navigation() {
                     />
                   </motion.svg>
                 )}
-              </a>
+              </Link>
             ))}
 
             {/* Dark mode toggle */}
@@ -182,20 +183,23 @@ export default function Navigation() {
           >
             <div className="px-6 py-4 space-y-1">
               {navItems.map((item, index) => (
-                <motion.a
+                <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
                   className={`block py-3 font-heading text-2xl transition-colors border-b border-dashed border-eraser last:border-b-0 ${
-                    activeSection === item.href.slice(1) ? 'text-pencil-blue font-bold' : 'text-ink-light'
+                    activeSection === (item.isExternal ? item.name : item.href.slice(1)) ? 'text-pencil-blue font-bold' : 'text-ink-light'
                   }`}
                 >
-                  {activeSection === item.href.slice(1) && '→ '}
-                  {item.name}
-                </motion.a>
+                  <motion.span
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    {activeSection === (item.isExternal ? item.name : item.href.slice(1)) && '→ '}
+                    {item.name}
+                  </motion.span>
+                </Link>
               ))}
             </div>
           </motion.div>
