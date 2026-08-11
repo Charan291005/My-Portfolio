@@ -58,7 +58,7 @@ export default function MemoryCardGame() {
     if (cards[index].isFlipped || cards[index].isMatched) return;
 
     const newCards = [...cards];
-    newCards[index].isFlipped = true;
+    newCards[index] = { ...newCards[index], isFlipped: true };
     setCards(newCards);
 
     const newFlippedIndices = [...flippedIndices, index];
@@ -69,10 +69,10 @@ export default function MemoryCardGame() {
       setMoves((prev) => prev + 1);
 
       const [firstIndex, secondIndex] = newFlippedIndices;
-      if (cards[firstIndex].iconId === cards[secondIndex].iconId) {
+      if (newCards[firstIndex].iconId === newCards[secondIndex].iconId) {
         // Match found
-        newCards[firstIndex].isMatched = true;
-        newCards[secondIndex].isMatched = true;
+        newCards[firstIndex] = { ...newCards[firstIndex], isMatched: true };
+        newCards[secondIndex] = { ...newCards[secondIndex], isMatched: true };
         setCards(newCards);
         setFlippedIndices([]);
         setIsLocked(false);
@@ -80,10 +80,12 @@ export default function MemoryCardGame() {
       } else {
         // No match
         setTimeout(() => {
-          const resetCards = [...cards];
-          resetCards[firstIndex].isFlipped = false;
-          resetCards[secondIndex].isFlipped = false;
-          setCards(resetCards);
+          setCards((prevCards) => {
+            const resetCards = [...prevCards];
+            resetCards[firstIndex] = { ...resetCards[firstIndex], isFlipped: false };
+            resetCards[secondIndex] = { ...resetCards[secondIndex], isFlipped: false };
+            return resetCards;
+          });
           setFlippedIndices([]);
           setIsLocked(false);
         }, 1000);
