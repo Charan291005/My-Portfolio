@@ -59,7 +59,7 @@ export default function Education() {
             </svg>
 
             {education.map((edu, index) => (
-              <motion.div key={edu.degree} className="relative pl-14 pb-12 last:pb-0" initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.2 + index * 0.2, duration: 0.6 }}>
+              <motion.div key={edu.degree} className="relative pl-14 pb-12 last:pb-0" initial={{ opacity: 0, x: -40, scale: 0.9 }} animate={isInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -20, scale: 0.95 }} transition={{ delay: 0.1 + index * 0.15, type: 'spring', stiffness: 120, damping: 10 }}>
                 <motion.div className="absolute left-[6px] top-2 text-2xl" whileHover={{ scale: 1.3 }}>{edu.icon}</motion.div>
                 <div className="card">
                   <div className="flex flex-wrap items-start justify-between mb-3">

@@ -173,10 +173,10 @@ export default function Projects() {
                 key={project.title}
                 layout
                 className="w-full sm:w-[380px] shrink-0"
-                initial={{ opacity: 0, y: 40, x: offset.x, rotate: project.rotation }}
-                animate={{ opacity: 1, y: offset.y, x: offset.x, rotate: project.rotation }}
+                initial={{ opacity: 0, y: 50, x: offset.x, rotate: project.rotation, scale: 0.9 }}
+                animate={{ opacity: 1, y: offset.y, x: offset.x, rotate: project.rotation, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ delay: index * 0.1, type: 'spring', stiffness: 120, damping: 10 }}
               >
                 <TiltCard
                   className="card paper-fold notebook-holes relative h-full"
@@ -307,14 +307,12 @@ export default function Projects() {
               );
             })}
           </AnimatePresence>
-        </motion.div>
-
         {/* GitHub CTA */}
         <motion.div
           className="text-center mt-14"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 120, damping: 12 }}
         >
           <p className="text-ink-light mb-4 font-accent text-lg">Want to see more? Check out my GitHub for additional projects ↗</p>
           <motion.a

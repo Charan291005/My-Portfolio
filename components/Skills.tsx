@@ -171,9 +171,9 @@ export default function Skills() {
                 key={category.title}
                 className={`${category.noteStyle} cursor-pointer`}
                 style={{ rotate: isExpanded ? '0deg' : category.rotation }}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
+                initial={{ opacity: 0, y: 40, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.9 }}
+                transition={{ delay: 0.1 + index * 0.1, type: 'spring', stiffness: 140, damping: 10 }}
                 whileHover={{
                   rotate: '0deg',
                   scale: isExpanded ? 1 : 1.05,

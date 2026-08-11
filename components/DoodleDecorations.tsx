@@ -1,6 +1,6 @@
 'use client';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, memo } from 'react';
 
 // Original simple doodle shapes
 const doodleShapes = [
@@ -123,12 +123,11 @@ function seededRandom(seed: number) {
 }
 
 // Interactive individual doodle component
-function InteractiveDoodle({ doodle }: { doodle: any }) {
+const InteractiveDoodle = memo(({ doodle }: { doodle: any }) => {
   const { scrollY } = useScroll();
-  // We use the doodle id and size to determine scroll speed/direction to create parallax depth
-  const speed = (doodle.size / 20) * (doodle.id % 2 === 0 ? 0.3 : -0.2);
+  // Only apply parallax to large background doodles to save CPU
+  const speed = doodle.size > 60 ? ((doodle.size / 20) * (doodle.id % 2 === 0 ? 0.3 : -0.2)) : 0;
   const yParallax = useTransform(scrollY, [0, 3000], [0, 3000 * speed]);
-  const ySpring = useSpring(yParallax, { damping: 50, stiffness: 200 });
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -140,20 +139,21 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
         top: `${doodle.top}%`,
         width: doodle.size,
         height: doodle.size,
-        y: ySpring,
+        y: yParallax,
       }}
       initial={{ rotate: doodle.rotation, opacity: 0 }}
       animate={{ 
         rotate: isHovered ? doodle.rotation + 180 : [doodle.rotation, doodle.rotation + 15, doodle.rotation - 10, doodle.rotation],
         scale: isHovered ? 1.6 : 1,
         opacity: isHovered ? 0.6 : (doodle.size > 70 ? 0.08 : 0.22),
-        x: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, 10, -10, 0],
-        y: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, -10, 10, 0]
+        // Removed heavy continuous x/y drifting, relying on simple rotate instead
+        x: isHovered ? (Math.random() > 0.5 ? 20 : -20) : 0,
+        y: isHovered ? (Math.random() > 0.5 ? 20 : -20) : 0
       }}
       transition={{
         rotate: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.5, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
-        x: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.2, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
-        y: isHovered ? { type: "spring", stiffness: 200, damping: 8 } : { duration: doodle.duration * 1.3, repeat: Infinity, ease: 'easeInOut', delay: doodle.delay },
+        x: { type: "spring", stiffness: 200, damping: 8 },
+        y: { type: "spring", stiffness: 200, damping: 8 },
         scale: { type: "spring", stiffness: 300, damping: 12 },
         opacity: { duration: 0.2 }
       }}
@@ -163,7 +163,10 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
       {doodle.shape(doodle.color)}
     </motion.div>
   );
-}
+});
+
+// Give memoized component a display name for debugging
+InteractiveDoodle.displayName = 'InteractiveDoodle';
 
 export default function DoodleDecorations({ count = 24, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
   const rand = seededRandom(seed);

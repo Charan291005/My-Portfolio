@@ -129,8 +129,8 @@ export default function Experience() {
                 key={exp.title}
                 className={`relative flex items-center mb-16 last:mb-0 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} flex-col md:gap-8`}
                 initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.3 + index * 0.3, duration: 0.7, type: 'spring', stiffness: 100 }}
+                animate={isInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -30, scale: 0.9 }}
+                transition={{ delay: 0.1 + index * 0.15, type: 'spring', stiffness: 100, damping: 10 }}
               >
                 {/* Card — half width on desktop */}
                 <div className="w-full md:w-[calc(50%-2.5rem)] pl-14 md:pl-0">

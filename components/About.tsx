@@ -67,9 +67,11 @@ export default function About() {
       <DoodleDecorations count={20} seed={101} />
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.7, type: 'spring', bounce: 0.4 }}
+        className="relative z-10 max-w-4xl mx-auto"
       >
         <h2 className="section-title">
           <BouncyText text="About Me ✏️" hoverScale={1.1} />
