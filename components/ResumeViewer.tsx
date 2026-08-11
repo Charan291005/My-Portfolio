@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Download, Maximize, Minimize, X } from 'lucide-react';
 import Link from 'next/link';
 import MagneticWrapper from '@/components/MagneticWrapper';
@@ -7,6 +7,32 @@ import MagneticWrapper from '@/components/MagneticWrapper';
 export default function ResumeViewer() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const resumePdfUrl = '/Shree_Charan_Resume.pdf';
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+      }
+    } catch (err) {
+      console.error("Fullscreen API not supported", err);
+      setIsFullscreen(!isFullscreen); // Fallback to CSS-only fullscreen
+    }
+  };
 
   return (
     <div className={`min-h-screen bg-paper ${isFullscreen ? 'fixed inset-0 z-[100] p-0 md:p-4 flex flex-col' : 'pt-24 pb-20 px-4 md:px-8'}`}>
@@ -25,7 +51,7 @@ export default function ResumeViewer() {
           {/* Action Buttons */}
           <div className="flex items-center gap-3 ml-auto">
             <button 
-              onClick={() => setIsFullscreen(!isFullscreen)}
+              onClick={toggleFullscreen}
               className="flex items-center justify-center w-12 h-12 bg-white text-ink border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform"
               style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
@@ -47,7 +73,7 @@ export default function ResumeViewer() {
 
             {isFullscreen && (
               <button 
-                onClick={() => setIsFullscreen(false)}
+                onClick={toggleFullscreen}
                 className="flex items-center justify-center w-12 h-12 bg-marker-red text-white border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform ml-1"
                 style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}
                 title="Close Fullscreen"

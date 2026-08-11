@@ -1,6 +1,6 @@
 {
-  "/icon.svg/route": "/icon.svg",
   "/_not-found/page": "/_not-found",
+  "/icon.svg/route": "/icon.svg",
   "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
   "/page": "/",
