@@ -38,7 +38,7 @@ export default function Education() {
 
   return (
     <section id="education" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={10} seed={500} />
+      <DoodleDecorations count={20} seed={500} />
       
       <motion.div
         initial={{ opacity: 0, y: 30 }}

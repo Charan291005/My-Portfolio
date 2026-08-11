@@ -32,7 +32,7 @@ export default function Hero() {
         backgroundSize: '30px 30px',
       }}
     >
-      <DoodleDecorations count={18} seed={42} />
+      <DoodleDecorations count={45} seed={42} />
 
       {/* Decorative large scribble doodles */}
       <motion.svg
