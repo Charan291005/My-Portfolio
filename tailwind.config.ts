@@ -11,21 +11,22 @@ const config: Config = {
     extend: {
       colors: {
         paper: {
-          DEFAULT: '#faf5e4',
-          dark: '#f0e6c8',
+          DEFAULT: 'var(--paper)',
+          dark: 'var(--paper-dark)',
           grid: '#e8dcc4',
         },
         ink: {
-          DEFAULT: '#2d2d2d',
-          light: '#6b6b6b',
-          faint: '#999999',
+          DEFAULT: 'var(--ink)',
+          light: 'var(--ink-light)',
+          faint: 'var(--ink-faint)',
         },
         pencil: {
-          blue: '#4a90d9',
-          red: '#e74c3c',
+          blue: 'var(--pencil-blue)',
+          red: 'var(--pencil-red)',
         },
         marker: {
-          yellow: '#fff176',
+          yellow: 'var(--highlight-yellow)',
+          red: 'var(--marker-red)',
           pink: '#f48fb1',
           green: '#81c784',
           orange: '#ffb74d',
