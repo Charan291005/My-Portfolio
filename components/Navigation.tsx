@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
+import { usePathname } from 'next/navigation';
+
 const navItems = [
   { name: 'Home', href: '/#home', isExternal: false },
   { name: 'About', href: '/#about', isExternal: false },
@@ -15,6 +17,7 @@ const navItems = [
 ];
 
 export default function Navigation() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -23,6 +26,11 @@ export default function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      if (pathname === '/resume') {
+        setActiveSection('Resume');
+        return;
+      }
 
       const sections = navItems.filter(item => !item.isExternal).map((item) => item.href.split('#')[1]);
       const current = sections.find((section) => {
@@ -34,12 +42,19 @@ export default function Navigation() {
         return false;
       });
 
-      if (current) setActiveSection(current);
+      if (current) {
+        setActiveSection(current);
+      } else if (window.scrollY < 100) {
+        setActiveSection('home');
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    // Trigger once on mount to set initial state
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   // Apply dark mode to document
   useEffect(() => {
