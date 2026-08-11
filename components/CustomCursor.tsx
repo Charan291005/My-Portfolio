@@ -80,7 +80,7 @@ export default function CustomCursor() {
     <>
       {/* Main pencil cursor */}
       <motion.div
-        className="custom-cursor fixed top-0 left-0 pointer-events-none z-[100] drop-shadow-md text-ink"
+        className="custom-cursor fixed top-0 left-0 pointer-events-none z-[99999] drop-shadow-md text-ink"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -100,7 +100,7 @@ export default function CustomCursor() {
       
       {/* Primary ink trail dot */}
       <motion.div
-        className="custom-cursor fixed top-0 left-0 rounded-full pointer-events-none z-[99]"
+        className="custom-cursor fixed top-0 left-0 rounded-full pointer-events-none z-[99998]"
         style={{
           x: trailXSpring,
           y: trailYSpring,
@@ -117,7 +117,7 @@ export default function CustomCursor() {
 
       {/* Secondary trail dot — longer tail */}
       <motion.div
-        className="custom-cursor fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-pencil-red pointer-events-none z-[98]"
+        className="custom-cursor fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-pencil-red pointer-events-none z-[99997]"
         style={{
           x: trail2XSpring,
           y: trail2YSpring,
@@ -133,7 +133,7 @@ export default function CustomCursor() {
         {inkSplashes.map((splash) => (
           <motion.div
             key={splash.id}
-            className="fixed pointer-events-none z-[97]"
+            className="fixed pointer-events-none z-[99996]"
             style={{ left: splash.x, top: splash.y }}
             initial={{ opacity: 1, scale: 0 }}
             animate={{ opacity: 0, scale: 1 }}

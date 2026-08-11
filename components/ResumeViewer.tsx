@@ -41,7 +41,7 @@ export default function ResumeViewer() {
         {/* Header & Back Link */}
         <div className={`flex flex-wrap justify-between items-center gap-4 ${isFullscreen ? 'mb-4 px-4 pt-4' : 'mb-6'}`}>
           {!isFullscreen ? (
-            <Link href="/" className="inline-block text-pencil-blue font-accent text-xl hover:underline rotate-[-2deg]">
+            <Link href="/" className="btn-secondary flex items-center gap-2 px-4 py-2 !text-base h-auto hover:!rotate-[-2deg]">
               ← Back to Portfolio
             </Link>
           ) : (
@@ -52,8 +52,7 @@ export default function ResumeViewer() {
           <div className="flex items-center gap-3 ml-auto">
             <button 
               onClick={toggleFullscreen}
-              className="flex items-center justify-center w-12 h-12 bg-white text-ink border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform"
-              style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}
+              className="btn-secondary flex items-center justify-center w-12 h-12 p-0"
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
               {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
@@ -63,8 +62,7 @@ export default function ResumeViewer() {
               <a 
                 href={resumePdfUrl} 
                 download 
-                className="flex items-center gap-2 bg-marker-yellow text-ink px-4 py-2 font-accent text-lg font-bold border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform h-12" 
-                style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}
+                className="btn-primary flex items-center gap-2 h-12 px-5 py-0" 
               >
                 <Download size={18} />
                 <span className="hidden sm:inline">Download</span>
@@ -74,8 +72,7 @@ export default function ResumeViewer() {
             {isFullscreen && (
               <button 
                 onClick={toggleFullscreen}
-                className="flex items-center justify-center w-12 h-12 bg-marker-red text-white border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-transform ml-1"
-                style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}
+                className="btn-secondary flex items-center justify-center w-12 h-12 p-0 ml-1 !bg-marker-red !text-white !border-ink hover:!bg-[#c5200f]"
                 title="Close Fullscreen"
               >
                 <X size={24} />
