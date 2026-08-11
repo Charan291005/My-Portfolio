@@ -100,6 +100,19 @@ const doodleShapes = [
 
   // Key (Encryption/Crypto)
   (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="12" cy="20" r="6" fill="none" stroke={color} strokeWidth="2"/><path d="M18,20 L34,20 L34,26 L30,26 L30,20 L26,20 L26,26 L22,26 L22,20" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+
+  // ===== NEW ARTISTIC DOODLES =====
+  
+  // Paint Palette
+  (color: string) => <svg viewBox="0 0 50 40" className="w-full h-full"><path d="M15,35 Q5,35 5,20 Q5,5 25,5 Q45,5 45,20 Q45,35 30,35 Q25,35 25,25 Q25,20 20,20 Q15,20 15,35 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><circle cx="15" cy="15" r="2.5" fill={color} opacity="0.6"/><circle cx="25" cy="12" r="2.5" fill={color} opacity="0.6"/><circle cx="35" cy="18" r="2.5" fill={color} opacity="0.6"/><circle cx="12" cy="25" r="3" fill="none" stroke={color} strokeWidth="1.5"/></svg>,
+  // Paint Brush
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M10,35 L18,27 L22,27 L26,23 Q35,14 36,6 Q28,7 19,16 L15,20 L15,24 L7,32 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M18,27 L15,24 M22,27 L26,23" fill="none" stroke={color} strokeWidth="1.5"/><path d="M36,6 Q30,12 32,18" fill="none" stroke={color} strokeWidth="1.2" opacity="0.5"/><path d="M7,32 Q4,38 2,38 Q8,36 10,35" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>,
+  // Lightbulb (Idea)
+  (color: string) => <svg viewBox="0 0 30 45" className="w-full h-full"><path d="M15,4 Q24,4 24,14 Q24,22 19,28 L19,34 L11,34 L11,28 Q6,22 6,14 Q6,4 15,4 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><path d="M11,38 L19,38 M13,42 L17,42 M15,14 L15,22 M11,18 L15,14 L19,18" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  // Abstract Geometric Swirl
+  (color: string) => <svg viewBox="0 0 50 50" className="w-full h-full"><path d="M25,25 m0,-20 a20,20 0 1,1 0,40 a20,20 0 1,1 0,-40 M25,25 m0,-14 a14,14 0 1,1 0,28 a14,14 0 1,1 0,-28 M25,25 m0,-8 a8,8 0 1,1 0,16 a8,8 0 1,1 0,-16" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 4" opacity="0.7"/></svg>,
+  // Starburst
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M20,2 L20,38 M2,20 L38,20 M8,8 L32,32 M8,32 L32,8" fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.8"/><circle cx="20" cy="20" r="4" fill="none" stroke={color} strokeWidth="1.5"/></svg>,
 ];
 
 const doodleColors = ['#4a90d9', '#e74c3c', '#66bb6a', '#9c6ade', '#f48fb1', '#ffb74d'];
@@ -133,7 +146,7 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
       animate={{ 
         rotate: isHovered ? doodle.rotation + 180 : [doodle.rotation, doodle.rotation + 15, doodle.rotation - 10, doodle.rotation],
         scale: isHovered ? 1.6 : 1,
-        opacity: isHovered ? 0.6 : 0.15,
+        opacity: isHovered ? 0.6 : (doodle.size > 70 ? 0.08 : 0.22),
         x: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, 10, -10, 0],
         y: isHovered ? (Math.random() > 0.5 ? 20 : -20) : [0, -10, 10, 0]
       }}
@@ -155,13 +168,14 @@ function InteractiveDoodle({ doodle }: { doodle: any }) {
 export default function DoodleDecorations({ count = 24, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
   const rand = seededRandom(seed);
   
-  const doodles = Array.from({ length: count }, (_, i) => {
+  const doodles = Array.from({ length: count * 3 }, (_, i) => {
     const shapeIndex = Math.floor(rand() * doodleShapes.length);
     const colorIndex = Math.floor(rand() * doodleColors.length);
-    const left = rand() * 90 + 5;
-    const top = rand() * 80 + 10;
-    const size = 20 + rand() * 25;
-    const rotation = rand() * 40 - 20;
+    const left = rand() * 95;
+    const top = rand() * 95;
+    // 20% chance for a massive background doodle, otherwise small/medium
+    const size = rand() > 0.8 ? 60 + rand() * 80 : 18 + rand() * 25;
+    const rotation = rand() * 360;
     const delay = rand() * 4;
     const duration = 5 + rand() * 4;
 
