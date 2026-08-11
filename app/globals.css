@@ -618,6 +618,169 @@ html.dark {
   50% { transform: translateY(-3px); }
 }
 
+/* ===== HAND-DRAWN MOTION SYSTEM ===== */
+
+/* 1. Doodle Breathe — subtle scale pulsing with micro-rotation */
+@keyframes doodle-breathe {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.015) rotate(0.5deg); }
+  60%  { transform: scale(0.995) rotate(-0.3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* 2. Doodle Rock — gentle asymmetric rocking */
+@keyframes doodle-rock {
+  0%   { transform: rotate(-2deg); }
+  25%  { transform: rotate(1deg); }
+  55%  { transform: rotate(-1deg); }
+  80%  { transform: rotate(0.5deg); }
+  100% { transform: rotate(-2deg); }
+}
+
+/* 3. Doodle Drift — slow vertical micro-float */
+@keyframes doodle-drift {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  35%  { transform: translateY(-4px) rotate(0.8deg); }
+  65%  { transform: translateY(2px) rotate(-0.4deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* 4. Doodle Sway — horizontal micro-movement */
+@keyframes doodle-sway {
+  0%   { transform: translateX(0px) rotate(0deg); }
+  30%  { transform: translateX(-3px) rotate(-0.6deg); }
+  70%  { transform: translateX(2px) rotate(0.4deg); }
+  90%  { transform: translateX(-1px) rotate(-0.2deg); }
+  100% { transform: translateX(0px) rotate(0deg); }
+}
+
+/* 5. Doodle Wobble Slow — asymmetric rotation + slight scale */
+@keyframes doodle-wobble-slow {
+  0%   { transform: rotate(0deg) scale(1); }
+  20%  { transform: rotate(-1.8deg) scale(1.008); }
+  50%  { transform: rotate(1.2deg) scale(0.996); }
+  75%  { transform: rotate(-0.6deg) scale(1.004); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* 6. Doodle Float Organic — combined Y drift + rotation with irregular timing */
+@keyframes doodle-float-organic {
+  0%   { transform: translateY(0px) rotate(0deg) scale(1); }
+  22%  { transform: translateY(-3px) rotate(1.2deg) scale(1.01); }
+  48%  { transform: translateY(1px) rotate(-0.8deg) scale(0.997); }
+  73%  { transform: translateY(-2px) rotate(0.5deg) scale(1.005); }
+  100% { transform: translateY(0px) rotate(0deg) scale(1); }
+}
+
+/* 7. Doodle Pulse Soft — very subtle opacity + scale breathing */
+@keyframes doodle-pulse-soft {
+  0%   { transform: scale(1); opacity: var(--doodle-opacity, 0.22); }
+  35%  { transform: scale(1.012); opacity: calc(var(--doodle-opacity, 0.22) + 0.06); }
+  65%  { transform: scale(0.993); opacity: calc(var(--doodle-opacity, 0.22) - 0.02); }
+  100% { transform: scale(1); opacity: var(--doodle-opacity, 0.22); }
+}
+
+/* 8. Doodle Tilt — slow tilting like a pendulum */
+@keyframes doodle-tilt {
+  0%   { transform: rotate(-1.5deg) translateY(0px); }
+  30%  { transform: rotate(2deg) translateY(-2px); }
+  60%  { transform: rotate(-0.5deg) translateY(1px); }
+  85%  { transform: rotate(1deg) translateY(-1px); }
+  100% { transform: rotate(-1.5deg) translateY(0px); }
+}
+
+/* SVG Draw-In — pen sketching effect */
+@keyframes svg-draw-in {
+  0% { stroke-dashoffset: var(--path-length, 200); opacity: 0.3; }
+  60% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* Settle Overshoot — draw → overshoot → settle */
+@keyframes settle-overshoot {
+  0%   { transform: scale(0.85) rotate(-3deg); opacity: 0; }
+  50%  { transform: scale(1.04) rotate(1deg); opacity: 1; }
+  70%  { transform: scale(0.99) rotate(-0.5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Character breathing idle — imperceptible alive feeling */
+@keyframes char-breathe {
+  0%, 100% { transform: rotate(var(--char-rest-rotate, 0deg)) translateY(0px); }
+  50%      { transform: rotate(calc(var(--char-rest-rotate, 0deg) + 0.3deg)) translateY(-0.5px); }
+}
+
+/* Doodle hover micro-interaction */
+.doodle-hover-interact {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+.doodle-hover-interact:hover {
+  transform: scale(1.12) rotate(var(--hover-rotate, 3deg));
+}
+
+/* SVG draw-in state classes */
+.doodle-svg-hidden path,
+.doodle-svg-hidden line,
+.doodle-svg-hidden circle,
+.doodle-svg-hidden rect {
+  stroke-dasharray: var(--path-length, 200);
+  stroke-dashoffset: var(--path-length, 200);
+  transition: none;
+}
+
+.doodle-svg-drawn path,
+.doodle-svg-drawn line,
+.doodle-svg-drawn circle,
+.doodle-svg-drawn rect {
+  animation: svg-draw-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--draw-delay, 0s);
+}
+
+/* Utility classes for the 8 organic idle animations */
+.idle-breathe     { animation: doodle-breathe var(--idle-dur, 8s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-rock        { animation: doodle-rock var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-drift       { animation: doodle-drift var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-sway        { animation: doodle-sway var(--idle-dur, 10s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-wobble-slow { animation: doodle-wobble-slow var(--idle-dur, 8s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-float       { animation: doodle-float-organic var(--idle-dur, 11s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-pulse       { animation: doodle-pulse-soft var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-tilt        { animation: doodle-tilt var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+
+/* Settle animation for entering doodles */
+.doodle-settle {
+  animation: settle-overshoot 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: var(--settle-delay, 0s);
+}
+
+/* Cursor reaction — smooth return */
+.doodle-cursor-react {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* ===== prefers-reduced-motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .idle-breathe, .idle-rock, .idle-drift, .idle-sway,
+  .idle-wobble-slow, .idle-float, .idle-pulse, .idle-tilt {
+    animation: none !important;
+  }
+  .doodle-cursor-react {
+    transition: none !important;
+  }
+  .doodle-svg-drawn path,
+  .doodle-svg-drawn line,
+  .doodle-svg-drawn circle,
+  .doodle-svg-drawn rect {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .doodle-settle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 .typewriter-cursor {
   display: inline-block;
   width: 3px;

@@ -62,9 +62,9 @@ export default function Contact() {
       <DoodleDecorations count={10} seed={300} />
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}
+        animate={isInView ? { opacity: 1, y: 0, rotate: 0, scale: 1 } : {}}
+        transition={{ type: 'spring', stiffness: 80, damping: 14, mass: 0.8 }}
         className="relative z-10"
       >
         <h2 className="section-title">
@@ -127,9 +127,9 @@ export default function Contact() {
 
         {/* Social Media Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          initial={{ opacity: 0, y: 20, rotate: 1, scale: 0.985 }}
+          animate={isInView ? { opacity: 1, y: 0, rotate: 0, scale: 1 } : {}}
+          transition={{ delay: 0.3, type: 'spring', stiffness: 80, damping: 14 }}
           className="text-center"
         >
           <h3 className="text-4xl font-heading font-bold text-ink mb-3">

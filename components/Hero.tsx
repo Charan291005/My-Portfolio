@@ -98,9 +98,9 @@ export default function Hero() {
 
       <div className="relative z-10 section-container text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 20, scale: 0.99 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 14 }}
         >
 
           {/* Bold Hatched Headline & Subline */}
@@ -156,34 +156,34 @@ export default function Hero() {
             <motion.svg
               className="absolute -top-4 -left-8 w-12 h-12 text-ink opacity-40 pointer-events-none"
               viewBox="0 0 100 100"
-              initial={{ opacity: 0, scale: 0, rotate: -45 }}
+              initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
               animate={{ opacity: 0.4, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.4, type: 'spring' }}
+              transition={{ delay: 0.4, type: 'spring', stiffness: 120, damping: 10 }}
             >
               {/* Star-burst / sparkle */}
-              <path d="M50,10 L50,30 M50,70 L50,90 M10,50 L30,50 M70,50 L90,50 M25,25 L40,40 M60,60 L75,75 M25,75 L40,60 M60,40 L75,25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              <motion.path d="M50,10 L50,30 M50,70 L50,90 M10,50 L30,50 M70,50 L90,50 M25,25 L40,40 M60,60 L75,75 M25,75 L40,60 M60,40 L75,25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.5, duration: 0.8, ease: 'easeOut' }} />
             </motion.svg>
 
             <motion.svg
               className="absolute top-2 -right-4 w-10 h-10 text-pencil-blue opacity-50 pointer-events-none"
               viewBox="0 0 100 100"
-              initial={{ opacity: 0, scale: 0, rotate: 45 }}
+              initial={{ opacity: 0, scale: 0.8, rotate: 20 }}
               animate={{ opacity: 0.5, scale: 1, rotate: 10 }}
-              transition={{ delay: 0.6, type: 'spring' }}
+              transition={{ delay: 0.6, type: 'spring', stiffness: 120, damping: 10 }}
             >
               {/* 5-point star */}
-              <path d="M50,10 L61,35 L90,35 L67,52 L76,80 L50,63 L24,80 L33,52 L10,35 L39,35 Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+              <motion.path d="M50,10 L61,35 L90,35 L67,52 L76,80 L50,63 L24,80 L33,52 L10,35 L39,35 Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.7, duration: 0.9, ease: 'easeOut' }} />
             </motion.svg>
 
             <motion.svg
               className="absolute -bottom-6 -left-2 w-14 h-14 text-marker-red opacity-40 pointer-events-none"
               viewBox="0 0 100 100"
-              initial={{ opacity: 0, scale: 0, rotate: -20 }}
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
               animate={{ opacity: 0.4, scale: 1, rotate: -5 }}
-              transition={{ delay: 0.8, type: 'spring' }}
+              transition={{ delay: 0.8, type: 'spring', stiffness: 120, damping: 10 }}
             >
               {/* Squiggly line / pencil */}
-              <path d="M10,80 Q25,60 40,80 T70,60 T90,80" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+              <motion.path d="M10,80 Q25,60 40,80 T70,60 T90,80" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.9, duration: 0.7, ease: 'easeOut' }} />
             </motion.svg>
           </div>
 
@@ -204,9 +204,9 @@ export default function Hero() {
                   whileHover={{ scale: 1.2, rotate: 8, boxShadow: `4px 4px 0 ${link.color}` }}
                   whileTap={{ scale: 0.9 }}
                   title={link.title}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 2.6 + i * 0.08, type: 'spring', stiffness: 300 }}
+                  initial={{ opacity: 0, scale: 0.7, y: 10, rotate: -8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                  transition={{ delay: 2.6 + i * 0.1, type: 'spring', stiffness: 200, damping: 10 }}
                   style={{
                     border: `3px solid ${link.color}`,
                     borderRadius: '50% 45% 55% 48% / 45% 55% 48% 50%',

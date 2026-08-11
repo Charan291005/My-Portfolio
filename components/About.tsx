@@ -67,10 +67,10 @@ export default function About() {
       <DoodleDecorations count={20} seed={101} />
 
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 25, rotate: -1.5, scale: 0.985 }}
+        whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, type: 'spring', bounce: 0.4 }}
+        transition={{ type: 'spring', stiffness: 80, damping: 14, mass: 0.8 }}
         className="relative z-10 max-w-4xl mx-auto"
       >
         <h2 className="section-title">
@@ -229,9 +229,9 @@ export default function About() {
               key={item.title}
               className={item.noteColor}
               style={{ rotate: item.rotation }}
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
+              initial={{ opacity: 0, y: 20, scale: 0.9, rotate: index % 2 === 0 ? -2 : 1.5 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1, rotate: item.rotation } : {}}
+              transition={{ delay: 0.3 + index * 0.12, type: 'spring', stiffness: 100, damping: 12, mass: 0.7 }}
               whileHover={{
                 scale: 1.1,
                 rotate: '0deg',

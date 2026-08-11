@@ -41,9 +41,9 @@ export default function Education() {
       <DoodleDecorations count={20} seed={500} />
       
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}
+        animate={isInView ? { opacity: 1, y: 0, rotate: 0, scale: 1 } : {}}
+        transition={{ type: 'spring', stiffness: 80, damping: 14, mass: 0.8 }}
         className="relative z-10"
       >
         <h2 className="section-title">

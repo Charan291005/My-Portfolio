@@ -11,7 +11,6 @@ interface BouncyTextProps {
 }
 
 export default function BouncyText({ text, className = '', hoverScale = 1.2, baseRotate = 5, revealAnimation = 'none', delay = 0 }: BouncyTextProps) {
-  // Split the text into characters
   const characters = Array.from(text);
 
   const containerVariants = {
@@ -19,7 +18,7 @@ export default function BouncyText({ text, className = '', hoverScale = 1.2, bas
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.06,    // slightly faster stagger
         delayChildren: delay,
       }
     }
@@ -34,21 +33,23 @@ export default function BouncyText({ text, className = '', hoverScale = 1.2, bas
       animate={revealAnimation !== 'none' ? 'visible' : undefined}
     >
       {characters.map((char, index) => {
-        // Skip spaces, just render them
         if (char === ' ') {
           return <span key={`space-${index}`}>&nbsp;</span>;
         }
         
-        // Use a deterministic pseudo-random value to avoid SSR hydration mismatch
         const charCode = char.charCodeAt(0) || 1;
-        const pseudoRandom = ((charCode * index * 13) % 100) / 100; // Value between 0 and 1
+        const pseudoRandom = ((charCode * index * 13) % 100) / 100;
         const defaultRotate = (index % 2 === 0 ? 1 : -1) * (pseudoRandom * baseRotate);
 
+        // Hand-drawn entrance: slight rotation + Y overshoot + scale settle
         let initialAnimation: any = { rotate: defaultRotate, y: 0, scale: 1, opacity: 1 };
         if (revealAnimation === 'drop') {
-          initialAnimation = { rotate: defaultRotate, y: -50, opacity: 0 };
+          // Irregular rotation per character for hand-drawn feel
+          const dropRotate = (index % 3 === 0 ? -3 : index % 3 === 1 ? 2.5 : -1.5);
+          initialAnimation = { rotate: dropRotate, y: -35, scale: 0.9, opacity: 0 };
         } else if (revealAnimation === 'pop') {
-          initialAnimation = { rotate: defaultRotate, scale: 0, opacity: 0 };
+          const popRotate = (index % 2 === 0 ? -4 : 3);
+          initialAnimation = { rotate: popRotate, scale: 0.3, opacity: 0 };
         }
 
         const animateAnimation = { rotate: defaultRotate, y: 0, scale: 1, opacity: 1 };
@@ -57,19 +58,24 @@ export default function BouncyText({ text, className = '', hoverScale = 1.2, bas
           <motion.span
             key={`${char}-${index}`}
             className="inline-block"
+            style={{
+              '--char-rest-rotate': `${defaultRotate}deg`,
+            } as React.CSSProperties}
             variants={revealAnimation !== 'none' ? { hidden: initialAnimation, visible: animateAnimation } : undefined}
             initial={revealAnimation === 'none' ? { rotate: defaultRotate, y: 0 } : undefined}
             animate={revealAnimation === 'none' ? { rotate: defaultRotate, y: 0 } : undefined}
             whileHover={{
               scale: hoverScale,
-              rotate: defaultRotate > 0 ? defaultRotate + 10 : defaultRotate - 10,
+              rotate: defaultRotate > 0 ? defaultRotate + 8 : defaultRotate - 8,
               y: -5,
-              color: '#4a90d9', // Highlight blue on hover
+              color: '#4a90d9',
+              transition: { type: 'spring', stiffness: 500, damping: 8 },
             }}
             transition={{
               type: 'spring',
-              stiffness: 400,
-              damping: 10,
+              stiffness: 200,    // softer spring for hand-drawn feel
+              damping: 10,       // more bounce / overshoot
+              mass: 0.6,
             }}
           >
             {char}
