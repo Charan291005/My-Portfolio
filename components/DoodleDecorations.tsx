@@ -133,14 +133,14 @@ export default function DoodleDecorations({ count = 24, className = '', seed = 4
   const doodles = Array.from({ length: count * 3 }, (_, i) => {
     const shapeIndex = Math.floor(rand() * doodleShapes.length);
     const colorIndex = Math.floor(rand() * doodleColors.length);
-    const left = rand() * 95;
-    const top = rand() * 95;
-    const size = rand() > 0.8 ? 60 + rand() * 80 : 18 + rand() * 25;
-    const rotation = rand() * 360;
-    const delay = rand() * 6;          // wider range for more variety
-    const duration = 6 + rand() * 8;   // 6-14s range
+    const left = +(rand() * 95).toFixed(2);
+    const top = +(rand() * 95).toFixed(2);
+    const size = +(rand() > 0.8 ? 60 + rand() * 80 : 18 + rand() * 25).toFixed(1);
+    const rotation = +(rand() * 360).toFixed(1);
+    const delay = +(rand() * 6).toFixed(2);          // wider range for more variety
+    const duration = +(6 + rand() * 8).toFixed(2);   // 6-14s range
     const idleClass = idleClasses[Math.floor(rand() * idleClasses.length)];
-    const drawDelay = rand() * 0.6;    // staggered draw-in
+    const drawDelay = +(rand() * 0.6).toFixed(2);    // staggered draw-in
 
     return { id: i, shape: doodleShapes[shapeIndex], color: doodleColors[colorIndex], left, top, size, rotation, delay, duration, idleClass, drawDelay };
   });

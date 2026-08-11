@@ -39,7 +39,7 @@ export default function BouncyText({ text, className = '', hoverScale = 1.2, bas
         
         const charCode = char.charCodeAt(0) || 1;
         const pseudoRandom = ((charCode * index * 13) % 100) / 100;
-        const defaultRotate = (index % 2 === 0 ? 1 : -1) * (pseudoRandom * baseRotate);
+        const defaultRotate = +((index % 2 === 0 ? 1 : -1) * (pseudoRandom * baseRotate)).toFixed(2);
 
         // Hand-drawn entrance: slight rotation + Y overshoot + scale settle
         let initialAnimation: any = { rotate: defaultRotate, y: 0, scale: 1, opacity: 1 };
