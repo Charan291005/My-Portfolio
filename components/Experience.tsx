@@ -126,7 +126,7 @@ export default function Experience() {
             const isLeft = index % 2 === 0;
             return (
               <motion.div
-                key={exp.title}
+                key={`${exp.title}-${index}`}
                 className={`relative flex items-center mb-16 last:mb-0 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} flex-col md:gap-8`}
                 initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
                 animate={isInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -30, scale: 0.9 }}
