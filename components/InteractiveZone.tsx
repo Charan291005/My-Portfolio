@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 const TerminalHacker = dynamic(() => import('./games/TerminalHacker'), { ssr: false });
 const BugBounty = dynamic(() => import('./games/BugBounty'), { ssr: false });
 const CipherGame = dynamic(() => import('./CipherGame'), { ssr: false });
+const MemoryCardGame = dynamic(() => import('./games/MemoryCardGame'), { ssr: false });
+const TicTacToe = dynamic(() => import('./games/TicTacToe'), { ssr: false });
 import PhysicsPlayground from './PhysicsPlayground';
 
 export default function InteractiveZone() {
@@ -38,11 +40,13 @@ export default function InteractiveZone() {
         <PhysicsPlayground />
 
         {/* Games Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start justify-items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12 lg:gap-8 items-start justify-items-center mt-12">
           
           <TerminalHacker />
           <BugBounty />
           <CipherGame />
+          <MemoryCardGame />
+          <TicTacToe />
 
         </div>
       </div>
