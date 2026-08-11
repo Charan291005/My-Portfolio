@@ -307,6 +307,8 @@ export default function Projects() {
               );
             })}
           </AnimatePresence>
+        </motion.div>
+
         {/* GitHub CTA */}
         <motion.div
           className="text-center mt-14"
