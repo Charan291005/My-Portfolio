@@ -290,14 +290,24 @@ export default function Hero() {
 
         {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 15, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.5, duration: 1 }}
         >
+          <span className="font-accent text-sm text-ink-light opacity-80" style={{ transform: 'rotate(-4deg)' }}>Scroll to explore</span>
           <MagneticWrapper strength={15}>
-            <a href="#about" className="font-heading text-2xl text-ink-light hover:text-ink transition-colors block p-4">
-              <svg viewBox="0 0 30 40" className="w-8 h-10">
-                <path d="M15,5 L15,30 M8,23 L15,32 L22,23" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            <a href="#about" className="text-ink-light hover:text-pencil-blue transition-colors block p-2">
+              <svg viewBox="0 0 30 45" className="w-7 h-10">
+                {/* Mouse Body */}
+                <path d="M15,3 Q26,3 26,15 L26,30 Q26,42 15,42 Q4,42 4,30 L4,15 Q4,3 15,3 Z" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                {/* Animated Scroll Wheel */}
+                <motion.line 
+                  x1="15" y1="12" x2="15" y2="18" 
+                  stroke="currentColor" strokeWidth="3" strokeLinecap="round"
+                  animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                />
               </svg>
             </a>
           </MagneticWrapper>
