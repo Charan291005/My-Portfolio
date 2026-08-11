@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const navItems = [
-  { name: 'Home', href: '#home', isExternal: false },
-  { name: 'About', href: '#about', isExternal: false },
-  { name: 'Experience', href: '#experience', isExternal: false },
-  { name: 'Projects', href: '#projects', isExternal: false },
-  { name: 'Skills', href: '#skills', isExternal: false },
-  { name: 'Playground', href: '#games', isExternal: false },
-  { name: 'Contact', href: '#contact', isExternal: false },
+  { name: 'Home', href: '/#home', isExternal: false },
+  { name: 'About', href: '/#about', isExternal: false },
+  { name: 'Experience', href: '/#experience', isExternal: false },
+  { name: 'Projects', href: '/#projects', isExternal: false },
+  { name: 'Skills', href: '/#skills', isExternal: false },
+  { name: 'Playground', href: '/#games', isExternal: false },
+  { name: 'Contact', href: '/#contact', isExternal: false },
   { name: 'Resume', href: '/resume', isExternal: true },
 ];
 
@@ -24,7 +24,7 @@ export default function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = navItems.filter(item => !item.isExternal).map((item) => item.href.slice(1));
+      const sections = navItems.filter(item => !item.isExternal).map((item) => item.href.split('#')[1]);
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -85,11 +85,11 @@ export default function Navigation() {
                 key={item.name}
                 href={item.href}
                 className={`relative px-4 py-2 font-heading text-lg transition-all duration-200 ${
-                  activeSection === (item.isExternal ? item.name : item.href.slice(1)) ? 'text-ink font-bold' : 'text-ink-light hover:text-ink'
+                  activeSection === (item.isExternal ? item.name : item.href.split('#')[1]) ? 'text-ink font-bold' : 'text-ink-light hover:text-ink'
                 }`}
               >
                 {item.name}
-                {activeSection === (item.isExternal ? item.name : item.href.slice(1)) && (
+                {activeSection === (item.isExternal ? item.name : item.href.split('#')[1]) && (
                   <motion.svg
                     layoutId="navCircle"
                     className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none"
@@ -188,7 +188,7 @@ export default function Navigation() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block py-3 font-heading text-2xl transition-colors border-b border-dashed border-eraser last:border-b-0 ${
-                    activeSection === (item.isExternal ? item.name : item.href.slice(1)) ? 'text-pencil-blue font-bold' : 'text-ink-light'
+                    activeSection === (item.isExternal ? item.name : item.href.split('#')[1]) ? 'text-pencil-blue font-bold' : 'text-ink-light'
                   }`}
                 >
                   <motion.span
@@ -196,7 +196,7 @@ export default function Navigation() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    {activeSection === (item.isExternal ? item.name : item.href.slice(1)) && '→ '}
+                    {activeSection === (item.isExternal ? item.name : item.href.split('#')[1]) && '→ '}
                     {item.name}
                   </motion.span>
                 </Link>
