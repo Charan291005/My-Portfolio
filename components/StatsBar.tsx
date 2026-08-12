@@ -3,11 +3,11 @@ import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { useRef, useEffect, memo } from 'react';
 
 const stats = [
-  { value: 5, suffix: '+', label: 'Projects Built', icon: '🚀', color: '#fff176' },
-  { value: 2, suffix: '', label: 'Internships', icon: '💼', color: '#f48fb1' },
-  { value: 8.7, suffix: '', label: 'CGPA at VIT', icon: '🎓', color: '#bbdefb', isFloat: true },
-  { value: 3, suffix: '+', label: 'Certifications', icon: '🏆', color: '#c8e6c9' },
-  { value: 500, suffix: '+', label: 'Hours of Code', icon: '⌨️', color: '#ffb74d' },
+  { value: 5, suffix: '+', label: 'Projects Built', icon: '🚀', color: '#fff200' }, // Skribbl Yellow
+  { value: 2, suffix: '', label: 'Internships', icon: '💼', color: '#ffa3b1' }, // Skribbl Pink
+  { value: 8.7, suffix: '', label: 'CGPA at VIT', icon: '🎓', color: '#00a2e8' }, // Skribbl Blue
+  { value: 3, suffix: '+', label: 'Certifications', icon: '🏆', color: '#22b14c' }, // Skribbl Green
+  { value: 500, suffix: '+', label: 'Hours of Code', icon: '⌨️', color: '#ff7f00' }, // Skribbl Orange
 ];
 
 const Counter = memo(function Counter({
@@ -106,7 +106,7 @@ export default function StatsBar() {
                 />
 
                 <div className="text-2xl mb-1">{stat.icon}</div>
-                <div className="font-heading font-bold text-3xl text-ink tabular-nums">
+                <div className="font-heading font-bold text-3xl tabular-nums" style={{ color: '#2d2d2d' }}>
                   <Counter
                     value={stat.value}
                     suffix={stat.suffix}
@@ -115,7 +115,7 @@ export default function StatsBar() {
                   />
                   <span>{stat.suffix}</span>
                 </div>
-                <div className="font-accent text-xs text-ink-light mt-1 leading-tight">
+                <div className="font-accent text-xs mt-1 leading-tight font-bold" style={{ color: 'rgba(45, 45, 45, 0.75)' }}>
                   {stat.label}
                 </div>
               </div>
