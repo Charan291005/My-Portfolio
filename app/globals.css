@@ -107,11 +107,11 @@ html.dark {
 
 @layer utilities {
   .hatched-text {
-    background: repeating-linear-gradient(45deg, #1a1a1a 0px, #1a1a1a 2px, transparent 2px, transparent 6px);
+    background: repeating-linear-gradient(45deg, var(--ink) 0px, var(--ink) 2px, transparent 2px, transparent 6px);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    -webkit-text-stroke: 1.5px #1a1a1a;
+    -webkit-text-stroke: 1.5px var(--ink);
   }
 }
 
