@@ -88,7 +88,6 @@ export default function Hero() {
             width: blob.r,
             height: blob.r,
             background: `radial-gradient(circle, ${blob.color}08 0%, transparent 70%)`,
-            filter: 'blur(40px)',
             transform: 'translate(-50%, -50%)',
           }}
           animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
