@@ -1,6 +1,6 @@
 'use client';
-import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 
 interface TiltCardProps {
   children: React.ReactNode;
@@ -12,8 +12,18 @@ interface TiltCardProps {
 
 export default function TiltCard({ children, className = '', style = {}, tiltStrength = 10, glareEnabled = true }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+  
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(50);
+  const glareOpacity = useMotionValue(0);
+
+  const springConfig = { stiffness: 300, damping: 20 };
+  const springRotateX = useSpring(rotateX, springConfig);
+  const springRotateY = useSpring(rotateY, springConfig);
+
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,${glareOpacity}), transparent 60%)`;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -21,19 +31,20 @@ export default function TiltCard({ children, className = '', style = {}, tiltStr
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
     
-    setTilt({
-      x: (y - 0.5) * -tiltStrength,
-      y: (x - 0.5) * tiltStrength,
-    });
+    rotateX.set((y - 0.5) * -tiltStrength);
+    rotateY.set((x - 0.5) * tiltStrength);
 
     if (glareEnabled) {
-      setGlare({ x: x * 100, y: y * 100, opacity: 0.15 });
+      glareX.set(x * 100);
+      glareY.set(y * 100);
+      glareOpacity.set(0.15);
     }
   };
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-    setGlare({ x: 50, y: 50, opacity: 0 });
+    rotateX.set(0);
+    rotateY.set(0);
+    glareOpacity.set(0);
   };
 
   return (
@@ -44,23 +55,19 @@ export default function TiltCard({ children, className = '', style = {}, tiltStr
         ...style,
         perspective: '1000px',
         transformStyle: 'preserve-3d',
+        rotateX: springRotateX,
+        rotateY: springRotateY,
       }}
-      animate={{
-        rotateX: tilt.x,
-        rotateY: tilt.y,
-      }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {children}
       {/* Pencil-light glare effect */}
       {glareEnabled && (
-        <div
+        <motion.div
           className="absolute inset-0 pointer-events-none rounded-inherit"
           style={{
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,${glare.opacity}), transparent 60%)`,
-            transition: 'opacity 0.3s',
+            background: glareBackground,
             borderRadius: 'inherit',
           }}
         />

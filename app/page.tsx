@@ -1,14 +1,16 @@
 import Hero from '@/components/Hero';
 import StatsBar from '@/components/StatsBar';
-import About from '@/components/About';
-import Experience from '@/components/Experience';
-import Projects from '@/components/Projects';
-import Skills from '@/components/Skills';
-import Certifications from '@/components/Certifications';
-import Education from '@/components/Education';
-import InteractiveZone from '@/components/InteractiveZone';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const About = dynamic(() => import('@/components/About'));
+const Experience = dynamic(() => import('@/components/Experience'));
+const Projects = dynamic(() => import('@/components/Projects'));
+const Skills = dynamic(() => import('@/components/Skills'));
+const Certifications = dynamic(() => import('@/components/Certifications'));
+const Education = dynamic(() => import('@/components/Education'));
+const InteractiveZone = dynamic(() => import('@/components/InteractiveZone'));
+const Contact = dynamic(() => import('@/components/Contact'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 export default function Home() {
   return (
