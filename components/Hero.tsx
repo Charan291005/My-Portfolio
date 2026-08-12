@@ -27,9 +27,9 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{
-        backgroundColor: '#faf6ec',
-        backgroundImage: 'radial-gradient(rgba(26,26,26,0.08) 1.5px, transparent 1.5px)',
+        backgroundImage: 'radial-gradient(var(--ink-faint) 1.5px, transparent 1.5px)',
         backgroundSize: '30px 30px',
+        opacity: 0.8, // Slightly fade the dots so it matches the subtle look
       }}
     >
       <DoodleDecorations count={45} seed={42} />
@@ -60,7 +60,7 @@ export default function Hero() {
         animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <path d="M14,5 L6,40 L14,75 M66,5 L74,40 L66,75" fill="none" stroke="#2d2d2d" strokeWidth="3" strokeLinecap="round" />
+        <path d="M14,5 L6,40 L14,75 M66,5 L74,40 L66,75" fill="none" stroke="var(--ink)" strokeWidth="3" strokeLinecap="round" />
       </motion.svg>
 
       <motion.svg
@@ -207,11 +207,13 @@ export default function Hero() {
                   animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
                   transition={{ delay: 2.6 + i * 0.1, type: 'spring', stiffness: 200, damping: 10 }}
                   style={{
-                    border: `3px solid ${link.color}`,
+                    color: link.title === 'GitHub' ? 'var(--ink)' : link.color,
+                    background: 'var(--paper)',
+                    borderWidth: '3px',
+                    borderStyle: 'solid',
+                    borderColor: link.title === 'GitHub' ? 'var(--ink)' : link.color,
                     borderRadius: '50% 45% 55% 48% / 45% 55% 48% 50%',
-                    color: link.color,
-                    background: '#fff',
-                    boxShadow: `3px 3px 0 ${link.color}`,
+                    boxShadow: `3px 3px 0 ${link.title === 'GitHub' ? 'var(--ink)' : link.color}`,
                     fontWeight: 700,
                   }}
                 >
