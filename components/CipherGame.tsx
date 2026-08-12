@@ -78,6 +78,8 @@ export default function CipherGame() {
 
             <div className="relative">
               <input
+                id="cipher-guess"
+                name="cipher-guess"
                 type="text"
                 value={guess}
                 onChange={(e) => setGuess(e.target.value.toUpperCase())}

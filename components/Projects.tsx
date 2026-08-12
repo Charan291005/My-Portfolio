@@ -142,7 +142,6 @@ export default function Projects() {
                   className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-2"
                   viewBox="0 0 60 8"
                   preserveAspectRatio="none"
-                  layoutId="tab-underline"
                 >
                   <motion.path
                     d="M2,4 Q15,1 30,4 T58,4"
@@ -161,7 +160,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div layout className="flex flex-wrap justify-center gap-8 mt-8">
+        <motion.div className="flex flex-wrap justify-center gap-8 mt-8">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => {
               const offset = cardOffsets[index % cardOffsets.length];
@@ -171,7 +170,6 @@ export default function Projects() {
               return (
               <motion.div
                 key={project.title}
-                layout
                 className="w-full sm:w-[380px] shrink-0"
                 initial={{ opacity: 0, y: 50, x: offset.x, rotate: project.rotation, scale: 0.9 }}
                 animate={{ opacity: 1, y: offset.y, x: offset.x, rotate: project.rotation, scale: 1 }}

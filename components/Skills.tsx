@@ -182,7 +182,6 @@ export default function Skills() {
                   transition: { type: 'spring', stiffness: 300, damping: 12 },
                 }}
                 onClick={() => setExpandedNote(isExpanded ? null : category.title)}
-                layout
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">

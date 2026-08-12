@@ -106,7 +106,6 @@ export default function Navigation() {
                 {item.name}
                 {activeSection === (item.isExternal ? item.name : item.href.split('#')[1]) && (
                   <motion.svg
-                    layoutId="navCircle"
                     className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none"
                     viewBox="0 0 100 40"
                     preserveAspectRatio="none"

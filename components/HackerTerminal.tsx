@@ -90,6 +90,8 @@ export default function HackerTerminal({ isOpen, onClose }: { isOpen: boolean, o
             <div className="flex items-center mt-2 text-sm sm:text-base">
               <span className="text-white mr-2">visitor@nexus:~$</span>
               <input 
+                id="hacker-input"
+                name="hacker-input"
                 ref={inputRef}
                 type="text"
                 value={input}
