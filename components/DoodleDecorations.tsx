@@ -117,6 +117,9 @@ const OrganicDoodle = memo(({ doodle }: { doodle: any }) => {
     >
       <div 
         className={`w-full h-full doodle-hover-interact doodle-svg-hidden ${doodle.idleClass}`}
+        data-left={doodle.left}
+        data-top={doodle.top}
+        data-size={doodle.size}
       >
         {doodle.shape(doodle.color)}
       </div>
@@ -130,7 +133,7 @@ export default function DoodleDecorations({ count = 24, className = '', seed = 4
   const rand = seededRandom(seed);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  const doodles = Array.from({ length: count * 3 }, (_, i) => {
+  const doodles = Array.from({ length: count }, (_, i) => {
     const shapeIndex = Math.floor(rand() * doodleShapes.length);
     const colorIndex = Math.floor(rand() * doodleColors.length);
     const left = +(rand() * 95).toFixed(2);
@@ -171,38 +174,53 @@ export default function DoodleDecorations({ count = 24, className = '', seed = 4
     return () => observer.disconnect();
   }, []);
 
-  // Subtle cursor reaction — single listener on container
+  const rafRef = useRef<number | null>(null);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     // Only run on desktop (pointer: fine)
     if (typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches) return;
     
-    const container = containerRef.current;
-    if (!container) return;
+    if (rafRef.current) return;
 
-    const doodleEls = container.querySelectorAll<HTMLElement>('.doodle-hover-interact');
     const { clientX, clientY } = e;
-    const reactionRadius = 120;
-    const maxDisplace = 4;
 
-    doodleEls.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = clientX - cx;
-      const dy = clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < reactionRadius) {
-        const strength = 1 - (dist / reactionRadius);
-        const moveX = -(dx / dist) * maxDisplace * strength;
-        const moveY = -(dy / dist) * maxDisplace * strength;
-        const rotateReact = (dx > 0 ? -1 : 1) * 3 * strength;
-        el.style.transform = `translate(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px) rotate(${rotateReact.toFixed(1)}deg)`;
-        el.classList.add('doodle-cursor-react');
-      } else {
-        el.style.transform = '';
-        el.classList.remove('doodle-cursor-react');
+    rafRef.current = requestAnimationFrame(() => {
+      const container = containerRef.current;
+      if (!container) {
+        rafRef.current = null;
+        return;
       }
+
+      const containerRect = container.getBoundingClientRect();
+      const doodleEls = container.querySelectorAll<HTMLElement>('.doodle-hover-interact');
+      const reactionRadius = 120;
+      const maxDisplace = 4;
+
+      doodleEls.forEach((el) => {
+        const leftPct = parseFloat(el.getAttribute('data-left') || '0');
+        const topPct = parseFloat(el.getAttribute('data-top') || '0');
+        const size = parseFloat(el.getAttribute('data-size') || '0');
+        
+        const cx = containerRect.left + (containerRect.width * leftPct / 100) + (size / 2);
+        const cy = containerRect.top + (containerRect.height * topPct / 100) + (size / 2);
+        
+        const dx = clientX - cx;
+        const dy = clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < reactionRadius) {
+          const strength = 1 - (dist / reactionRadius);
+          const moveX = -(dx / dist) * maxDisplace * strength;
+          const moveY = -(dy / dist) * maxDisplace * strength;
+          const rotateReact = (dx > 0 ? -1 : 1) * 3 * strength;
+          el.style.transform = `translate(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px) rotate(${rotateReact.toFixed(1)}deg)`;
+          el.classList.add('doodle-cursor-react');
+        } else if (el.classList.contains('doodle-cursor-react')) {
+          el.style.transform = '';
+          el.classList.remove('doodle-cursor-react');
+        }
+      });
+      rafRef.current = null;
     });
   }, []);
 
