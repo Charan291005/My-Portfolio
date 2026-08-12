@@ -5,7 +5,7 @@ import { useRef, useEffect, memo } from 'react';
 const stats = [
   { value: 5, suffix: '+', label: 'Projects Built', icon: '🚀', color: '#fff200' }, // Skribbl Yellow
   { value: 2, suffix: '', label: 'Internships', icon: '💼', color: '#ffa3b1' }, // Skribbl Pink
-  { value: 8.7, suffix: '', label: 'CGPA at VIT', icon: '🎓', color: '#00a2e8' }, // Skribbl Blue
+  { value: 8.7, suffix: '', label: 'CGPA at VIT', icon: '🎓', color: '#00a2e8', isFloat: true }, // Skribbl Blue
   { value: 3, suffix: '+', label: 'Certifications', icon: '🏆', color: '#22b14c' }, // Skribbl Green
   { value: 500, suffix: '+', label: 'Hours of Code', icon: '⌨️', color: '#ff7f00' }, // Skribbl Orange
 ];
