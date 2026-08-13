@@ -148,50 +148,50 @@ export default function PasswordCracker() {
         )}
       </AnimatePresence>
 
-      <div className="flex-grow flex flex-col items-center justify-between z-10">
+      <div className="flex-grow flex flex-col items-center justify-between z-10 w-full max-w-[280px] mx-auto">
         
         {/* History Area */}
-        <div className="w-full flex-grow flex flex-col gap-2 justify-end mb-4">
+        <div className="w-full flex-grow flex flex-col gap-1.5 justify-end mb-2">
           {history.map((h, i) => (
             <motion.div 
               key={i} 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center items-center gap-4"
+              className="flex justify-center items-center gap-3"
             >
-              <div className="flex gap-2">
+              <div className="flex gap-1.5">
                 {h.digits.map((d, di) => (
-                  <div key={di} className="w-10 h-10 border-2 border-ink rounded flex items-center justify-center font-heading text-2xl font-bold bg-white text-ink">
+                  <div key={di} className="w-8 h-8 border-2 border-ink rounded flex items-center justify-center font-heading text-xl font-bold bg-white text-ink">
                     {d}
                   </div>
                 ))}
               </div>
               <div className="flex gap-1">
                 {h.feedback.map((f, fi) => (
-                  <div key={fi} className="w-4 h-4 rounded-full border-2 border-ink" style={{ backgroundColor: getFeedbackColor(f) }} title={f} />
+                  <div key={fi} className="w-3.5 h-3.5 rounded-full border-2 border-ink" style={{ backgroundColor: getFeedbackColor(f) }} title={f} />
                 ))}
               </div>
             </motion.div>
           ))}
           {/* Empty slots for visual balance */}
           {Array.from({ length: Math.max(0, MAX_ATTEMPTS - history.length - (gameState === 'playing' ? 1 : 0)) }).map((_, i) => (
-            <div key={`empty-${i}`} className="flex justify-center items-center gap-4 opacity-20">
-              <div className="flex gap-2">
-                {[1,2,3].map(n => <div key={n} className="w-10 h-10 border-2 border-dashed border-ink rounded"></div>)}
+            <div key={`empty-${i}`} className="flex justify-center items-center gap-3 opacity-20">
+              <div className="flex gap-1.5">
+                {[1,2,3].map(n => <div key={n} className="w-8 h-8 border-2 border-dashed border-ink rounded"></div>)}
               </div>
               <div className="flex gap-1">
-                {[1,2,3].map(n => <div key={n} className="w-4 h-4 rounded-full border-2 border-dashed border-ink"></div>)}
+                {[1,2,3].map(n => <div key={n} className="w-3.5 h-3.5 rounded-full border-2 border-dashed border-ink"></div>)}
               </div>
             </div>
           ))}
         </div>
 
         {/* Current Input */}
-        <div className="flex justify-center gap-2 mb-4">
+        <div className="flex justify-center gap-2 mb-3">
           {Array.from({ length: PIN_LENGTH }).map((_, i) => (
             <div 
               key={i} 
-              className={`w-12 h-14 border-[3px] ${currentGuess.length === i ? 'border-pencil-blue scale-110' : 'border-ink'} rounded-lg flex items-center justify-center font-heading text-3xl font-bold bg-white transition-all`}
+              className={`w-10 h-12 border-[3px] ${currentGuess.length === i ? 'border-pencil-blue scale-110' : 'border-ink'} rounded-lg flex items-center justify-center font-heading text-2xl font-bold bg-white transition-all`}
             >
               {currentGuess[i] || ''}
             </div>
@@ -199,20 +199,20 @@ export default function PasswordCracker() {
         </div>
 
         {/* Keypad */}
-        <div className="grid grid-cols-5 gap-2 w-full max-w-[280px]">
+        <div className="grid grid-cols-5 gap-1.5 w-full">
           {['1','2','3','4','5','6','7','8','9','0'].map(num => (
             <button
               key={num}
               onClick={() => handleKeyPress(num)}
-              className="h-10 border-2 border-ink rounded bg-white font-heading text-xl font-bold hover:bg-gray-100 active:scale-95 transition-all"
+              className="h-9 border-2 border-ink rounded bg-white font-heading text-lg font-bold hover:bg-gray-100 active:scale-95 transition-all"
             >
               {num}
             </button>
           ))}
-          <button onClick={() => handleKeyPress('delete')} className="h-10 border-2 border-ink rounded bg-red-100 hover:bg-red-200 font-heading text-sm font-bold col-span-2 active:scale-95 transition-all">
+          <button onClick={() => handleKeyPress('delete')} className="h-9 border-2 border-ink rounded bg-red-100 hover:bg-red-200 font-heading text-sm font-bold col-span-2 active:scale-95 transition-all">
             DEL
           </button>
-          <button onClick={submitGuess} disabled={currentGuess.length !== PIN_LENGTH} className="h-10 border-2 border-ink rounded bg-green-100 hover:bg-green-200 font-heading text-sm font-bold col-span-3 active:scale-95 transition-all disabled:opacity-50 disabled:active:scale-100">
+          <button onClick={submitGuess} disabled={currentGuess.length !== PIN_LENGTH} className="h-9 border-2 border-ink rounded bg-green-100 hover:bg-green-200 font-heading text-sm font-bold col-span-3 active:scale-95 transition-all disabled:opacity-50 disabled:active:scale-100">
             ENTER
           </button>
         </div>
