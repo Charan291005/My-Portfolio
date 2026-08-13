@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PIN_LENGTH = 3;
-const MAX_ATTEMPTS = 4;
+const MAX_ATTEMPTS = 6;
 
 type Feedback = 'correct' | 'wrong_place' | 'incorrect';
 
