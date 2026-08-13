@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Caveat, Patrick_Hand, Indie_Flower, Fredoka } from "next/font/google";
 import "./globals.css";
 import dynamic from 'next/dynamic';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { ScoreProvider } from '@/context/ScoreContext';
 
 const Navigation = dynamic(() => import('@/components/Navigation'));
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'));
@@ -27,21 +29,48 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Shree Charan N",
+  "jobTitle": "Cybersecurity Engineer & Developer",
+  "url": "https://myportfolio-2905.web.app",
+  "sameAs": [
+    "https://github.com/Charan291005",
+    "https://linkedin.com/in/shree-charan-n"
+  ],
+  "alumniOf": "VIT Bhopal",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bengaluru",
+    "addressRegion": "Karnataka",
+    "addressCountry": "India"
+  }
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${caveat.variable} ${patrickHand.variable} ${indieFlower.variable} ${fredoka.variable} font-body antialiased`} suppressHydrationWarning>
-        <CustomCursor />
-        <ScrollProgress />
-        <DrawCanvas />
-        <EasterEggs />
-        <MouseTrail />
-        <Navigation />
-        {children}
+        <ThemeProvider>
+          <ScoreProvider>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <CustomCursor />
+            <ScrollProgress />
+            <DrawCanvas />
+            <EasterEggs />
+            <MouseTrail />
+            <Navigation />
+            {children}
+          </ScoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

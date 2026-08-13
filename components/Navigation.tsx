@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { useScore } from '@/context/ScoreContext';
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { name: 'Home', href: '/#home', isExternal: false },
@@ -21,9 +23,12 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { score } = useScore();
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
@@ -55,15 +60,6 @@ export default function Navigation() {
     
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
-
-  // Apply dark mode to document
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
 
   return (
     <motion.nav
@@ -126,50 +122,23 @@ export default function Navigation() {
               </Link>
             ))}
 
+            {/* Hacker Score */}
+            <div className="hidden lg:flex items-center ml-2 mr-4 px-3 py-1 bg-paper border-2 border-ink rounded-full shadow-[2px_2px_0_var(--ink)]">
+              <span className="font-heading font-bold text-lg text-ink mr-1">Score:</span>
+              <span className="font-body font-bold text-lg text-pencil-red">{score}</span>
+            </div>
+
             {/* Dark mode toggle */}
-            <motion.button
-              onClick={() => setDarkMode(!darkMode)}
-              className="ml-3 w-12 h-12 flex items-center justify-center relative font-heading text-xl"
-              style={{
-                border: '2.5px solid var(--ink)',
-                borderRadius: '50% 45% 55% 48% / 45% 55% 48% 50%',
-                background: darkMode ? '#1a1a2e' : '#fff',
-                color: darkMode ? '#f0e6c8' : '#2d2d2d',
-                boxShadow: '3px 3px 0 var(--ink)',
-                cursor: 'pointer',
-              }}
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9, rotate: -15 }}
-              aria-label="Toggle dark mode"
-              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              <motion.span
-                key={darkMode ? 'moon' : 'sun'}
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                {darkMode ? '🌙' : '☀️'}
-              </motion.span>
-            </motion.button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile buttons */}
           <div className="md:hidden flex items-center gap-2">
-            <motion.button
-              onClick={() => setDarkMode(!darkMode)}
-              className="w-10 h-10 flex items-center justify-center text-xl"
-              style={{
-                border: '2.5px solid var(--ink)',
-                borderRadius: '50%',
-                background: darkMode ? '#1a1a2e' : '#fff',
-                cursor: 'pointer',
-              }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {darkMode ? '🌙' : '☀️'}
-            </motion.button>
+            <div className="flex items-center px-2 py-1 bg-paper border-2 border-ink rounded-full shadow-[2px_2px_0_var(--ink)]">
+              <span className="font-heading font-bold text-sm text-ink mr-1">Score:</span>
+              <span className="font-body font-bold text-sm text-pencil-red">{score}</span>
+            </div>
+            <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 font-heading text-2xl text-ink"

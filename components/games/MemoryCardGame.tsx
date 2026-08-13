@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import MagneticWrapper from '../MagneticWrapper';
 import { Code2, Cpu, Database, Globe, Smartphone, Cloud, Terminal, Coffee } from 'lucide-react';
+import { useScore } from '@/context/ScoreContext';
 
 const icons = [
   { id: 1, icon: Code2, name: 'Code' },
@@ -25,6 +26,7 @@ interface Card {
 }
 
 export default function MemoryCardGame() {
+  const { incrementScore } = useScore();
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
@@ -104,6 +106,7 @@ export default function MemoryCardGame() {
   const checkWinCondition = (currentCards: Card[]) => {
     if (currentCards.every((card) => card.isMatched)) {
       setIsWon(true);
+      incrementScore(200);
       triggerConfetti();
     }
   };

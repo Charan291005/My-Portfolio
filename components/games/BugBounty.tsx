@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScore } from '@/context/ScoreContext';
 
 // Hand-drawn Bug SVG
 const BugDoodle = ({ color }: { color: string }) => (
@@ -17,6 +18,7 @@ const GAME_TIME = 15;
 const TOTAL_BUGS = 10;
 
 export default function BugBounty() {
+  const { incrementScore } = useScore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(GAME_TIME);
   const [bugs, setBugs] = useState<{ id: number; x: number; y: number; active: boolean }[]>([]);
@@ -58,6 +60,7 @@ export default function BugBounty() {
       const newScore = prev + 1;
       if (newScore === TOTAL_BUGS) {
         setGameState('won');
+        incrementScore(150);
       }
       return newScore;
     });

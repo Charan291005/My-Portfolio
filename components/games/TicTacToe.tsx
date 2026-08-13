@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import MagneticWrapper from '../MagneticWrapper';
 import { X, Circle, RotateCcw } from 'lucide-react';
+import { useScore } from '@/context/ScoreContext';
 
 type Player = 'X' | 'O' | null;
 
 export default function TicTacToe() {
+  const { incrementScore } = useScore();
   const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState<boolean>(true);
   const [winner, setWinner] = useState<Player | 'Draw'>(null);
@@ -69,7 +71,10 @@ export default function TicTacToe() {
     if (result) {
       setWinner(result.winner);
       setWinningLine(result.line);
-      if (result.winner === 'X') triggerConfetti();
+      if (result.winner === 'X') {
+        incrementScore(100);
+        triggerConfetti();
+      }
     }
   }, [board, isXNext, winner]);
 

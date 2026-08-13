@@ -9,33 +9,39 @@
   "components\\InteractiveZone.tsx -> ./games/BugBounty": {
     "id": 3277,
     "files": [
-      "static/chunks/277.b7afcab6ce1c4d45.js"
+      "static/chunks/277.6e778efc140936b4.js"
     ]
   },
   "components\\InteractiveZone.tsx -> ./games/MemoryCardGame": {
     "id": 6777,
     "files": [
       "static/chunks/708.1fc7a6d1d5b4aee7.js",
-      "static/chunks/777.c5f93907e6ce74f8.js"
+      "static/chunks/777.137643078849662d.js"
+    ]
+  },
+  "components\\InteractiveZone.tsx -> ./games/PasswordCracker": {
+    "id": 6896,
+    "files": [
+      "static/chunks/896.4c818043075a376f.js"
     ]
   },
   "components\\InteractiveZone.tsx -> ./games/TerminalHacker": {
     "id": 564,
     "files": [
-      "static/chunks/564.39dd889eba210f4b.js"
+      "static/chunks/564.49c14a19a324262f.js"
     ]
   },
   "components\\InteractiveZone.tsx -> ./games/TicTacToe": {
     "id": 5919,
     "files": [
       "static/chunks/708.1fc7a6d1d5b4aee7.js",
-      "static/chunks/919.532f4d8648383bfd.js"
+      "static/chunks/919.8ed63b37f12430d2.js"
     ]
   },
   "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
     "id": 5139,
     "files": [
-      "static/chunks/139.7a5a8e93a21948c1.js"
+      "static/chunks/520.68a746be910c3a29.js"
     ]
   },
   "node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useScore } from '@/context/ScoreContext';
 
 const HACKER_CODE = `
 def bypass_mainframe(target_ip):
@@ -35,6 +36,7 @@ Closing connection.
 `;
 
 export default function TerminalHacker() {
+  const { incrementScore } = useScore();
   const [isActive, setIsActive] = useState(false);
   const [typedCode, setTypedCode] = useState('');
   const [isGranted, setIsGranted] = useState(false);
@@ -55,6 +57,7 @@ export default function TerminalHacker() {
       setTypedCode(prev => {
         const nextLength = prev.length + CHARS_PER_KEYSTROKE;
         if (nextLength >= HACKER_CODE.length) {
+          if (!isGranted) incrementScore(50);
           setIsGranted(true);
           return HACKER_CODE;
         }
@@ -139,6 +142,7 @@ export default function TerminalHacker() {
               setTypedCode(prev => {
                 const nextLength = prev.length + (CHARS_PER_KEYSTROKE * 3);
                 if (nextLength >= HACKER_CODE.length) {
+                  if (!isGranted) incrementScore(50);
                   setIsGranted(true);
                   return HACKER_CODE;
                 }

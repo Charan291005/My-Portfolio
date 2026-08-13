@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScore } from '@/context/ScoreContext';
 
 const PIN_LENGTH = 3;
 const MAX_ATTEMPTS = 6;
@@ -13,6 +14,7 @@ interface Guess {
 }
 
 export default function PasswordCracker() {
+  const { incrementScore } = useScore();
   const [targetPin, setTargetPin] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string[]>([]);
   const [history, setHistory] = useState<Guess[]>([]);
@@ -72,6 +74,7 @@ export default function PasswordCracker() {
 
     if (correctCount === PIN_LENGTH) {
       setGameState('won');
+      incrementScore(100);
     } else if (newHistory.length >= MAX_ATTEMPTS) {
       setGameState('lost');
       setLockoutTime(10); // 10 seconds lockout
