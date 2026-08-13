@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PIN_LENGTH = 3;
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 4;
 
 type Feedback = 'correct' | 'wrong_place' | 'incorrect';
 
@@ -17,6 +17,7 @@ export default function PasswordCracker() {
   const [currentGuess, setCurrentGuess] = useState<string[]>([]);
   const [history, setHistory] = useState<Guess[]>([]);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'won' | 'lost'>('idle');
+  const [lockoutTime, setLockoutTime] = useState(0);
 
   const generatePin = () => {
     // Generate 3 unique digits
@@ -31,6 +32,7 @@ export default function PasswordCracker() {
   };
 
   const startGame = () => {
+    if (lockoutTime > 0) return;
     setTargetPin(generatePin());
     setCurrentGuess([]);
     setHistory([]);
@@ -72,8 +74,18 @@ export default function PasswordCracker() {
       setGameState('won');
     } else if (newHistory.length >= MAX_ATTEMPTS) {
       setGameState('lost');
+      setLockoutTime(10); // 10 seconds lockout
     }
   };
+
+  // Lockout timer
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (gameState === 'lost' && lockoutTime > 0) {
+      timer = setTimeout(() => setLockoutTime(prev => prev - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [lockoutTime, gameState]);
 
   // Allow keyboard input
   useEffect(() => {
@@ -140,9 +152,10 @@ export default function PasswordCracker() {
 
             <button 
               onClick={startGame}
-              className="px-6 py-2 bg-marker-yellow text-ink font-bold font-heading text-xl rounded-lg border-[3px] border-ink shadow-[3px_3px_0_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+              disabled={lockoutTime > 0}
+              className={`px-6 py-2 bg-marker-yellow text-ink font-bold font-heading text-xl rounded-lg border-[3px] border-ink shadow-[3px_3px_0_rgba(0,0,0,1)] transition-all ${lockoutTime > 0 ? 'opacity-50 grayscale cursor-not-allowed shadow-none translate-x-1 translate-y-1' : 'hover:translate-x-1 hover:translate-y-1 hover:shadow-none'}`}
             >
-              {gameState === 'idle' ? 'Start Hacking' : 'Try Again'}
+              {gameState === 'idle' ? 'Start Hacking' : lockoutTime > 0 ? `Locked out (${lockoutTime}s)` : 'Try Again'}
             </button>
           </motion.div>
         )}

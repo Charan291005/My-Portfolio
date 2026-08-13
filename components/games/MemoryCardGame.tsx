@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import MagneticWrapper from '../MagneticWrapper';
@@ -30,6 +30,8 @@ export default function MemoryCardGame() {
   const [moves, setMoves] = useState(0);
   const [isWon, setIsWon] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const initializeGame = useCallback(() => {
     const duplicatedIcons = [...icons, ...icons];
@@ -47,10 +49,16 @@ export default function MemoryCardGame() {
     setMoves(0);
     setIsWon(false);
     setIsLocked(false);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
   }, []);
 
   useEffect(() => {
     initializeGame();
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [initializeGame]);
 
   const handleCardClick = (index: number) => {
@@ -79,7 +87,7 @@ export default function MemoryCardGame() {
         checkWinCondition(newCards);
       } else {
         // No match
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setCards((prevCards) => {
             const resetCards = [...prevCards];
             resetCards[firstIndex] = { ...resetCards[firstIndex], isFlipped: false };
@@ -107,11 +115,12 @@ export default function MemoryCardGame() {
 
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
-    const interval: any = setInterval(function() {
+    intervalRef.current = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
-        return clearInterval(interval);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        return;
       }
 
       const particleCount = 50 * (timeLeft / duration);
