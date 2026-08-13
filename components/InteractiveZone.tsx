@@ -6,6 +6,7 @@ const BugBounty = dynamic(() => import('./games/BugBounty'), { ssr: false });
 const CipherGame = dynamic(() => import('./CipherGame'), { ssr: false });
 const MemoryCardGame = dynamic(() => import('./games/MemoryCardGame'), { ssr: false });
 const TicTacToe = dynamic(() => import('./games/TicTacToe'), { ssr: false });
+const PasswordCracker = dynamic(() => import('./games/PasswordCracker'), { ssr: false });
 import PhysicsPlayground from './PhysicsPlayground';
 
 export default function InteractiveZone() {
@@ -47,6 +48,7 @@ export default function InteractiveZone() {
           <CipherGame />
           <MemoryCardGame />
           <TicTacToe />
+          <PasswordCracker />
 
         </div>
       </div>
