@@ -3,12 +3,12 @@ import { Caveat, Patrick_Hand, Indie_Flower, Fredoka } from "next/font/google";
 import "./globals.css";
 import dynamic from 'next/dynamic';
 
-const Navigation = dynamic(() => import('@/components/Navigation'), { ssr: true });
-const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
-const ScrollProgress = dynamic(() => import('@/components/ScrollProgress'), { ssr: false });
-const DrawCanvas = dynamic(() => import('@/components/DrawCanvas'), { ssr: false });
-const EasterEggs = dynamic(() => import('@/components/EasterEggs'), { ssr: false });
-const MouseTrail = dynamic(() => import('@/components/MouseTrail'), { ssr: false });
+const Navigation = dynamic(() => import('@/components/Navigation'));
+const CustomCursor = dynamic(() => import('@/components/CustomCursor'));
+const ScrollProgress = dynamic(() => import('@/components/ScrollProgress'));
+const DrawCanvas = dynamic(() => import('@/components/DrawCanvas'));
+const EasterEggs = dynamic(() => import('@/components/EasterEggs'));
+const MouseTrail = dynamic(() => import('@/components/MouseTrail'));
 
 const caveat = Caveat({ subsets: ["latin"], variable: '--font-heading', weight: ['400', '500', '600', '700'] });
 const patrickHand = Patrick_Hand({ subsets: ["latin"], variable: '--font-body', weight: '400' });
