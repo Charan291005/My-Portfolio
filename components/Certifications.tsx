@@ -2,6 +2,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import BouncyText from './BouncyText';
 
 const certifications = [
@@ -134,7 +135,8 @@ export default function Certifications() {
 
   return (
     <section id="certifications" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={40} seed={500} />
+      <DoodleDecorations count={60} seed={500} />
+      <InkSpots count={30} seed={5500} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

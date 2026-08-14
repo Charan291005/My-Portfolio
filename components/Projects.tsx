@@ -2,6 +2,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import TiltCard from './TiltCard';
 import BouncyText from './BouncyText';
 
@@ -100,7 +101,8 @@ export default function Projects() {
 
   return (
     <section id="projects" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={80} seed={200} />
+      <DoodleDecorations count={100} seed={200} />
+      <InkSpots count={45} seed={2020} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

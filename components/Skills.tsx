@@ -2,6 +2,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import MagneticWrapper from './MagneticWrapper';
 import BouncyText from './BouncyText';
 
@@ -150,7 +151,8 @@ export default function Skills() {
 
   return (
     <section id="skills" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={90} seed={400} />
+      <DoodleDecorations count={110} seed={400} />
+      <InkSpots count={50} seed={4040} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

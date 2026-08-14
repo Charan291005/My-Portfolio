@@ -2,6 +2,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import TiltCard from './TiltCard';
 import BouncyText from './BouncyText';
 import PeelAndReveal from './PeelAndReveal';
@@ -64,7 +65,8 @@ export default function About() {
 
   return (
     <section id="about" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={60} seed={101} />
+      <DoodleDecorations count={80} seed={101} />
+      <InkSpots count={40} seed={1010} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1.5, scale: 0.985 }}

@@ -87,15 +87,54 @@ const doodleShapes = [
   (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M12,28 Q8,28 8,22 Q8,16 14,16 Q16,10 24,10 Q32,10 32,18 Q36,18 36,24 Q36,28 30,28 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
   // Paperclip
   (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M16,28 L16,12 Q16,6 22,6 Q28,6 28,12 L28,30 Q28,36 20,36 Q12,36 12,30 L12,16 Q12,12 16,12 Q20,12 20,16 L20,28" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Pencil
+  (color: string) => <svg viewBox="0 0 12 50" className="w-full h-full"><path d="M3,4 L9,4 L9,38 L6,46 L3,38 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M3,38 L9,38" stroke={color} strokeWidth="1.5" strokeLinecap="round"/><path d="M3,6 L9,6" stroke={color} strokeWidth="1" strokeLinecap="round" opacity="0.5"/><path d="M4,4 L4,1 L6,2 L8,1 L8,4" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Eraser
+  (color: string) => <svg viewBox="0 0 50 28" className="w-full h-full"><path d="M8,24 L6,14 L30,4 L46,14 L38,24 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M38,24 L8,24" stroke={color} strokeWidth="2.5" strokeLinecap="round"/><path d="M30,4 L38,24 M6,14 L46,14" stroke={color} strokeWidth="1" strokeLinecap="round" opacity="0.4"/></svg>,
+  // Ruler
+  (color: string) => <svg viewBox="0 0 60 22" className="w-full h-full"><path d="M2,4 L58,4 L58,18 L2,18 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M10,4 L10,10 M18,4 L18,10 M26,4 L26,14 M34,4 L34,10 M42,4 L42,10 M50,4 L50,14" stroke={color} strokeWidth="1.2" strokeLinecap="round"/></svg>,
+  // Compass
+  (color: string) => <svg viewBox="0 0 30 50" className="w-full h-full"><path d="M15,2 L22,22 L15,48 L8,22 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><circle cx="15" cy="22" r="3" fill="none" stroke={color} strokeWidth="1.5"/><path d="M15,2 L22,12 M15,2 L8,12" stroke={color} strokeWidth="1" strokeLinecap="round" opacity="0.5"/></svg>,
+  // Thought bubble
+  (color: string) => <svg viewBox="0 0 50 45" className="w-full h-full"><path d="M8,28 Q6,18 14,12 Q20,4 32,6 Q44,8 44,20 Q44,32 32,34 Q24,36 16,32 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="37" r="2.5" fill="none" stroke={color} strokeWidth="1.5"/><circle cx="8" cy="42" r="1.5" fill="none" stroke={color} strokeWidth="1.5"/></svg>,
+  // Speech bubble
+  (color: string) => <svg viewBox="0 0 50 45" className="w-full h-full"><path d="M6,6 L44,6 Q48,6 48,12 L48,28 Q48,34 44,34 L24,34 L12,42 L16,34 L6,34 Q2,34 2,28 L2,12 Q2,6 6,6 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Infinity loop
+  (color: string) => <svg viewBox="0 0 60 30" className="w-full h-full"><path d="M20,15 Q20,6 30,6 Q40,6 40,15 Q40,24 30,24 Q20,24 20,15 Q20,6 30,6 Q20,6 10,15 Q4,15 4,15 Q4,6 14,6 Q24,6 30,15" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M30,15 Q36,24 46,24 Q56,24 56,15 Q56,6 46,6 Q36,6 30,15" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>,
+  // Wifi waves
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="20" cy="32" r="2.5" fill="none" stroke={color} strokeWidth="2"/><path d="M12,26 Q16,20 20,20 Q24,20 28,26" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M6,20 Q12,10 20,10 Q28,10 34,20" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M2,14 Q10,2 20,2 Q30,2 38,14" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>,
+  // Flower
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="20" cy="20" r="4" fill="none" stroke={color} strokeWidth="2"/><ellipse cx="20" cy="10" rx="3" ry="6" fill="none" stroke={color} strokeWidth="1.8"/><ellipse cx="20" cy="30" rx="3" ry="6" fill="none" stroke={color} strokeWidth="1.8"/><ellipse cx="10" cy="20" rx="6" ry="3" fill="none" stroke={color} strokeWidth="1.8"/><ellipse cx="30" cy="20" rx="6" ry="3" fill="none" stroke={color} strokeWidth="1.8"/><ellipse cx="13" cy="13" rx="3" ry="6" fill="none" stroke={color} strokeWidth="1.5" transform="rotate(45 13 13)"/><ellipse cx="27" cy="27" rx="3" ry="6" fill="none" stroke={color} strokeWidth="1.5" transform="rotate(45 27 27)"/></svg>,
+  // Leaf
+  (color: string) => <svg viewBox="0 0 30 50" className="w-full h-full"><path d="M15,46 Q4,36 4,22 Q4,6 15,4 Q26,6 26,22 Q26,36 15,46 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M15,46 L15,4 M15,20 Q10,15 8,12 M15,20 Q20,15 22,12 M15,30 Q10,26 8,24 M15,30 Q20,26 22,24" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/></svg>,
+  // Mountain peak
+  (color: string) => <svg viewBox="0 0 60 40" className="w-full h-full"><path d="M2,36 L20,6 L38,36" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M24,36 L38,12 L58,36" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M16,20 L20,16 L24,20" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/></svg>,
+  // Cactus
+  (color: string) => <svg viewBox="0 0 30 50" className="w-full h-full"><path d="M14,46 L14,10 Q14,4 20,4 Q26,4 26,10 L26,22" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M14,18 L8,18 Q4,18 4,24 L4,30" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M16,28 L22,28 Q26,28 26,22" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M10,46 L20,46" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>,
+  // Mouse cursor / pointer
+  (color: string) => <svg viewBox="0 0 30 40" className="w-full h-full"><path d="M4,4 L4,32 L12,24 L18,36 L22,34 L16,22 L26,22 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Fingerprint swirl
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M20,20 Q20,16 22,14 Q26,12 28,14 Q32,18 28,24 Q24,30 18,28 Q12,26 12,18 Q12,8 22,6 Q34,4 36,16 Q36,28 24,34" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>,
+  // Exclamation mark
+  (color: string) => <svg viewBox="0 0 20 50" className="w-full h-full"><path d="M10,4 Q12,20 10,34 Q8,20 10,4 Z" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round"/><circle cx="10" cy="42" r="3" fill="none" stroke={color} strokeWidth="2"/></svg>,
+  // Question mark
+  (color: string) => <svg viewBox="0 0 30 50" className="w-full h-full"><path d="M6,14 Q6,4 16,4 Q26,4 26,14 Q26,22 16,26 L16,34" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="16" cy="42" r="3" fill="none" stroke={color} strokeWidth="2"/></svg>,
+  // Zig-zag
+  (color: string) => <svg viewBox="0 0 60 20" className="w-full h-full"><path d="M2,4 L12,16 L22,4 L32,16 L42,4 L52,16 L58,10" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Cross-hatch
+  (color: string) => <svg viewBox="0 0 30 30" className="w-full h-full"><path d="M2,2 L28,28 M10,2 L28,20 M2,10 L20,28 M18,2 L28,12 M2,18 L12,28" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/><path d="M28,2 L2,28 M20,2 L2,20 M28,10 L10,28 M12,2 L2,12 M28,18 L18,28" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/></svg>,
+  // Bookmark
+  (color: string) => <svg viewBox="0 0 28 40" className="w-full h-full"><path d="M4,2 L24,2 L24,38 L14,30 L4,38 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4,10 L24,10" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/></svg>,
 ];
 
-const doodleColors = ['#4a90d9', '#e74c3c', '#66bb6a', '#9c6ade', '#f48fb1', '#ffb74d'];
+const doodleColors = ['#4a90d9', '#e74c3c', '#66bb6a', '#9c6ade', '#f48fb1', '#ffb74d', '#ff7043', '#26c6da'];
 
-// 12 idle animation classes — each doodle gets a unique one
+// 17 idle animation classes — distributed across all doodles
 const idleClasses = [
   'idle-breathe', 'idle-rock', 'idle-drift', 'idle-sway',
   'idle-wobble-slow', 'idle-float', 'idle-pulse', 'idle-tilt',
   'idle-bob', 'idle-spin-slow', 'idle-jiggle', 'idle-bop',
+  'idle-orbit', 'idle-flicker', 'idle-pendulum', 'idle-wag', 'idle-morph-scale',
 ];
 
 function seededRandom(seed: number) {

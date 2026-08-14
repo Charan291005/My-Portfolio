@@ -2,6 +2,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import MagneticWrapper from './MagneticWrapper';
 import BouncyText from './BouncyText';
 
@@ -59,7 +60,8 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={50} seed={300} />
+      <DoodleDecorations count={70} seed={300} />
+      <InkSpots count={35} seed={3030} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

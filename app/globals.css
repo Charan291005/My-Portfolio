@@ -910,3 +910,97 @@ body.drawing-mode .custom-cursor {
   animation: barrelRoll 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
   overflow-x: hidden;
 }
+
+/* ============================================================
+   ===== INK SPOTS SYSTEM (pure CSS, GPU-only) =====
+   ============================================================ */
+@keyframes ink-spot-breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.25); }
+}
+@keyframes ink-spot-flicker {
+  0%, 65%, 100% { opacity: var(--spot-opacity, 0.5); }
+  32%           { opacity: calc(var(--spot-opacity, 0.5) * 0.15); }
+  50%           { opacity: calc(var(--spot-opacity, 0.5) * 0.7); }
+}
+@keyframes ink-spot-bob {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(3deg); }
+}
+@keyframes ink-spot-drift {
+  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+  30%      { transform: translate(-4px, -5px) rotate(-4deg); }
+  70%      { transform: translate(3px, 2px) rotate(3deg); }
+}
+@keyframes ink-spot-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes ink-spot-pop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  55%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  75%  { transform: scale(0.9) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: var(--spot-opacity, 0.5); }
+}
+
+.ink-spot-breathe { animation: ink-spot-breathe var(--idle-dur, 5s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.ink-spot-flicker { animation: ink-spot-flicker var(--idle-dur, 4s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.ink-spot-bob     { animation: ink-spot-bob var(--idle-dur, 4s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.ink-spot-drift   { animation: ink-spot-drift var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.ink-spot-spin    { animation: ink-spot-spin calc(var(--idle-dur, 6s) * 2) linear infinite; animation-delay: var(--idle-delay, 0s); }
+
+/* ============================================================
+   ===== NEW DOODLE IDLE ANIMATIONS (GPU-only) =====
+   ============================================================ */
+@keyframes doodle-orbit {
+  0%   { transform: translate(0px, 0px) rotate(0deg); }
+  25%  { transform: translate(6px, -6px) rotate(90deg); }
+  50%  { transform: translate(0px, -10px) rotate(180deg); }
+  75%  { transform: translate(-6px, -6px) rotate(270deg); }
+  100% { transform: translate(0px, 0px) rotate(360deg); }
+}
+@keyframes doodle-flicker {
+  0%, 55%, 100% { opacity: var(--doodle-opacity, 0.35); }
+  28%           { opacity: calc(var(--doodle-opacity, 0.35) * 0.2); }
+  42%           { opacity: calc(var(--doodle-opacity, 0.35) * 0.75); }
+}
+@keyframes doodle-pendulum {
+  0%, 100% { transform: rotate(-12deg) translateY(0px); }
+  50%      { transform: rotate(12deg) translateY(-2px); }
+}
+@keyframes doodle-spiral-in {
+  0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+  60%  { transform: scale(1.08) rotate(12deg); opacity: 1; }
+  80%  { transform: scale(0.96) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: var(--doodle-opacity, 0.35); }
+}
+@keyframes doodle-wag {
+  0%, 100% { transform: rotate(-6deg) scaleX(1); }
+  25%      { transform: rotate(6deg) scaleX(0.98); }
+  50%      { transform: rotate(-3deg) scaleX(1.02); }
+  75%      { transform: rotate(4deg) scaleX(0.99); }
+}
+@keyframes doodle-morph-scale {
+  0%   { transform: scaleX(1) scaleY(1) rotate(0deg); }
+  30%  { transform: scaleX(1.08) scaleY(0.94) rotate(-1deg); }
+  60%  { transform: scaleX(0.94) scaleY(1.08) rotate(1deg); }
+  100% { transform: scaleX(1) scaleY(1) rotate(0deg); }
+}
+
+.idle-orbit        { animation: doodle-orbit var(--idle-dur, 14s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-flicker      { animation: doodle-flicker var(--idle-dur, 4s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-pendulum     { animation: doodle-pendulum var(--idle-dur, 5s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-wag          { animation: doodle-wag var(--idle-dur, 6s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-morph-scale  { animation: doodle-morph-scale var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+
+/* prefers-reduced-motion — add new classes */
+@media (prefers-reduced-motion: reduce) {
+  .idle-orbit, .idle-flicker, .idle-pendulum, .idle-wag, .idle-morph-scale,
+  .idle-bob, .idle-spin-slow, .idle-jiggle, .idle-bop {
+    animation: none !important;
+    opacity: var(--doodle-opacity, 0.35) !important;
+  }
+  .ink-spot-breathe, .ink-spot-flicker, .ink-spot-bob, .ink-spot-drift, .ink-spot-spin {
+    animation: none !important;
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import DoodleDecorations from './DoodleDecorations';
+import InkSpots from './InkSpots';
 import MagneticWrapper from './MagneticWrapper';
 import BouncyText from './BouncyText';
 
@@ -33,6 +34,7 @@ export default function Hero() {
       }}
     >
       <DoodleDecorations count={120} seed={42} />
+      <InkSpots count={60} seed={420} />
 
       {/* Decorative large scribble doodles */}
       <motion.svg
@@ -72,6 +74,26 @@ export default function Hero() {
         <path d="M20,50 Q20,14 50,14 Q80,14 80,50 Q80,86 50,86 Q20,86 20,50" fill="none" stroke="#66bb6a" strokeWidth="2.5" strokeLinecap="round" />
         <path d="M35,50 L50,35 L65,50 L50,65 Z" fill="none" stroke="#66bb6a" strokeWidth="2" strokeLinecap="round" />
       </motion.svg>
+
+      {/* Extra large CSS-only background doodles — no JS cost */}
+      <div className="absolute top-[8%] left-[5%] w-32 h-32 opacity-[0.055] hidden xl:block idle-bob" style={{ '--idle-dur': '8s', '--idle-delay': '1s' } as React.CSSProperties}>
+        <svg viewBox="0 0 100 100" className="w-full h-full"><path d="M50,10 L61,35 L90,35 L67,52 L76,80 L50,63 L24,80 L33,52 L10,35 L39,35 Z" fill="none" stroke="#9c6ade" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </div>
+      <div className="absolute top-[60%] left-[3%] w-28 h-28 opacity-[0.05] hidden xl:block idle-sway" style={{ '--idle-dur': '10s', '--idle-delay': '2s' } as React.CSSProperties}>
+        <svg viewBox="0 0 100 100" className="w-full h-full"><path d="M10,50 Q10,15 50,10 Q90,15 90,50 Q90,85 50,90 Q10,85 10,50" fill="none" stroke="#f48fb1" strokeWidth="2" strokeLinecap="round"/><path d="M30,50 L50,30 L70,50 L50,70 Z" fill="none" stroke="#f48fb1" strokeWidth="2" strokeLinecap="round"/></svg>
+      </div>
+      <div className="absolute top-[20%] right-[4%] w-24 h-40 opacity-[0.06] hidden xl:block idle-drift" style={{ '--idle-dur': '9s', '--idle-delay': '0.5s' } as React.CSSProperties}>
+        <svg viewBox="0 0 30 50" className="w-full h-full"><path d="M15,4 Q22,12 22,28 L18,34 L18,28 L12,28 L12,34 L8,28 Q8,12 15,4 Z" fill="none" stroke="#4a90d9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="15" cy="18" r="4" fill="none" stroke="#4a90d9" strokeWidth="1.5"/></svg>
+      </div>
+      <div className="absolute bottom-[15%] left-[8%] w-36 h-36 opacity-[0.05] hidden xl:block idle-spin-slow" style={{ '--idle-dur': '12s', '--idle-delay': '3s' } as React.CSSProperties}>
+        <svg viewBox="0 0 100 100" className="w-full h-full"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffb74d" strokeWidth="2" strokeDasharray="8 6"/><circle cx="50" cy="50" r="28" fill="none" stroke="#ffb74d" strokeWidth="1.5" strokeDasharray="5 5"/><circle cx="50" cy="50" r="12" fill="none" stroke="#ffb74d" strokeWidth="1.5"/></svg>
+      </div>
+      <div className="absolute bottom-[30%] right-[5%] w-40 h-24 opacity-[0.05] hidden xl:block idle-rock" style={{ '--idle-dur': '7s', '--idle-delay': '1.5s' } as React.CSSProperties}>
+        <svg viewBox="0 0 60 30" className="w-full h-full"><path d="M2,4 L12,16 L22,4 L32,16 L42,4 L52,16 L58,10" fill="none" stroke="#e74c3c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </div>
+      <div className="absolute top-[45%] left-[2%] w-20 h-20 opacity-[0.06] hidden xl:block idle-pendulum" style={{ '--idle-dur': '5s', '--idle-delay': '0s' } as React.CSSProperties}>
+        <svg viewBox="0 0 40 40" className="w-full h-full"><circle cx="20" cy="20" r="4" fill="none" stroke="#66bb6a" strokeWidth="2"/><ellipse cx="20" cy="10" rx="3" ry="6" fill="none" stroke="#66bb6a" strokeWidth="1.8"/><ellipse cx="20" cy="30" rx="3" ry="6" fill="none" stroke="#66bb6a" strokeWidth="1.8"/><ellipse cx="10" cy="20" rx="6" ry="3" fill="none" stroke="#66bb6a" strokeWidth="1.8"/><ellipse cx="30" cy="20" rx="6" ry="3" fill="none" stroke="#66bb6a" strokeWidth="1.8"/></svg>
+      </div>
 
       {/* Floating ink blobs */}
       {[
