@@ -77,14 +77,25 @@ const doodleShapes = [
   (color: string) => <svg viewBox="0 0 50 50" className="w-full h-full"><path d="M25,25 m0,-20 a20,20 0 1,1 0,40 a20,20 0 1,1 0,-40 M25,25 m0,-14 a14,14 0 1,1 0,28 a14,14 0 1,1 0,-28 M25,25 m0,-8 a8,8 0 1,1 0,16 a8,8 0 1,1 0,-16" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 4" opacity="0.7"/></svg>,
   // Starburst
   (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M20,2 L20,38 M2,20 L38,20 M8,8 L32,32 M8,32 L32,8" fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.8"/><circle cx="20" cy="20" r="4" fill="none" stroke={color} strokeWidth="1.5"/></svg>,
+  // Paper Plane
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M4,20 L36,4 L20,36 L18,22 Z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M36,4 L18,22 M18,22 L14,32 L16,24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Half Moon
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M20,4 A16,16 0 1,0 36,20 A12,12 0 0,1 20,4 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Diamond
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M20,4 L36,20 L20,36 L4,20 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12,12 L28,28 M12,28 L28,12" fill="none" stroke={color} strokeWidth="1.2" opacity="0.5"/></svg>,
+  // Cloud
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M12,28 Q8,28 8,22 Q8,16 14,16 Q16,10 24,10 Q32,10 32,18 Q36,18 36,24 Q36,28 30,28 Z" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  // Paperclip
+  (color: string) => <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M16,28 L16,12 Q16,6 22,6 Q28,6 28,12 L28,30 Q28,36 20,36 Q12,36 12,30 L12,16 Q12,12 16,12 Q20,12 20,16 L20,28" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
 ];
 
 const doodleColors = ['#4a90d9', '#e74c3c', '#66bb6a', '#9c6ade', '#f48fb1', '#ffb74d'];
 
-// 8 idle animation classes — each doodle gets a unique one
+// 12 idle animation classes — each doodle gets a unique one
 const idleClasses = [
   'idle-breathe', 'idle-rock', 'idle-drift', 'idle-sway',
   'idle-wobble-slow', 'idle-float', 'idle-pulse', 'idle-tilt',
+  'idle-bob', 'idle-spin-slow', 'idle-jiggle', 'idle-bop',
 ];
 
 function seededRandom(seed: number) {
@@ -129,7 +140,7 @@ const OrganicDoodle = memo(({ doodle }: { doodle: any }) => {
 
 OrganicDoodle.displayName = 'OrganicDoodle';
 
-export default function DoodleDecorations({ count = 24, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
+export default function DoodleDecorations({ count = 45, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
   const rand = seededRandom(seed);
   const containerRef = useRef<HTMLDivElement>(null);
   
