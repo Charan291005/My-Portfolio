@@ -59,7 +59,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={10} seed={300} />
+      <DoodleDecorations count={50} seed={300} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

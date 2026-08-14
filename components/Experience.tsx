@@ -95,7 +95,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={25} seed={150} />
+      <DoodleDecorations count={70} seed={150} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

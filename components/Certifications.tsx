@@ -134,7 +134,7 @@ export default function Certifications() {
 
   return (
     <section id="certifications" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={8} seed={500} />
+      <DoodleDecorations count={40} seed={500} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

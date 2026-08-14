@@ -32,7 +32,7 @@ export default function Hero() {
         opacity: 0.8, // Slightly fade the dots so it matches the subtle look
       }}
     >
-      <DoodleDecorations count={45} seed={42} />
+      <DoodleDecorations count={120} seed={42} />
 
       {/* Decorative large scribble doodles */}
       <motion.svg

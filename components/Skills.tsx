@@ -150,7 +150,7 @@ export default function Skills() {
 
   return (
     <section id="skills" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={30} seed={400} />
+      <DoodleDecorations count={90} seed={400} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1, scale: 0.985 }}

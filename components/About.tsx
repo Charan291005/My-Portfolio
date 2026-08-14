@@ -64,7 +64,7 @@ export default function About() {
 
   return (
     <section id="about" className="section-container relative" ref={ref}>
-      <DoodleDecorations count={20} seed={101} />
+      <DoodleDecorations count={60} seed={101} />
 
       <motion.div
         initial={{ opacity: 0, y: 25, rotate: -1.5, scale: 0.985 }}
