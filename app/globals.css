@@ -690,6 +690,37 @@ html.dark {
   100% { transform: rotate(-1.5deg) translateY(0px); }
 }
 
+/* 9. Doodle Bob — simple up and down bobbing */
+@keyframes doodle-bob {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* 10. Doodle Spin Slow — very slow rotation */
+@keyframes doodle-spin-slow {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 11. Doodle Jiggle — fast small movements */
+@keyframes doodle-jiggle {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(-2deg) scale(1.02); }
+  50%  { transform: rotate(2deg) scale(0.98); }
+  75%  { transform: rotate(-1deg) scale(1.01); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* 12. Doodle Bop — bouncy scaling */
+@keyframes doodle-bop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.05); }
+  50%  { transform: scale(0.95); }
+  60%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
 /* SVG Draw-In — pen sketching effect */
 @keyframes svg-draw-in {
   0% { stroke-dashoffset: var(--path-length, 200); opacity: 0.3; }
@@ -737,7 +768,7 @@ html.dark {
   animation-delay: var(--draw-delay, 0s);
 }
 
-/* Utility classes for the 8 organic idle animations */
+/* Utility classes for the organic idle animations */
 .idle-breathe     { animation: doodle-breathe var(--idle-dur, 8s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-rock        { animation: doodle-rock var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-drift       { animation: doodle-drift var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
@@ -746,6 +777,10 @@ html.dark {
 .idle-float       { animation: doodle-float-organic var(--idle-dur, 11s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-pulse       { animation: doodle-pulse-soft var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-tilt        { animation: doodle-tilt var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-bob         { animation: doodle-bob var(--idle-dur, 6s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-spin-slow   { animation: doodle-spin-slow calc(var(--idle-dur, 10s) * 3) linear infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-jiggle      { animation: doodle-jiggle calc(var(--idle-dur, 8s) * 0.8) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+.idle-bop         { animation: doodle-bop calc(var(--idle-dur, 7s) * 1.2) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 
 /* Settle animation for entering doodles */
 .doodle-settle {
