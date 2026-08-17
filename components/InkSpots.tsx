@@ -83,7 +83,11 @@ export default function InkSpots({
   className?: string;
 }) {
   const rand = seededRandom(seed);
-  const spots: Spot[] = Array.from({ length: count }, (_, i) => ({
+  // Halve count on mobile to reduce paint cost (< 768px wide screens)
+  const effectiveCount = typeof window !== 'undefined' && window.innerWidth < 768
+    ? Math.ceil(count / 2)
+    : count;
+  const spots: Spot[] = Array.from({ length: effectiveCount }, (_, i) => ({
     id: i,
     type: SPOT_TYPES[Math.floor(rand() * SPOT_TYPES.length)],
     color: spotColors[Math.floor(rand() * spotColors.length)],
@@ -96,6 +100,7 @@ export default function InkSpots({
     delay: +(rand() * 8).toFixed(2),
     rotation: +(rand() * 360).toFixed(1),
   }));
+
 
   return (
     <div

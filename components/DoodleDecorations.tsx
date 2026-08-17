@@ -182,8 +182,13 @@ OrganicDoodle.displayName = 'OrganicDoodle';
 export default function DoodleDecorations({ count = 45, className = '', seed = 42 }: { count?: number; className?: string; seed?: number; }) {
   const rand = seededRandom(seed);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const doodles = Array.from({ length: count }, (_, i) => {
+
+  // Halve count on mobile to reduce paint cost (< 768px wide screens)
+  const effectiveCount = typeof window !== 'undefined' && window.innerWidth < 768
+    ? Math.ceil(count / 2)
+    : count;
+
+  const doodles = Array.from({ length: effectiveCount }, (_, i) => {
     const shapeIndex = Math.floor(rand() * doodleShapes.length);
     const colorIndex = Math.floor(rand() * doodleColors.length);
     const left = +(rand() * 95).toFixed(2);
