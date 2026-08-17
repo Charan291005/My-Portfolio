@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,10 +26,12 @@ export default function Navigation() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { score } = useScore();
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => {
+
+    const updateScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
       if (pathname === '/resume') {
@@ -54,11 +56,22 @@ export default function Navigation() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        updateScroll();
+        rafRef.current = null;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     // Trigger once on mount to set initial state
-    handleScroll();
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+    updateScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, [pathname]);
 
   return (
