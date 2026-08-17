@@ -123,6 +123,7 @@ html.dark {
     margin-right: auto;
     padding: 5rem 1rem;
     position: relative;
+    contain: layout style;
   }
   @media (min-width: 640px) { .section-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
   @media (min-width: 1024px) { .section-container { padding-left: 2rem; padding-right: 2rem; } }
@@ -769,6 +770,20 @@ html.dark {
 }
 
 /* Utility classes for the organic idle animations */
+/* will-change:transform promotes to composite layer — avoids per-frame paint cost */
+.idle-breathe,
+.idle-rock,
+.idle-drift,
+.idle-sway,
+.idle-wobble-slow,
+.idle-float,
+.idle-pulse,
+.idle-tilt,
+.idle-bob,
+.idle-spin-slow,
+.idle-jiggle,
+.idle-bop         { will-change: transform; }
+
 .idle-breathe     { animation: doodle-breathe var(--idle-dur, 8s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-rock        { animation: doodle-rock var(--idle-dur, 7s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-drift       { animation: doodle-drift var(--idle-dur, 9s) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
@@ -781,6 +796,12 @@ html.dark {
 .idle-spin-slow   { animation: doodle-spin-slow calc(var(--idle-dur, 10s) * 3) linear infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-jiggle      { animation: doodle-jiggle calc(var(--idle-dur, 8s) * 0.8) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
 .idle-bop         { animation: doodle-bop calc(var(--idle-dur, 7s) * 1.2) ease-in-out infinite; animation-delay: var(--idle-delay, 0s); }
+
+/* Below-fold sections: defer rendering until near viewport */
+#about, #experience, #projects, #skills, #certifications, #education, #games, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
 
 /* Settle animation for entering doodles */
 .doodle-settle {
