@@ -31,7 +31,7 @@ export default function CustomCursor() {
 
   const addInkSplash = useCallback((x: number, y: number) => {
     const id = splashIdRef.current++;
-    setInkSplashes(prev => [...prev.slice(-5), { id, x, y }]);
+    setInkSplashes(prev => [...prev.slice(-3), { id, x, y }]);
     setTimeout(() => {
       setInkSplashes(prev => prev.filter(s => s.id !== id));
     }, 800);
@@ -61,10 +61,10 @@ export default function CustomCursor() {
       setIsHoveringInteractive(!!interactive);
     };
 
-    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
