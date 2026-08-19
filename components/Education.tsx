@@ -1,5 +1,5 @@
 'use client';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useSpring, useMotionValue, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import DoodleDecorations from './DoodleDecorations';
 import InkSpots from './InkSpots';
@@ -33,6 +33,56 @@ const education = [
   },
 ];
 
+function TiltEduCard({ children, index, isInView }: { children: React.ReactNode, index: number, isInView: boolean }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      className="relative pl-14 pb-12 last:pb-0"
+      initial={{ opacity: 0, x: -40, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -20, scale: 0.95 }}
+      transition={{ delay: 0.1 + index * 0.15, type: 'spring', stiffness: 120, damping: 10 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      whileHover={{ scale: 1.02, zIndex: 10 }}
+    >
+      <div style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Education() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -61,8 +111,8 @@ export default function Education() {
             </svg>
 
             {education.map((edu, index) => (
-              <motion.div key={edu.degree} className="relative pl-14 pb-12 last:pb-0" initial={{ opacity: 0, x: -40, scale: 0.9 }} animate={isInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -20, scale: 0.95 }} transition={{ delay: 0.1 + index * 0.15, type: 'spring', stiffness: 120, damping: 10 }}>
-                <motion.div className="absolute left-[6px] top-2 text-2xl" whileHover={{ scale: 1.3 }}>{edu.icon}</motion.div>
+              <TiltEduCard key={edu.degree} index={index} isInView={isInView}>
+                <motion.div className="absolute left-[6px] top-2 text-2xl" whileHover={{ scale: 1.3 }} style={{ transform: 'translateZ(30px)' }}>{edu.icon}</motion.div>
                 <div className="card">
                   <div className="flex flex-wrap items-start justify-between mb-3">
                     <div>
@@ -72,7 +122,7 @@ export default function Education() {
                       <p className="text-sm text-ink-faint">📍 {edu.location}</p>
                     </div>
                     {(edu.cgpa || edu.percentage) && (
-                      <motion.div className="flex items-center justify-center w-20 h-20 relative" whileHover={{ scale: 1.1, rotate: 10 }}>
+                      <motion.div className="flex items-center justify-center w-20 h-20 relative" whileHover={{ scale: 1.1, rotate: 10 }} style={{ transform: 'translateZ(20px)' }}>
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 80 80">
                           <motion.path d="M40,5 Q65,5 72,20 Q80,35 72,55 Q65,72 40,75 Q15,72 8,55 Q2,35 8,20 Q15,5 40,5 Z" fill="#fff176" stroke="#2d2d2d" strokeWidth="2.5" initial={{ pathLength: 0 }} animate={isInView ? { pathLength: 1 } : {}} transition={{ delay: 0.5 + index * 0.2, duration: 0.8 }} />
                         </svg>
@@ -82,7 +132,7 @@ export default function Education() {
                   </div>
                   <p className="text-sm text-ink-faint font-accent">📅 {edu.period}</p>
                 </div>
-              </motion.div>
+              </TiltEduCard>
             ))}
           </div>
         </div>
