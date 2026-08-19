@@ -5,20 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function DrawCanvas() {
   const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [currentColor, setCurrentColor] = useState('#2d2d2d');
-  const [hasDrawn, setHasDrawn] = useState(false);
-
+  
   const svgRef = useRef<SVGSVGElement>(null);
   const currentPathRef = useRef<SVGPathElement | null>(null);
   const [strokes, setStrokes] = useState<{ path: string; color: string }[]>([]);
   const [docHeight, setDocHeight] = useState('100vh');
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const colors = ['#2d2d2d', '#e74c3c', '#4a90d9', '#66bb6a', '#fff176'];
 
@@ -58,7 +49,6 @@ export default function DrawCanvas() {
       svgRef.current.appendChild(path);
       currentPathRef.current = path;
     }
-    setHasDrawn(true);
   };
 
   const draw = (e: React.PointerEvent<SVGSVGElement>) => {
@@ -83,9 +73,12 @@ export default function DrawCanvas() {
     }
   };
 
+  const undoCanvas = () => {
+    setStrokes(prev => prev.slice(0, -1));
+  };
+
   const clearCanvas = () => {
     setStrokes([]);
-    setHasDrawn(false);
     // Cleanup any lingering manual paths
     if (svgRef.current) {
       const paths = svgRef.current.querySelectorAll('path:not([data-react])');
@@ -93,19 +86,22 @@ export default function DrawCanvas() {
     }
   };
 
-  if (isMobile) return null;
-
   return (
     <>
       {/* Floating Toggle Button */}
       <motion.button
         onClick={() => setIsDrawingMode(!isDrawingMode)}
-        className="fixed bottom-8 left-8 z-[110] w-14 h-14 flex items-center justify-center rounded-full shadow-lg"
+        className="fixed bottom-24 sm:bottom-8 left-4 sm:left-8 z-[110] w-14 h-14 flex items-center justify-center rounded-full shadow-lg"
         style={{
           background: isDrawingMode ? '#fff' : '#fff176',
           border: '3px solid #2d2d2d',
           boxShadow: '4px 4px 0 #2d2d2d',
         }}
+        animate={!isDrawingMode ? { 
+          scale: [1, 1.05, 1],
+          boxShadow: ['4px 4px 0 #2d2d2d', '6px 6px 0 #2d2d2d', '4px 4px 0 #2d2d2d']
+        } : { scale: 1 }}
+        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         whileHover={{ scale: 1.1, rotate: 10 }}
         whileTap={{ scale: 0.9 }}
       >
@@ -170,9 +166,17 @@ export default function DrawCanvas() {
               ))}
               <div className="w-px h-6 sm:h-8 bg-gray-300 mx-1 flex-shrink-0" />
               <button 
+                onClick={undoCanvas}
+                className="text-xl sm:text-2xl hover:scale-110 transition-transform disabled:opacity-50 flex-shrink-0"
+                disabled={strokes.length === 0}
+                title="Undo Last Stroke"
+              >
+                ↩️
+              </button>
+              <button 
                 onClick={clearCanvas}
                 className="text-xl sm:text-2xl hover:scale-110 transition-transform disabled:opacity-50 flex-shrink-0"
-                disabled={!hasDrawn}
+                disabled={strokes.length === 0}
                 title="Clear Canvas"
               >
                 🗑️
