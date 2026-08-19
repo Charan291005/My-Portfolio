@@ -1,5 +1,5 @@
 'use client';
-import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useInView, useSpring, useMotionValue, useTransform } from 'framer-motion';
 import { useRef, useEffect, memo } from 'react';
 
 const stats = [
@@ -49,6 +49,56 @@ const Counter = memo(function Counter({
   );
 });
 
+function TiltCard({ children, index, isInView }: { children: React.ReactNode, index: number, isInView: boolean }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      className="relative text-center"
+      initial={{ opacity: 0, y: 30, rotate: index % 2 === 0 ? -2 : 2 }}
+      animate={isInView ? { opacity: 1, y: 0, rotate: index % 2 === 0 ? -1 : 1 } : {}}
+      transition={{ delay: index * 0.1, duration: 0.5, type: 'spring', stiffness: 200 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      whileHover={{ scale: 1.1, zIndex: 10 }}
+    >
+      <div style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }}>
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function StatsBar() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
@@ -75,20 +125,7 @@ export default function StatsBar() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
           {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              className="relative text-center"
-              initial={{ opacity: 0, y: 30, rotate: index % 2 === 0 ? -2 : 2 }}
-              animate={isInView ? { opacity: 1, y: 0, rotate: index % 2 === 0 ? -1 : 1 } : {}}
-              transition={{ delay: index * 0.1, duration: 0.5, type: 'spring', stiffness: 200 }}
-              whileHover={{ 
-                scale: 1.15, 
-                rotate: [0, 5, -5, 3, -2, 0], 
-                y: -5, 
-                zIndex: 10,
-                transition: { duration: 0.8, ease: "easeInOut" }
-              }}
-            >
+            <TiltCard key={stat.label} index={index} isInView={isInView}>
               {/* Sticky note card */}
               <div
                 className="px-4 py-5 relative"
@@ -97,16 +134,17 @@ export default function StatsBar() {
                   border: '2.5px solid rgba(0,0,0,0.12)',
                   borderRadius: '3px',
                   boxShadow: '4px 4px 0 rgba(0,0,0,0.12)',
+                  transform: 'translateZ(20px)'
                 }}
               >
                 {/* Pin decoration */}
                 <div
                   className="absolute -top-3 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full border-2 border-ink z-10"
-                  style={{ background: '#e74c3c', boxShadow: '1px 1px 0 rgba(0,0,0,0.2)' }}
+                  style={{ background: '#e74c3c', boxShadow: '1px 1px 0 rgba(0,0,0,0.2)', transform: 'translateZ(30px)' }}
                 />
 
-                <div className="text-2xl mb-1">{stat.icon}</div>
-                <div className="font-heading font-bold text-3xl tabular-nums" style={{ color: '#2d2d2d' }}>
+                <div className="text-2xl mb-1" style={{ transform: 'translateZ(20px)' }}>{stat.icon}</div>
+                <div className="font-heading font-bold text-3xl tabular-nums" style={{ color: '#2d2d2d', transform: 'translateZ(20px)' }}>
                   <Counter
                     value={stat.value}
                     suffix={stat.suffix}
@@ -115,11 +153,11 @@ export default function StatsBar() {
                   />
                   <span>{stat.suffix}</span>
                 </div>
-                <div className="font-accent text-xs mt-1 leading-tight font-bold" style={{ color: 'rgba(45, 45, 45, 0.75)' }}>
+                <div className="font-accent text-xs mt-1 leading-tight font-bold" style={{ color: 'rgba(45, 45, 45, 0.75)', transform: 'translateZ(10px)' }}>
                   {stat.label}
                 </div>
               </div>
-            </motion.div>
+            </TiltCard>
           ))}
         </div>
       </div>
