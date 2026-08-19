@@ -25,7 +25,9 @@ export default function PhysicsPlayground() {
 
     const { Engine, Render, Runner, MouseConstraint, Mouse, World, Bodies, Composite } = Matter;
 
-    const engine = Engine.create();
+    const engine = Engine.create({
+      enableSleeping: true,
+    });
     engineRef.current = engine;
     
     if (!sceneRef.current) return;
