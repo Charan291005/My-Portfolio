@@ -12,15 +12,30 @@ export default function MagneticWrapper({ children, strength = 40 }: { children:
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
+  const rafRef = useRef<number | null>(null);
+
   const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
+    if (typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches) return;
     
-    x.set((middleX / width) * strength);
-    y.set((middleY / height) * strength);
+    if (rafRef.current) return;
+    
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    
+    rafRef.current = requestAnimationFrame(() => {
+      if (!ref.current) {
+        rafRef.current = null;
+        return;
+      }
+      const { height, width, left, top } = ref.current.getBoundingClientRect();
+      const middleX = clientX - (left + width / 2);
+      const middleY = clientY - (top + height / 2);
+      
+      x.set((middleX / width) * strength);
+      y.set((middleY / height) * strength);
+      rafRef.current = null;
+    });
   };
 
   const reset = () => {

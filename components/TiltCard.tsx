@@ -25,20 +25,36 @@ export default function TiltCard({ children, className = '', style = {}, tiltStr
 
   const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,${glareOpacity}), transparent 60%)`;
 
+  const rafRef = useRef<number | null>(null);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
+    if (typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches) return;
     
-    rotateX.set((y - 0.5) * -tiltStrength);
-    rotateY.set((x - 0.5) * tiltStrength);
+    if (rafRef.current) return;
+    
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    
+    rafRef.current = requestAnimationFrame(() => {
+      if (!cardRef.current) {
+        rafRef.current = null;
+        return;
+      }
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+      
+      rotateX.set((y - 0.5) * -tiltStrength);
+      rotateY.set((x - 0.5) * tiltStrength);
 
-    if (glareEnabled) {
-      glareX.set(x * 100);
-      glareY.set(y * 100);
-      glareOpacity.set(0.15);
-    }
+      if (glareEnabled) {
+        glareX.set(x * 100);
+        glareY.set(y * 100);
+        glareOpacity.set(0.15);
+      }
+      rafRef.current = null;
+    });
   };
 
   const handleMouseLeave = () => {
