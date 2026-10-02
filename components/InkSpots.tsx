@@ -83,10 +83,10 @@ export default function InkSpots({
   className?: string;
 }) {
   const rand = seededRandom(seed);
-  // Halve count on mobile to reduce paint cost (< 768px wide screens)
+  // Drastically reduce count to improve performance
   const effectiveCount = typeof window !== 'undefined' && window.innerWidth < 768
-    ? Math.ceil(count / 2)
-    : count;
+    ? Math.min(6, Math.ceil(count / 4))
+    : Math.min(12, Math.ceil(count / 3));
   const spots: Spot[] = Array.from({ length: effectiveCount }, (_, i) => ({
     id: i,
     type: SPOT_TYPES[Math.floor(rand() * SPOT_TYPES.length)],
